@@ -1,0 +1,15 @@
+# 出卷产物（构建输出，不入库）
+build/
+.preview/
+.demo-*/
+
+# 依赖与缓存（本项目零运行时依赖，正常不会出现）
+node_modules/
+*.log
+
+# 系统与回收站
+.DS_Store
+.Trash-*
+
+# 助手工作区（本地记忆与临时文件）
+.workbuddy/

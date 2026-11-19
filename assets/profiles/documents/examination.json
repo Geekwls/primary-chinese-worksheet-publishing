@@ -1,0 +1,10 @@
+{
+  "doc_profile_id": "examination",
+  "label": "期中/期末测试卷",
+  "show_total_score": true,
+  "show_time_limit": true,
+  "meta_fields": ["姓名", "班级", "学号", "得分"],
+  "section_score_visible": true,
+  "answer_hint_inline": false,
+  "teacher_track": "dual_layout_plus_explanation_pages"
+}

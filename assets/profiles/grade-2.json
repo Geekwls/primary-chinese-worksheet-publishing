@@ -1,0 +1,52 @@
+{
+  "profile_id": "grade-2",
+  "grade": 2,
+  "label": "二年级 · 语言运用型",
+  "status": "DRAFT",
+  "font_pt": {
+    "title": 16.5,
+    "section": 12.8,
+    "question": 12.2,
+    "body": 11.6,
+    "pinyin": 11,
+    "pinyin_annotation": 9.5,
+    "hint": 10,
+    "footer": 8.5
+  },
+  "line_height": {
+    "question": 1.85,
+    "body": 2.0,
+    "pinyin": 1.35
+  },
+  "geometry": {
+    "tianzi_mm": 11.5,
+    "pinyin_slot_h_mm": 5.0,
+    "pinyin_col_mm": 10,
+    "writing_line_gap_mm": 9,
+    "writing_line_width_mm": 150,
+    "answer_line_gap_mm": 9,
+    "passage_width_mm": 165,
+    "composition_cell_mm": 10.5,
+    "composition_cols": 16
+  },
+  "spacing": {
+    "block_gap_mm": 4.5,
+    "question_gap_mm": 3.5,
+    "row_gap_mm": 4,
+    "col_gap_mm": 9
+  },
+  "layout": {
+    "default_columns": 1,
+    "max_columns": 2,
+    "pinyin_items_per_row": 4,
+    "similar_cols": 2,
+    "allow_section_two_column": true
+  },
+  "rules": [
+    "阅读文章必须通栏，不得进入双栏",
+    "字词类可在双栏内紧凑排布，句式改写必须单栏",
+    "句子改写书写行距 9mm 为下限，答案区不得被题干挤压",
+    "写话方格不得小于田字格的 0.9 倍（10.5 / 11.5），否则成段书写与拼音替代都会挤",
+    "注音字号独立于拼音行字号：正上方注音用 pinyin_annotation，不得复用 pinyin"
+  ]
+}

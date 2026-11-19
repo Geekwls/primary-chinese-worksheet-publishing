@@ -1,0 +1,52 @@
+{
+  "profile_id": "grade-1",
+  "grade": 1,
+  "label": "一年级 · 启蒙书写型",
+  "status": "DRAFT",
+  "font_pt": {
+    "title": 17,
+    "section": 13.5,
+    "question": 13.5,
+    "body": 13,
+    "pinyin": 11.5,
+    "pinyin_annotation": 10.5,
+    "hint": 10.5,
+    "footer": 8.5
+  },
+  "line_height": {
+    "question": 1.95,
+    "body": 2.05,
+    "pinyin": 1.35
+  },
+  "geometry": {
+    "tianzi_mm": 13,
+    "pinyin_slot_h_mm": 5.5,
+    "pinyin_col_mm": 11,
+    "writing_line_gap_mm": 9,
+    "writing_line_width_mm": 156,
+    "answer_line_gap_mm": 9,
+    "passage_width_mm": 170,
+    "composition_cell_mm": 12,
+    "composition_cols": 14
+  },
+  "spacing": {
+    "block_gap_mm": 5,
+    "question_gap_mm": 4,
+    "row_gap_mm": 4.5,
+    "col_gap_mm": 10
+  },
+  "layout": {
+    "default_columns": 1,
+    "max_columns": 1,
+    "pinyin_items_per_row": 3,
+    "similar_cols": 1,
+    "allow_section_two_column": false
+  },
+  "rules": [
+    "优先单栏，题干尽量短，避免嵌套选项",
+    "田字格 13mm、书写行距 9mm 为下限，不得为压页数而缩小",
+    "拼音必须与汉字逐字对应，缺失对应关系时不得自动居中猜测",
+    "写话方格 12mm，不得小于田字格；一年级写话仍处握笔期，格子偏小会直接失形",
+    "注音字号独立于拼音行字号：正上方注音用 pinyin_annotation，不得复用 pinyin"
+  ]
+}

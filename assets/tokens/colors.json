@@ -1,0 +1,21 @@
+{
+  "token_version": "1.0.0",
+  "status": "DRAFT",
+  "note": "单色印刷优先。任何依赖颜色区分的信息必须在灰度下仍可辨识；教师卷答案使用红色同时必须保证黑白打印可读。",
+  "ink": {
+    "primary": "#111827",
+    "secondary": "#334155",
+    "muted": "#64748B"
+  },
+  "line": {
+    "primary": "#334155",
+    "secondary": "#94A3B8"
+  },
+  "surface": {
+    "base": "#FFFFFF"
+  },
+  "answer": {
+    "teacher": "#B3261E",
+    "grayscale_hint": "教师卷答案在灰度打印下应与题干保持 ≥ 明显对比，禁止使用浅灰作为答案色"
+  }
+}

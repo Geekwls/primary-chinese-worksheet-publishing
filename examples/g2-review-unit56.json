@@ -1,0 +1,214 @@
+{
+  "document_id": "g2-review-unit56-v1",
+  "grade": 2,
+  "doc_type": "review",
+  "title": "二年级上册语文 第五、六单元专项复习卷",
+  "time_limit": "60分钟",
+  "total_score": 100,
+  "meta_fields": ["姓名", "班级", "得分"],
+  "sections": [
+    {
+      "section_id": "s1",
+      "title": "一、基础字词",
+      "score": 26,
+      "questions": [
+        {
+          "question_id": "q1",
+          "type": "pinyin_write_word",
+          "stem": "看拼音，写词语。",
+          "score": 10,
+          "items": [
+            {"pinyin": "lín jū", "answer": "邻居"},
+            {"pinyin": "qí guài", "answer": "奇怪"},
+            {"pinyin": "jǐng yán", "answer": "井沿"},
+            {"pinyin": "huí dá", "answer": "回答"},
+            {"pinyin": "kǒu kě", "answer": "口渴"},
+            {"pinyin": "hē shuǐ", "answer": "喝水"},
+            {"pinyin": "qíng lǎng", "answer": "晴朗"},
+            {"pinyin": "yí zhèn", "answer": "一阵"}
+          ],
+          "answer_text": "邻居　奇怪　井沿　回答　口渴　喝水　晴朗　一阵",
+          "explain": "「渴」与「喝」是形近字，注意偏旁：口渴需要水，所以是三点水；喝水要用嘴，所以是口字旁。"
+        },
+        {
+          "question_id": "q2",
+          "type": "similar_character",
+          "stem": "比一比，再组词。",
+          "score": 10,
+          "items": [
+            {"chars": ["晴", "睛"], "answers": ["晴天", "眼睛"]},
+            {"chars": ["渴", "喝"], "answers": ["口渴", "喝水"]},
+            {"chars": ["沿", "铅"], "answers": ["井沿", "铅笔"]},
+            {"chars": ["阵", "陈"], "answers": ["一阵", "陈列"]},
+            {"chars": ["蛙", "娃"], "answers": ["青蛙", "娃娃"]}
+          ],
+          "answer_text": "晴天／眼睛　口渴／喝水　井沿／铅笔　一阵／陈列　青蛙／娃娃",
+          "explain": "形近字要抓住偏旁表义的特点：日字旁与天气有关，目字旁与眼睛有关，虫字旁与动物有关。"
+        },
+        {
+          "question_id": "q3",
+          "type": "add_pinyin",
+          "stem": "给加点字选择正确的读音，写在横线上。",
+          "score": 6,
+          "items": [
+            {"word": "长大", "target": 0, "answer": "zhǎng"},
+            {"word": "音乐", "target": 1, "answer": "yuè"},
+            {"word": "睡觉", "target": 1, "answer": "jiào"},
+            {"word": "发现", "target": 0, "answer": "fā"},
+            {"word": "干活", "target": 0, "answer": "gàn"},
+            {"word": "教书", "target": 0, "answer": "jiāo"}
+          ],
+          "answer_text": "zhǎng　yuè　jiào　fā　gàn　jiāo",
+          "explain": "多音字要结合词语意思定音：「长大」的「长」表示生长，读 zhǎng；「音乐」的「乐」表示乐曲，读 yuè。"
+        }
+      ]
+    },
+    {
+      "section_id": "s2",
+      "title": "二、语言积累",
+      "score": 28,
+      "questions": [
+        {
+          "question_id": "q4",
+          "type": "idiom_fill",
+          "stem": "把下面的成语补充完整。",
+          "score": 8,
+          "items": [
+            {"text": "{千}言{万}语"},
+            {"text": "无{影}无{踪}"},
+            {"text": "{得}意洋洋"},
+            {"text": "{五}光{十}色"}
+          ],
+          "answer_text": "千言万语　无影无踪　得意洋洋　五光十色",
+          "explain": "「千言万语」「五光十色」中都含有数字，可以按「数字＋事物」的结构帮助记忆。"
+        },
+        {
+          "question_id": "q5",
+          "type": "word_pattern",
+          "stem": "照样子，写词语。",
+          "score": 8,
+          "items": [
+            {"label": "AABB式：", "samples": ["高高兴兴"], "answers": ["明明白白", "干干净净"]},
+            {"label": "ABB式：", "samples": ["绿油油"], "answers": ["红彤彤", "亮晶晶"]}
+          ],
+          "answer_text": "明明白白　干干净净　红彤彤　亮晶晶",
+          "explain": "AABB 式由两个字各重复一次构成；ABB 式的后两个字相同，常用来描写颜色或样子。"
+        },
+        {
+          "question_id": "q6",
+          "type": "poem_fill",
+          "stem": "把古诗名句补充完整。",
+          "score": 12,
+          "items": [
+            {
+              "title": "《登鹳雀楼》",
+              "lines": ["白日依山尽，{黄河}入海流。", "欲穷千里目，{更上}一层楼。"]
+            },
+            {
+              "title": "《望庐山瀑布》",
+              "lines": ["日照香炉生紫烟，{遥看瀑布挂前川}。", "飞流直下三千尺，{疑是银河落九天}。"]
+            }
+          ],
+          "answer_text": "黄河　更上　遥看瀑布挂前川　疑是银河落九天",
+          "explain": "默写古诗要做到三点：字不错、句不漏、标点正确。「遥看瀑布挂前川」中的「挂」字易错写成「桂」。"
+        }
+      ]
+    },
+    {
+      "section_id": "s3",
+      "title": "三、句子运用",
+      "score": 16,
+      "questions": [
+        {
+          "question_id": "q7",
+          "type": "sentence_rewrite",
+          "stem": "按要求改写句子。",
+          "score": 8,
+          "items": [
+            {
+              "sentence": "他把小鱼放回了河里。",
+              "require": "（改为“被”字句）",
+              "answer": "小鱼被他放回了河里。",
+              "lines": 2
+            },
+            {
+              "sentence": "叶子上的虫还用治？",
+              "require": "（改为陈述句）",
+              "answer": "叶子上的虫不用治。",
+              "lines": 2
+            }
+          ],
+          "answer_text": "1. 小鱼被他放回了河里。 2. 叶子上的虫不用治。",
+          "explain": "「把」字句改「被」字句，只要交换动作的发出者和承受者；反问句改陈述句，去掉「还用……？」并改为否定说法。"
+        },
+        {
+          "question_id": "q8",
+          "type": "sentence_rewrite",
+          "stem": "照样子，写句子。",
+          "score": 8,
+          "items": [
+            {
+              "sentence": "例：弯弯的月儿像小船。",
+              "require": "（写一个比喻句）",
+              "answer": "圆圆的太阳像火球。",
+              "lines": 2
+            },
+            {
+              "sentence": "例：只要肯动脑筋，坏事往往能变成好事。",
+              "require": "（用“只要……就……”写句子）",
+              "answer": "只要认真学习，就能取得好成绩。",
+              "lines": 2
+            }
+          ],
+          "answer_text": "1. 圆圆的太阳像火球。 2. 只要认真学习，就能取得好成绩。",
+          "explain": "比喻句要注意本体和喻体不是同一类事物，但要有相似点；「只要……就……」表示条件关系，前后分句不能颠倒。"
+        }
+      ]
+    },
+    {
+      "section_id": "s4",
+      "title": "四、阅读理解",
+      "score": 20,
+      "questions": [
+        {
+          "question_id": "q9",
+          "type": "reading",
+          "stem": "读短文，完成练习。",
+          "score": 20,
+          "passage": {
+            "title": "坐井观天（节选）",
+            "paragraphs": [
+              "青蛙坐在井里。小鸟飞来，落在井沿上。",
+              "青蛙问小鸟：“你从哪儿来呀？”小鸟回答说：“我从天上来，飞了一百多里，口渴了，下来找点水喝。”",
+              "青蛙说：“朋友，别说大话了！天不过井口那么大，还用飞那么远吗？”小鸟说：“你弄错了。天无边无际，大得很哪！”"
+            ]
+          },
+          "subs": [
+            {"stem": "短文共有{3}个自然段。", "answer": "3", "lines": 0},
+            {"stem": "青蛙认为天只有{井口那么大}，小鸟认为天{无边无际}。", "answer": "井口那么大／无边无际", "lines": 0},
+            {"stem": "读了这个故事，你明白了什么道理？", "answer": "看问题要全面，不能像青蛙那样目光短浅、自以为是。", "lines": 3}
+          ],
+          "answer_text": "1. 3 2. 井口那么大；无边无际 3. 看问题要全面，不能目光短浅、自以为是。",
+          "explain": "第 2 小题要回到文中找依据：青蛙的话在第三自然段，小鸟的话也在第三自然段。第 3 小题属于开放性作答，只要说出「不能自以为是」「要看得远」即可得分。"
+        }
+      ]
+    },
+    {
+      "section_id": "s5",
+      "title": "五、写话",
+      "score": 10,
+      "questions": [
+        {
+          "question_id": "q10",
+          "type": "composition",
+          "stem": "写话。",
+          "score": 10,
+          "rows": 7,
+          "prompt": "用几句话写一写你最喜欢的一种小动物。先想一想它长什么样子，再写一写你喜欢它的原因，不会写的字可以用拼音代替。",
+          "answer_text": "参考范文：我最喜欢小兔子。它有一身雪白的毛，两只长长的耳朵，一双红红的眼睛像两颗宝石。它最爱吃胡萝卜和青菜。每天放学回家，我都要去看看它，它是我最好的朋友。",
+          "explain": "评分建议：能写 3 句以上、句子通顺得 6 分；能写出样子和原因各得 2 分；标点正确、书写工整得 2 分。"
+        }
+      ]
+    }
+  ]
+}

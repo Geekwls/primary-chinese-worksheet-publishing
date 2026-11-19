@@ -1,0 +1,24 @@
+{
+  "name": "primary-chinese-worksheet-publishing",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "小学低段语文试卷出版级排版与验收引擎（零运行时依赖 Node 实现）",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "bin": {
+    "wbpub": "./src/cli.mjs"
+  },
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "scripts": {
+    "build": "node src/cli.mjs examples/g2-review-unit56.json --out ./build",
+    "check": "node src/cli.mjs examples/g2-review-unit56.json --check-only",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

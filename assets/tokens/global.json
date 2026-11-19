@@ -1,0 +1,31 @@
+{
+  "token_version": "1.0.0",
+  "status": "DRAFT",
+  "note": "全局基础令牌。字体族、线性、纸张。字号见 typography.json，颜色见 colors.json，间距见 spacing.json。",
+  "font": {
+    "family_cjk": "Noto Sans CJK SC",
+    "family_cjk_serif": "Noto Serif CJK SC",
+    "family_pinyin": "Noto Sans, Noto Sans CJK SC",
+    "family_latin": "Noto Sans, Arial"
+  },
+  "paper": {
+    "page_width_mm": 210,
+    "page_height_mm": 297,
+    "margin_x_mm": 12,
+    "margin_y_mm": 12,
+    "footer_height_mm": 6,
+    "footer_gap_mm": 3
+  },
+  "line_width_mm": {
+    "hair": 0.18,
+    "thin": 0.22,
+    "normal": 0.3,
+    "strong": 0.45
+  },
+  "render": {
+    "chrome_binary": "/usr/bin/google-chrome",
+    "dpi": 96,
+    "pdf_scale": 1.0,
+    "height_epsilon_mm": 0.25
+  }
+}

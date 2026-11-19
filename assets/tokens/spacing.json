@@ -1,0 +1,22 @@
+{
+  "token_version": "1.0.0",
+  "status": "DRAFT",
+  "note": "间距均为毫米。年级覆盖值见 profiles/grade-*.json。模块间距与书写行距是两类不同令牌，不可混用。",
+  "gap": {
+    "xs": 1.0,
+    "s": 2.0,
+    "m": 3.5,
+    "l": 5.0,
+    "xl": 7.5
+  },
+  "slot": {
+    "inline_mm": 10,
+    "word_mm": 18,
+    "phrase_mm": 26
+  },
+  "answer_area": {
+    "line_gap_mm": 8.5,
+    "min_lines": 1,
+    "pad_top_mm": 1.0
+  }
+}

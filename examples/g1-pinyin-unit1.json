@@ -1,0 +1,91 @@
+{
+  "document_id": "g1-pinyin-unit1-v1",
+  "grade": 1,
+  "doc_type": "practice",
+  "title": "一年级上册语文 拼音与识字专项练习",
+  "total_score": 40,
+  "meta_fields": ["姓名", "班级", "日期"],
+  "sections": [
+    {
+      "section_id": "s1",
+      "title": "一、看拼音，写词语",
+      "score": 18,
+      "questions": [
+        {
+          "question_id": "q1",
+          "type": "pinyin_write_word",
+          "stem": "看拼音，写词语。",
+          "score": 18,
+          "items": [
+            {"pinyin": "tiān shàng", "answer": "天上"},
+            {"pinyin": "bái yún", "answer": "白云"},
+            {"pinyin": "shuǐ niú", "answer": "水牛"},
+            {"pinyin": "mù tou", "answer": "木头"},
+            {"pinyin": "xiǎo niǎo", "answer": "小鸟"},
+            {"pinyin": "shū běn", "answer": "书本"}
+          ],
+          "answer_text": "天上　白云　水牛　木头　小鸟　书本",
+          "explain": "一年级书写要求：字要写在田字格中间，先撇后捺、先横后竖，每个笔画都要写到位。"
+        }
+      ]
+    },
+    {
+      "section_id": "s2",
+      "title": "二、给加点字选读音",
+      "score": 8,
+      "questions": [
+        {
+          "question_id": "q2",
+          "type": "add_pinyin",
+          "stem": "把加点字的读音写在横线上。",
+          "score": 8,
+          "items": [
+            {"word": "长大", "target": 0, "answer": "zhǎng"},
+            {"word": "音乐", "target": 1, "answer": "yuè"},
+            {"word": "白云", "target": 0, "answer": "bái"},
+            {"word": "小鸟", "target": 1, "answer": "niǎo"}
+          ],
+          "answer_text": "zhǎng　yuè　bái　niǎo",
+          "explain": "声调要标在主要元音上：ao 标在 a，iu 标在 u，ui 标在 i。"
+        }
+      ]
+    },
+    {
+      "section_id": "s3",
+      "title": "三、比一比，再组词",
+      "score": 6,
+      "questions": [
+        {
+          "question_id": "q3",
+          "type": "similar_character",
+          "stem": "比一比，再组词。",
+          "score": 6,
+          "items": [
+            {"chars": ["日", "目"], "answers": ["日子", "目光"]},
+            {"chars": ["木", "本"], "answers": ["木头", "书本"]},
+            {"chars": ["人", "入"], "answers": ["大人", "入口"]}
+          ],
+          "answer_text": "日子／目光　木头／书本　大人／入口",
+          "explain": "「日」中间一横，「目」中间两横；「人」撇捺分开，「入」撇短捺长盖住撇。"
+        }
+      ]
+    },
+    {
+      "section_id": "s4",
+      "title": "四、写话",
+      "score": 8,
+      "questions": [
+        {
+          "question_id": "q4",
+          "type": "composition",
+          "stem": "写话。",
+          "score": 8,
+          "rows": 5,
+          "prompt": "用一两句话写一写你的好朋友。他（她）叫什么名字？你们常在一起做什么？",
+          "answer_text": "参考范文：我的好朋友叫小明。下课以后，我们常常一起跳绳。",
+          "explain": "一年级写话只要求写完整的一两句话，能加句号即可，不要求字数。"
+        }
+      ]
+    }
+  ]
+}
