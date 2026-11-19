@@ -1,0 +1,52 @@
+{
+  "$schema": "page-specification",
+  "version": "2.2.0",
+  "description": "L1 全局页面规范：纸张、页边距、区域划分与版心可用空间",
+  "paper": {
+    "size": "A4",
+    "orientation": "portrait",
+    "page_width_mm": 210.0,
+    "page_height_mm": 297.0
+  },
+  "margins_mm": {
+    "top": 15.0,
+    "bottom": 15.0,
+    "left": 15.0,
+    "right": 15.0,
+    "note": "15mm 作为第一版设计基线，保证打印机物理安全、装订线与低幼儿童手持呼吸感"
+  },
+  "content_box_mm": {
+    "width": 180.0,
+    "usable_height": 259.0,
+    "max_height": 267.0
+  },
+  "regions": {
+    "header": {
+      "visible_on_first_page": false,
+      "visible_on_subsequent": true,
+      "height_mm": 5.0,
+      "gap_to_content_mm": 3.0,
+      "bottom_divider": {
+        "width_mm": 0.18,
+        "color": "#CBD5E1"
+      }
+    },
+    "title_area": {
+      "visible_on_first_page": true,
+      "visible_on_subsequent": false,
+      "include_main_title": true,
+      "include_subtitle": true,
+      "include_student_meta": true
+    },
+    "content_area": {
+      "x_mm": 15.0,
+      "width_mm": 180.0
+    },
+    "footer": {
+      "visible_on_all_pages": true,
+      "height_mm": 5.0,
+      "gap_to_content_mm": 3.0,
+      "baseline_bottom_mm": 15.0
+    }
+  }
+}

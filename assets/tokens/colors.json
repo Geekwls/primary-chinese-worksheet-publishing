@@ -1,5 +1,5 @@
 {
-  "token_version": "1.0.0",
+  "token_version": "2.1.0",
   "status": "DRAFT",
   "note": "单色印刷优先。任何依赖颜色区分的信息必须在灰度下仍可辨识；教师卷答案使用红色同时必须保证黑白打印可读。",
   "ink": {
@@ -17,5 +17,15 @@
   "answer": {
     "teacher": "#B3261E",
     "grayscale_hint": "教师卷答案在灰度打印下应与题干保持 ≥ 明显对比，禁止使用浅灰作为答案色"
+  },
+  "role_tokens": {
+    "color-primary": "#111827",
+    "color-secondary": "#334155",
+    "color-border": "#94A3B8",
+    "color-grid": "#334155",
+    "color-divider": "#334155",
+    "color-background": "#FFFFFF",
+    "color-answer": "#B3261E",
+    "color-note": "#64748B"
   }
 }

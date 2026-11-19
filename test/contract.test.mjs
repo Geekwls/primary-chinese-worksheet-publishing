@@ -23,7 +23,7 @@ function mutate(source, fn) {
 test("示例卷通过校验并统计题量与总分", () => {
   const { doc, warnings, stats } = loadDocument(example("g2-review-unit56.json"));
   assert.equal(doc.grade, 2);
-  assert.equal(stats.question_count, 10);
+  assert.equal(stats.question_count, 11);
   assert.equal(stats.score_sum, 100);
   assert.deepEqual(warnings, []);
 });
@@ -69,6 +69,54 @@ test("阅读题缺 passage 被拦下", () => {
     delete q.passage;
   });
   assert.throws(() => loadDocument(path), /passage\.paragraphs 为空/);
+});
+
+test("多音字题缺 word 或 answer 被拦下", () => {
+  const pathNoWord = mutate("g2-review-unit56.json", (doc) => {
+    doc.sections[0].questions.push({
+      question_id: "q_poly",
+      type: "polyphonic",
+      stem: "多音字",
+      items: [{ options: ["a", "b"], answer: "a" }],
+    });
+  });
+  assert.throws(() => loadDocument(pathNoWord), /缺少 word/);
+
+  const pathNoAns = mutate("g2-review-unit56.json", (doc) => {
+    doc.sections[0].questions.push({
+      question_id: "q_poly2",
+      type: "polyphonic",
+      stem: "多音字",
+      items: [{ word: "长", options: ["a", "b"] }],
+    });
+  });
+  assert.throws(() => loadDocument(pathNoAns), /缺少 answer/);
+});
+
+test("新引入题型完整契约校验：选择/判断/笔顺/连线不合规被拦截", () => {
+  // 选择题缺 options
+  const pChoice = mutate("g2-review-unit56.json", (doc) => {
+    doc.sections[0].questions.push({ question_id: "qc_bad", type: "choice", stem: "选一选" });
+  });
+  assert.throws(() => loadDocument(pChoice), /缺少 options\/answer/);
+
+  // 判断题缺 answer
+  const pJudge = mutate("g2-review-unit56.json", (doc) => {
+    doc.sections[0].questions.push({ question_id: "qj_bad", type: "judge", stem: "判断题" });
+  });
+  assert.throws(() => loadDocument(pJudge), /缺少 answer/);
+
+  // 笔顺题缺 word
+  const pStroke = mutate("g2-review-unit56.json", (doc) => {
+    doc.sections[0].questions.push({ question_id: "qs_bad", type: "stroke_order", stem: "笔顺" });
+  });
+  assert.throws(() => loadDocument(pStroke), /缺少 word 或 items/);
+
+  // 连线题缺 items/pairs
+  const pMatch = mutate("g2-review-unit56.json", (doc) => {
+    doc.sections[0].questions.push({ question_id: "qm_bad", type: "pinyin_match", stem: "连一连" });
+  });
+  assert.throws(() => loadDocument(pMatch), /缺少 items 或 pairs/);
 });
 
 test("总分不一致只告警，不阻断", () => {

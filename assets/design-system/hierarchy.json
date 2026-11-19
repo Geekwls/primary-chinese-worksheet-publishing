@@ -1,0 +1,39 @@
+{
+  "$schema": "hierarchy-specification",
+  "version": "2.2.0",
+  "description": "L2 全局视觉层级规范：从试卷主标题至页脚的四个视觉梯级",
+  "levels": {
+    "level_1": {
+      "name": "试卷主标题",
+      "font_size_token": "doc_title",
+      "font_weight": 700,
+      "align": "center",
+      "letter_spacing_em": 0.04,
+      "margin_bottom_token": "spacing-2"
+    },
+    "level_2": {
+      "name": "一级大题标题",
+      "font_size_token": "section_title",
+      "font_weight": 700,
+      "align": "left",
+      "keep_next": true,
+      "margin_top_token": "spacing-4",
+      "margin_bottom_token": "spacing-2"
+    },
+    "level_3": {
+      "name": "题目正文与阅读短文",
+      "font_size_token": "question_stem",
+      "font_weight": 400,
+      "align": "left",
+      "line_height_token": "question",
+      "margin_bottom_token": "spacing-2"
+    },
+    "level_4": {
+      "name": "作答提示、选项标注与页脚",
+      "font_size_token": "assistant_text",
+      "font_weight": 400,
+      "color_token": "assistant_text",
+      "margin_bottom_token": "spacing-1"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "profile_id": "grade-6",
+  "grade": 6,
+  "label": "六年级 · 毕业冲刺与综合升学型",
+  "status": "DRAFT",
+  "font_pt": {
+    "title": 19,
+    "section": 13.5,
+    "question": 10.5,
+    "body": 10,
+    "pinyin": 9.5,
+    "pinyin_annotation": 8.5,
+    "hint": 9,
+    "footer": 8.5
+  },
+  "line_height": {
+    "question": 1.6,
+    "body": 1.6,
+    "pinyin": 1.45
+  },
+  "geometry": {
+    "tianzi_mm": 9,
+    "pinyin_slot_h_mm": 3.8,
+    "pinyin_col_mm": 8,
+    "writing_line_gap_mm": 7,
+    "writing_line_width_mm": 162,
+    "answer_line_gap_mm": 7,
+    "passage_width_mm": 170,
+    "composition_cell_mm": 8.5,
+    "composition_cols": 20
+  },
+  "spacing": {
+    "block_gap_mm": 3.2,
+    "question_gap_mm": 2.6,
+    "row_gap_mm": 2.8,
+    "col_gap_mm": 7
+  },
+  "layout": {
+    "default_columns": 1,
+    "max_columns": 2,
+    "pinyin_items_per_row": 6,
+    "similar_cols": 2,
+    "allow_section_two_column": true
+  },
+  "rules": [
+    "六年级小学毕业冲刺，高容量高信息密度"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "profile_id": "grade-3",
+  "grade": 3,
+  "label": "三年级 · 思维与综合运用型",
+  "status": "DRAFT",
+  "font_pt": {
+    "title": 20,
+    "section": 14,
+    "question": 11.5,
+    "body": 11,
+    "pinyin": 10.5,
+    "pinyin_annotation": 9.5,
+    "hint": 10,
+    "footer": 9
+  },
+  "line_height": {
+    "question": 1.75,
+    "body": 1.75,
+    "pinyin": 1.55
+  },
+  "geometry": {
+    "tianzi_mm": 10.5,
+    "pinyin_slot_h_mm": 4.5,
+    "pinyin_col_mm": 9,
+    "writing_line_gap_mm": 8,
+    "writing_line_width_mm": 155,
+    "answer_line_gap_mm": 8,
+    "passage_width_mm": 165,
+    "composition_cell_mm": 9.5,
+    "composition_cols": 16
+  },
+  "spacing": {
+    "block_gap_mm": 4,
+    "question_gap_mm": 3.2,
+    "row_gap_mm": 3.5,
+    "col_gap_mm": 8
+  },
+  "layout": {
+    "default_columns": 1,
+    "max_columns": 2,
+    "pinyin_items_per_row": 5,
+    "similar_cols": 2,
+    "allow_section_two_column": true
+  },
+  "rules": [
+    "进入中段（三四年级），字体逐步从田字格向横线与方格过渡",
+    "书写行距 8mm，符合中性笔/钢笔书写习惯",
+    "选择题与计算题支持双栏与多栏紧凑排布"
+  ]
+}

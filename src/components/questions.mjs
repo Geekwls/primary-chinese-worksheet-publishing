@@ -63,6 +63,44 @@ export function compSimilarCharacter(q, ctx, pid) {
   return parts;
 }
 
+/** 多音字辨析：双栏或单栏，多音字词语 + 读音选项 + 结构化约束答题槽。 */
+export function compPolyphonic(q, ctx, pid) {
+  const parts = [head(pid, q, ctx)];
+  const cols = Math.max(1, Math.trunc(ctx.profile.layout.similar_cols ?? 2));
+  chunks(q.items ?? [], cols).forEach((group, r) => {
+    let cells = "";
+    for (const it of group) {
+      const word = String(it.word ?? "");
+      const options = it.options ?? [];
+      const answer = String(it.answer ?? "");
+      const optStr = options.length ? `（${options.join(" / ")}）` : "";
+      // 共享几何结构：学生卷与教师卷共享完全一致的 slot-w 槽宽与内边距；
+      // 教师答案受槽容器限制，禁止任意坐标漂移或覆盖相邻选项。
+      const slotHtml =
+        `<span class="poly-slot">` +
+        `<i class="slot w"></i>` +
+        (ctx.isTeacher ? ans(answer, "ans ans-slot") : "") +
+        `</span>`;
+      cells +=
+        `<span class="poly-card">` +
+        `<span class="poly-word">${esc(word)}</span>` +
+        (options.length ? `<span class="poly-options">${esc(optStr)}</span>` : "") +
+        slotHtml +
+        `</span>`;
+    }
+    parts.push(
+      new Part(`${pid}-r${r}`, cells, {
+        cls: `poly-group cols cols${cols}`,
+        group: pid,
+        splittable: false, // 严格不可跨栏或跨页拆分：整行选项与词语绑定
+        label: `poly-row${r}`,
+      }),
+    );
+  });
+  parts.push(tail(pid));
+  return parts;
+}
+
 /** 给加点字注音：目标字上方留注音槽，字下方加点。 */
 export function compAddPinyin(q, ctx, pid) {
   const cols = [];
@@ -160,7 +198,7 @@ export function compSentenceRewrite(q, ctx, pid) {
   return parts;
 }
 
-/** 阅读理解：文章整块不可拆页（宁可整段换页），小题之间可拆。 */
+/** 阅读理解：文章整块不可拆页（宁可整段换页），小题支持填空、选择、判断与简答。 */
 export function compReading(q, ctx, pid) {
   const passage = q.passage ?? {};
   const parts = [head(pid, q, ctx)];
@@ -184,26 +222,61 @@ export function compReading(q, ctx, pid) {
   ctx.resetSub();
   for (const sub of q.subs ?? []) {
     const no = ctx.nextSub();
-    const lines = sub.lines === null || sub.lines === undefined ? 1 : Math.max(0, Math.trunc(Number(sub.lines)));
+    const hasOptions = Array.isArray(sub.options) && sub.options.length > 0;
+    const isChoice = sub.sub_type === "choice" || hasOptions;
+    const isJudge = sub.sub_type === "judge";
+
+    let stemHtml = inlineText(String(sub.stem ?? ""), ctx, "line");
+
+    // 选择题或判断题：若 stem 中未含填空槽，在句末留标准答题括号
+    let bracketHtml = "";
+    if ((isChoice || isJudge) && !sub.stem?.includes("{")) {
+      bracketHtml =
+        `<span class="choice-bracket">（<i class="slot i"></i>` +
+        (ctx.isTeacher && sub.answer ? ans(sub.answer) : "") +
+        `）</span>`;
+    }
+
+    let optionsHtml = "";
+    if (hasOptions) {
+      const opts = sub.options.map((opt) => `<span class="opt">${esc(opt)}</span>`).join("");
+      optionsHtml = `<div class="sub-options">${opts}</div>`;
+    }
+
+    const defaultLines = isChoice || isJudge ? 0 : 1;
+    const lines = sub.lines === null || sub.lines === undefined ? defaultLines : Math.max(0, Math.trunc(Number(sub.lines)));
     const answers = sub.answer ? [sub.answer] : [];
+    const linesHtml = lines > 0 ? `<div class="wlines">${wlines(lines, answers, ctx, `${pid} 第${no}小题`)}</div>` : "";
+
     const body =
       `<div class="sub"><div class="subh"><span class="no">（${no}）</span>` +
-      `${inlineText(String(sub.stem ?? ""), ctx, "line")}</div>` +
-      `<div class="wlines">${wlines(lines, answers, ctx, `${pid} 第${no}小题`)}</div></div>`;
+      `${stemHtml}${bracketHtml}</div>` +
+      `${optionsHtml}${linesHtml}</div>`;
     parts.push(new Part(`${pid}-s${no}`, body, { group: pid, splittable: true, label: `sub${no}` }));
   }
   parts.push(tail(pid));
   return parts;
 }
 
-/** 看图写话/写话：方格纸，格数与格宽由年级 Profile 决定。 */
+/** 看图写话/写话：方格纸，格数与格宽由年级 Profile 决定，支持配图与写作提示。 */
 export function compComposition(q, ctx, pid) {
   const rows = Math.trunc(Number(q.rows ?? 6));
   const cols = Math.trunc(ctx.profile.geometry.composition_cols ?? 16);
-  const note = q.prompt ? `<div class="note">${esc(q.prompt)}</div>` : "";
+  const promptHtml = q.prompt ? `<div class="comp-prompt">${esc(q.prompt)}</div>` : "";
+
+  let imgHtml = "";
+  if (q.image) {
+    const src = typeof q.image === "string" ? q.image : q.image.src ?? "";
+    const h = typeof q.image === "object" && q.image.height_mm ? `${q.image.height_mm}mm` : "36mm";
+    const cap = typeof q.image === "object" && q.image.caption ? `<div class="comp-img-cap">${esc(q.image.caption)}</div>` : "";
+    if (src) {
+      imgHtml = `<div class="comp-img-wrap"><img class="comp-img" src="${esc(src)}" style="max-height:${h}" />${cap}</div>`;
+    }
+  }
+
   const cells = "<i></i>".repeat(rows * cols);
   return [
-    new Part(`${pid}-h`, stemInner(q, ctx) + note, { cls: "stem", group: pid, role: "q_head", keepNext: true }),
+    new Part(`${pid}-h`, stemInner(q, ctx) + promptHtml + imgHtml, { cls: "stem", group: pid, role: "q_head", keepNext: true }),
     new Part(`${pid}-g`, `<div class="zwg" style="grid-template-columns:repeat(${cols},var(--zw))">${cells}</div>`, {
       cls: "zw-wrap",
       group: pid,
@@ -219,6 +292,271 @@ export function compGeneric(q, ctx, pid) {
   return [
     head(pid, q, ctx),
     new Part(`${pid}-g`, `<div class="wlines">${wlines(lines, answers, ctx, pid)}</div>`, { group: pid }),
+    tail(pid),
+  ];
+}
+
+/** 独立选择题：支持单题或小题组，选项根据字符长度自适应 4 栏、2 栏或单栏。 */
+export function compChoice(q, ctx, pid) {
+  const parts = [head(pid, q, ctx)];
+  const isGroup = Array.isArray(q.items) && q.items.length > 0;
+
+  function renderOptions(options) {
+    if (!options?.length) return "";
+    const maxLen = Math.max(...options.map((o) => [...String(o)].length));
+    const cols = maxLen <= 8 ? 4 : maxLen <= 18 ? 2 : 1;
+    const optsHtml = options.map((opt) => `<span class="opt">${esc(opt)}</span>`).join("");
+    return `<div class="choice-options cols cols${cols}">${optsHtml}</div>`;
+  }
+
+  function choiceBracket(answer) {
+    return (
+      `<span class="choice-bracket">（<i class="slot i"></i>` +
+      (ctx.isTeacher && answer ? ans(answer) : "") +
+      `）</span>`
+    );
+  }
+
+  if (isGroup) {
+    ctx.resetSub();
+    for (const it of q.items) {
+      const no = ctx.nextSub();
+      const stem = inlineText(String(it.stem ?? ""), ctx, "line");
+      const bracket = it.stem?.includes("{") ? "" : choiceBracket(it.answer);
+      const body =
+        `<div class="sub choice-sub"><div class="subh"><span class="no">（${no}）</span>` +
+        `${stem}${bracket}</div>` +
+        `${renderOptions(it.options)}</div>`;
+      parts.push(new Part(`${pid}-s${no}`, body, { group: pid, splittable: true, label: `sub${no}` }));
+    }
+  } else {
+    const bracket = q.stem?.includes("{") ? "" : choiceBracket(q.answer);
+    const body = `<div class="choice-sub choice-standalone">${bracket}${renderOptions(q.options)}</div>`;
+    parts.push(new Part(`${pid}-opt`, body, { group: pid, splittable: false }));
+  }
+
+  parts.push(tail(pid));
+  return parts;
+}
+
+/** 独立判断题：支持单题或小题组，题干右侧对齐标准判断括号槽。 */
+export function compJudge(q, ctx, pid) {
+  const parts = [head(pid, q, ctx)];
+  const isGroup = Array.isArray(q.items) && q.items.length > 0;
+
+  function judgeBracket(answer) {
+    return (
+      `<span class="judge-bracket">（<i class="slot i"></i>` +
+      (ctx.isTeacher && answer ? ans(answer) : "") +
+      `）</span>`
+    );
+  }
+
+  if (isGroup) {
+    ctx.resetSub();
+    for (const it of q.items) {
+      const no = ctx.nextSub();
+      const stem = inlineText(String(it.stem ?? ""), ctx, "line");
+      const body =
+        `<div class="sub judge-sub"><div class="judge-row"><span class="no">（${no}）</span>` +
+        `<span class="judge-stem">${stem}</span>` +
+        `${judgeBracket(it.answer)}</div></div>`;
+      parts.push(new Part(`${pid}-s${no}`, body, { group: pid, splittable: true, label: `sub${no}` }));
+    }
+  } else {
+    const body = `<div class="judge-standalone">${judgeBracket(q.answer)}</div>`;
+    parts.push(new Part(`${pid}-j`, body, { group: pid, splittable: false }));
+  }
+
+  parts.push(tail(pid));
+  return parts;
+}
+
+/** 笔顺拆解/笔画题：生字田字格 + 笔画数/指定笔顺填空槽。 */
+export function compStrokeOrder(q, ctx, pid) {
+  const parts = [head(pid, q, ctx)];
+  const items = q.items ?? (q.word ? [q] : []);
+
+  ctx.resetSub();
+  for (const it of items) {
+    const no = ctx.nextSub();
+    const word = String(it.word ?? "");
+    let tianziHtml = "";
+    if (word) {
+      tianziHtml = `<span class="stroke-tzg-wrap"><span class="tzg"><span class="ch">${esc(word)}</span></span></span>`;
+    }
+
+    let detailHtml = "";
+    if (it.text) {
+      detailHtml = `<span class="stroke-text">${inlineText(it.text, ctx, "paren")}</span>`;
+    } else {
+      const partsArr = [];
+      if (it.total_strokes !== undefined && it.total_strokes !== null) {
+        partsArr.push(`共有（<i class="slot i"></i>${ctx.isTeacher ? ans(String(it.total_strokes)) : ""}）画`);
+      }
+      if (it.query) {
+        const queryAnswer = it.answer ? String(it.answer) : "";
+        partsArr.push(`${esc(it.query)}（<i class="slot w"></i>${ctx.isTeacher ? ans(queryAnswer) : ""}）`);
+      } else if (it.answer && it.total_strokes === undefined) {
+        partsArr.push(`笔顺是：（<i class="slot p"></i>${ctx.isTeacher ? ans(String(it.answer)) : ""}）`);
+      }
+      if (it.order) {
+        partsArr.push(`笔顺是：（<i class="slot p"></i>${ctx.isTeacher ? ans(String(it.order)) : ""}）`);
+      }
+      detailHtml = `<span class="stroke-details">${partsArr.join("，")}。</span>`;
+    }
+
+    const body =
+      `<div class="sub stroke-sub"><div class="stroke-row">` +
+      `<span class="no">（${no}）</span>` +
+      `${tianziHtml}` +
+      `${detailHtml}` +
+      `</div></div>`;
+    parts.push(new Part(`${pid}-s${no}`, body, { group: pid, splittable: true, label: `sub${no}` }));
+  }
+
+  parts.push(tail(pid));
+  return parts;
+}
+
+/** 拼音/生字连线题：左右双列 + 连线锚点，教师卷以精确矢量 SVG 覆盖红线。 */
+export function compPinyinMatch(q, ctx, pid) {
+  const parts = [head(pid, q, ctx)];
+
+  // 1. 标准化 pairs 与 items
+  let items = [];
+  if (Array.isArray(q.items) && q.items.length > 0) {
+    items = q.items;
+  } else if (Array.isArray(q.pairs) && q.pairs.length > 0) {
+    const n = q.pairs.length;
+    items = q.pairs.map((p, i) => {
+      const rightIdx = (i + 1) % n;
+      return {
+        left: p.left,
+        right: q.pairs[rightIdx].right,
+        match_index: (i - 1 + n) % n,
+      };
+    });
+  }
+
+  const rowCount = items.length;
+  const rowHeightMm = 12.0;
+
+  // 2. 逐行 HTML 生成（保持 DOM 文本顺序与排版物理顺序一致，确保 PDF 文本提取与契约一致）
+  let rowsHtml = "";
+  for (let r = 0; r < rowCount; r++) {
+    const it = items[r];
+    rowsHtml +=
+      `<div class="match-row" style="height:${rowHeightMm}mm">` +
+      `<span class="match-text match-left-text">${esc(it.left)}</span>` +
+      `<span class="match-dot match-left-dot"></span>` +
+      `<span class="match-spacer"></span>` +
+      `<span class="match-dot match-right-dot"></span>` +
+      `<span class="match-text match-right-text">${esc(it.right)}</span>` +
+      `</div>`;
+  }
+
+  // 3. 教师卷 SVG 连线生成
+  let svgHtml = "";
+  if (ctx.isTeacher) {
+    let lines = "";
+    for (let r = 0; r < rowCount; r++) {
+      const targetR = items[r].match_index !== undefined ? items[r].match_index : r;
+      const y1 = (r * rowHeightMm + rowHeightMm / 2).toFixed(1);
+      const y2 = (targetR * rowHeightMm + rowHeightMm / 2).toFixed(1);
+      lines += `<line x1="38%" y1="${y1}mm" x2="62%" y2="${y2}mm" stroke="var(--answer)" stroke-width="0.35mm" stroke-linecap="round" />`;
+    }
+    const totalHeightMm = (rowCount * rowHeightMm).toFixed(1);
+    svgHtml =
+      `<svg class="match-svg" style="position:absolute;left:0;top:0;width:100%;height:${totalHeightMm}mm;pointer-events:none;overflow:visible">` +
+      lines +
+      `</svg>`;
+  }
+
+  const body =
+    `<div class="match-container" style="position:relative;width:100%">` +
+    rowsHtml +
+    svgHtml +
+    `</div>`;
+
+  parts.push(new Part(`${pid}-m`, body, { cls: "match-part", group: pid, splittable: false }));
+  parts.push(tail(pid));
+  return parts;
+}
+
+/** 计算题：列竖式/脱式计算预留作答区，口算单行带答题槽。 */
+export function compCalculation(q, ctx, pid) {
+  const stem = String(q.stem ?? "");
+  const isVertical = /竖式|脱式|递等式/.test(stem);
+  if (isVertical) {
+    const lines = 3;
+    const answers = q.answer ? [String(q.answer)] : [];
+    return [
+      head(pid, q, ctx),
+      new Part(`${pid}-work`, `<div class="calc-work-box">${wlines(lines, answers, ctx, pid)}</div>`, {
+        group: pid,
+        splittable: false,
+      }),
+      tail(pid),
+    ];
+  }
+
+  const score = q.score;
+  const showScore = (ctx.docProfile.section_score_visible ?? true) && score !== null && score !== undefined;
+  const hint = showScore ? `<span class="pt">（${esc(score)}分）</span>` : "";
+  const number = ctx.nextNo();
+  const ansStr = String(q.answer ?? "");
+  const ansWidth = Math.max(3.8, [...ansStr].length * 1.3 + 1.2);
+  const slot = `<span class="calc-oral-slot"><span class="brk" style="width:${ansWidth.toFixed(2)}em;display:inline-block"><i class="slot" style="width:100%"></i>${ctx.isTeacher ? ans(ansStr) : ""}</span></span>`;
+  const headHtml = `<span class="no">${number}.</span> ${esc(stem)} ${slot}${hint}`;
+  return [
+    new Part(`${pid}-h`, headHtml, { cls: "stem", group: pid, role: "q_head" }),
+    tail(pid),
+  ];
+}
+
+/** 填空题：题干内嵌横线作答槽或括号槽。 */
+export function compFillBlank(q, ctx, pid) {
+  const score = q.score;
+  const showScore = (ctx.docProfile.section_score_visible ?? true) && score !== null && score !== undefined;
+  const hint = showScore ? `<span class="pt">（${esc(score)}分）</span>` : "";
+  const number = ctx.nextNo();
+  const rawStem = String(q.stem ?? "");
+
+  let bodyHtml = "";
+  if (/\{[^{}]*\}/.test(rawStem)) {
+    bodyHtml = inlineText(rawStem, ctx, "line");
+  } else if (/（\s*）|\(\s*\)/.test(rawStem)) {
+    const answers = Array.isArray(q.answer)
+      ? q.answer.map(String)
+      : String(q.answer ?? "").split(/[、,，]/).map((s) => s.trim());
+    let ansIdx = 0;
+    bodyHtml = esc(rawStem).replace(/(?:（\s*）|\(\s*\))/g, () => {
+      const a = ansIdx < answers.length ? answers[ansIdx++] : "";
+      const width = Math.max(2.2, [...a].length * 1.18 + 0.5);
+      return `<span class="brk"><i class="slot" style="width:${width.toFixed(2)}em"></i>${ctx.isTeacher ? ans(a) : ""}</span>`;
+    });
+  } else {
+    bodyHtml = esc(rawStem);
+  }
+
+  return [
+    new Part(`${pid}-h`, `<span class="no">${number}.</span> ${bodyHtml}${hint}`, {
+      cls: "stem",
+      group: pid,
+      role: "q_head",
+    }),
+    tail(pid),
+  ];
+}
+
+/** 解决问题 / 应用题：题干 + 4 行作答书写线。 */
+export function compWordProblem(q, ctx, pid) {
+  const lines = Math.max(3, Math.trunc(Number(q.lines ?? 4)));
+  const answers = q.answer ? [String(q.answer)] : [];
+  return [
+    head(pid, q, ctx),
+    new Part(`${pid}-lines`, `<div class="wlines">${wlines(lines, answers, ctx, pid)}</div>`, { group: pid }),
     tail(pid),
   ];
 }

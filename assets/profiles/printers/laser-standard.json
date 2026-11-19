@@ -1,0 +1,14 @@
+{
+  "printer_id": "laser-standard",
+  "name": "标准激光打印机 (5.0mm 紧凑安全边距)",
+  "description": "针对主流商用/办公激光打印机（施乐/惠普/佳能/联想激光），边距为 5.0mm",
+  "hardware_type": "laser",
+  "margins_mm": {
+    "top": 5.0,
+    "bottom": 5.0,
+    "left": 5.0,
+    "right": 5.0
+  },
+  "binding_gutter_mm": 0.0,
+  "notes": "5.0mm 紧凑边距，版心宽达 200.0mm，显著提升纸张利用率。"
+}

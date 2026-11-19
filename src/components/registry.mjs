@@ -7,20 +7,29 @@
 import { ComponentError } from "../core/errors.mjs";
 import {
   compAddPinyin,
+  compCalculation,
+  compChoice,
   compComposition,
+  compFillBlank,
   compGeneric,
   compIdiomFill,
+  compJudge,
+  compPinyinMatch,
   compPinyinWriteWord,
   compPoemFill,
+  compPolyphonic,
   compReading,
   compSentenceRewrite,
   compSimilarCharacter,
+  compStrokeOrder,
   compWordPattern,
+  compWordProblem,
 } from "./questions.mjs";
 
 export const REGISTRY = {
   pinyin_write_word: { build: compPinyinWriteWord, componentId: "pinyin_tianzi_grid", label: "看拼音写词语" },
   similar_character: { build: compSimilarCharacter, componentId: "similar_character_group", label: "形近字组词" },
+  polyphonic: { build: compPolyphonic, componentId: "polyphonic_choice_group", label: "多音字辨析" },
   add_pinyin: { build: compAddPinyin, componentId: "pinyin_annotation_columns", label: "给加点字注音" },
   idiom_fill: { build: compIdiomFill, componentId: "idiom_blank_row", label: "成语补充" },
   word_pattern: { build: compWordPattern, componentId: "word_pattern_row", label: "词语仿写" },
@@ -29,6 +38,14 @@ export const REGISTRY = {
   reading: { build: compReading, componentId: "reading_passage_block", label: "阅读理解" },
   composition: { build: compComposition, componentId: "composition_grid", label: "看图写话" },
   generic: { build: compGeneric, componentId: "generic_answer_block", label: "通用作答题" },
+  choice: { build: compChoice, componentId: "choice_question_block", label: "选择题" },
+  judge: { build: compJudge, componentId: "judge_question_block", label: "判断题" },
+  stroke_order: { build: compStrokeOrder, componentId: "stroke_order_block", label: "笔顺笔画题" },
+  pinyin_match: { build: compPinyinMatch, componentId: "pinyin_match_block", label: "连线题" },
+  calculation: { build: compCalculation, componentId: "calculation_block", label: "计算题" },
+  fill_blank: { build: compFillBlank, componentId: "fill_blank_block", label: "填空题" },
+  blank: { build: compFillBlank, componentId: "blank_fill_block", label: "填空题" },
+  word_problem: { build: compWordProblem, componentId: "word_problem_block", label: "解决问题" },
 };
 
 export const SUPPORTED_TYPES = Object.keys(REGISTRY);

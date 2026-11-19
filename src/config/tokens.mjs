@@ -9,7 +9,15 @@ import { join } from "node:path";
 
 import { ConfigError } from "../core/errors.mjs";
 import { readJson, readText } from "../core/io.mjs";
-import { CSS_DIR, DOC_PROFILES_DIR, PROFILES_DIR, TOKENS_DIR } from "../core/paths.mjs";
+import {
+  CSS_DIR,
+  DESIGN_SYSTEM_DIR,
+  DOC_PROFILES_DIR,
+  PRINTER_PROFILES_DIR,
+  PROFILES_DIR,
+  SCENARIOS_DIR,
+  TOKENS_DIR,
+} from "../core/paths.mjs";
 
 const TOKEN_FILES = ["global", "typography", "colors", "spacing"];
 
@@ -22,12 +30,69 @@ function loadConfigJson(path, kind) {
   }
 }
 
-/** 四类令牌合并为 { global, typography, colors, spacing }。 */
+/** 加载 Design System（L1-L2）并合并兼容 tokens。 */
 export function loadTokens() {
   const tokens = {};
-  for (const name of TOKEN_FILES) {
-    tokens[name] = loadConfigJson(join(TOKENS_DIR, `${name}.json`), "配置文件");
+  if (existsSync(DESIGN_SYSTEM_DIR)) {
+    for (const name of ["page", "grid", "spacing", "typography", "colors", "borders", "hierarchy"]) {
+      const p = join(DESIGN_SYSTEM_DIR, `${name}.json`);
+      if (existsSync(p)) tokens[name] = loadConfigJson(p, `设计系统 ${name}`);
+    }
   }
+
+  // 兼容原有 tokens.* 访问
+  tokens.global = {
+    font: tokens.typography?.fonts ?? {
+      family_cjk: "Noto Sans CJK SC",
+      family_cjk_serif: "Noto Serif CJK SC",
+      family_pinyin: "Noto Sans, Noto Sans CJK SC",
+      family_latin: "Noto Sans, Arial",
+    },
+    paper: {
+      page_width_mm: tokens.page?.paper?.page_width_mm ?? 210,
+      page_height_mm: tokens.page?.paper?.page_height_mm ?? 297,
+      margin_x_mm: tokens.page?.margins_mm?.left ?? 15,
+      margin_y_mm: tokens.page?.margins_mm?.top ?? 15,
+      footer_height_mm: tokens.page?.regions?.footer?.height_mm ?? 5,
+      footer_gap_mm: tokens.page?.regions?.footer?.gap_to_content_mm ?? 3,
+    },
+    line_width_mm: tokens.borders?.line_widths_mm ?? {
+      hair: 0.18,
+      thin: 0.22,
+      normal: 0.30,
+      strong: 0.45,
+    },
+  };
+
+  tokens.colors = {
+    ink: {
+      primary: tokens.colors?.palette?.body_text ?? "#0F172A",
+      secondary: tokens.colors?.palette?.secondary_text ?? "#1E293B",
+      muted: tokens.colors?.palette?.assistant_text ?? "#475569",
+    },
+    line: {
+      primary: tokens.colors?.palette?.divider_line ?? "#CBD5E1",
+      secondary: tokens.colors?.palette?.grid_line ?? "#94A3B8",
+    },
+    answer: {
+      teacher: tokens.colors?.palette?.teacher_answer ?? "#B3261E",
+    },
+  };
+
+  tokens.spacing = {
+    gap: {
+      xs: tokens.spacing?.scale_mm?.["spacing-1"] ?? 2.0,
+      s: tokens.spacing?.scale_mm?.["spacing-2"] ?? 3.0,
+      m: tokens.spacing?.scale_mm?.["spacing-3"] ?? 4.0,
+      l: tokens.spacing?.scale_mm?.["spacing-4"] ?? 6.0,
+    },
+    slot: {
+      inline_mm: tokens.spacing?.slot_mm?.inline_mm ?? 14.0,
+      word_mm: tokens.spacing?.slot_mm?.word_mm ?? 32.0,
+      phrase_mm: tokens.spacing?.slot_mm?.phrase_mm ?? 48.0,
+    },
+  };
+
   return tokens;
 }
 
@@ -48,32 +113,125 @@ export function loadGradeProfile(grade) {
 
 export function loadDocProfile(name) {
   const key = String(name ?? "review").trim() || "review";
-  const path = join(DOC_PROFILES_DIR, `${key}.json`);
-  if (!existsSync(path)) throw new ConfigError(`未知文档类型 profile：${key}`);
-  return loadConfigJson(path, "文档 Profile");
+  // 别名映射：支持旧 profile 标识与新 scenario 标识互通
+  const ALIASES = {
+    review: "unit-review",
+    practice: "special-practice",
+    examination: "comprehensive-test",
+  };
+  const scenarioKey = ALIASES[key] ?? key;
+
+  // 优先在 SCENARIOS_DIR 寻找
+  const scenarioPath = join(SCENARIOS_DIR, `${scenarioKey}.json`);
+  if (existsSync(scenarioPath)) return loadConfigJson(scenarioPath, "场景 Profile");
+
+  // 回退在 DOC_PROFILES_DIR 寻找
+  const docPath = join(DOC_PROFILES_DIR, `${key}.json`);
+  if (existsSync(docPath)) return loadConfigJson(docPath, "文档 Profile");
+
+  throw new ConfigError(`未知场景/文档类型 profile：${key}`);
+}
+
+export function loadPrinterProfile(nameOrPath) {
+  if (!nameOrPath) return null;
+  if (typeof nameOrPath === "object") return nameOrPath;
+  const key = String(nameOrPath).trim();
+  if (!key || key === "default") {
+    const defaultPath = join(PRINTER_PROFILES_DIR, "default.json");
+    return existsSync(defaultPath) ? loadConfigJson(defaultPath, "默认打印机 Profile") : null;
+  }
+
+  // 绝对或相对路径
+  if (key.endsWith(".json")) {
+    const target = existsSync(key) ? key : join(PRINTER_PROFILES_DIR, key);
+    if (!existsSync(target)) throw new ConfigError(`打印机 Profile 文件不存在：${key}`);
+    return loadConfigJson(target, "自定义打印机 Profile");
+  }
+
+  // 按预设 ID 查找
+  const profilePath = join(PRINTER_PROFILES_DIR, `${key}.json`);
+  if (!existsSync(profilePath)) {
+    const available = existsSync(PRINTER_PROFILES_DIR)
+      ? readdirSync(PRINTER_PROFILES_DIR)
+          .filter((f) => f.endsWith(".json"))
+          .map((f) => f.replace(/\.json$/, ""))
+          .sort()
+      : [];
+    throw new ConfigError(
+      `未收录 ${key} 打印机 Profile（已有预设：${available.join(", ")}）。` +
+        "若为硬件补偿，可指定已有预设（如 inkjet-desktop）或传自定义 JSON 文件路径。",
+    );
+  }
+  return loadConfigJson(profilePath, "打印机硬件 Profile");
 }
 
 export function loadBaseCss() {
   return readText(join(CSS_DIR, "worksheet-base.css"));
 }
 
-/** 页面几何：全部单位毫米，content_bottom 已扣除页脚高度与间隙。 */
-export function geometryOf(tokens) {
+/**
+ * 页面几何：全部单位毫米，支持打印机硬件 Profile 与不对称边距补偿。
+ *
+ * @param {object} tokens - 设计令牌
+ * @param {object|null} printerProfile - 打印机硬件 Profile
+ * @param {object} [marginOverrides={}] - 单独指定的边距覆盖 { top, bottom, left, right }
+ */
+export function geometryOf(tokens, printerProfile = null, marginOverrides = {}) {
   const paper = tokens.global.paper;
   const pageWidth = Number(paper.page_width_mm);
   const pageHeight = Number(paper.page_height_mm);
-  const marginX = Number(paper.margin_x_mm);
-  const marginY = Number(paper.margin_y_mm);
   const footerHeight = Number(paper.footer_height_mm);
   const footerGap = Number(paper.footer_gap_mm);
+
+  // 基础默认边距
+  let marginTop = Number(paper.margin_y_mm);
+  let marginBottom = Number(paper.margin_y_mm);
+  let marginLeft = Number(paper.margin_x_mm);
+  let marginRight = Number(paper.margin_x_mm);
+
+  // 1. 打印机 Profile 注入
+  if (printerProfile?.margins_mm) {
+    const pmm = printerProfile.margins_mm;
+    if (pmm.top != null) marginTop = Number(pmm.top);
+    if (pmm.bottom != null) marginBottom = Number(pmm.bottom);
+    if (pmm.left != null) marginLeft = Number(pmm.left);
+    if (pmm.right != null) marginRight = Number(pmm.right);
+  }
+
+  // 2. 显式命令行覆盖注入
+  if (marginOverrides.top != null) marginTop = Number(marginOverrides.top);
+  if (marginOverrides.bottom != null) marginBottom = Number(marginOverrides.bottom);
+  if (marginOverrides.left != null) marginLeft = Number(marginOverrides.left);
+  if (marginOverrides.right != null) marginRight = Number(marginOverrides.right);
+
+  const contentWidth = pageWidth - marginLeft - marginRight;
+  const contentTop = marginTop;
+  const contentBottom = pageHeight - marginBottom - footerHeight - footerGap;
+
+  if (contentWidth <= 50) {
+    throw new ConfigError(`页面有效宽度不足 (${contentWidth.toFixed(1)}mm)，请检查左右边距设置。`);
+  }
+  if (contentBottom - contentTop <= 50) {
+    throw new ConfigError(`页面有效高度不足 (${(contentBottom - contentTop).toFixed(1)}mm)，请检查上下边距设置。`);
+  }
+
   return {
     page_width: pageWidth,
     page_height: pageHeight,
-    margin_x: marginX,
-    margin_y: marginY,
-    content_width: pageWidth - 2 * marginX,
-    content_top: marginY,
-    content_bottom: pageHeight - marginY - footerHeight - footerGap,
-    footer_baseline_bottom: marginY,
+    margin_left: marginLeft,
+    margin_right: marginRight,
+    margin_top: marginTop,
+    margin_bottom: marginBottom,
+    // 兼容历史字段
+    margin_x: marginLeft,
+    margin_y: marginTop,
+    content_width: contentWidth,
+    content_top: contentTop,
+    content_bottom: contentBottom,
+    footer_height: footerHeight,
+    footer_gap: footerGap,
+    footer_baseline_bottom: marginBottom,
+    printer: printerProfile?.printer_id ?? "default",
+    binding_gutter_mm: printerProfile?.binding_gutter_mm ?? 0.0,
   };
 }

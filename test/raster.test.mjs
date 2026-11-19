@@ -10,7 +10,7 @@ import { test } from "node:test";
 import { deflateSync } from "node:zlib";
 
 import { RasterError } from "../src/core/errors.mjs";
-import { inkBounds, readPng } from "../src/qa/raster.mjs";
+import { diffPng, inkBounds, readPng, writePng } from "../src/qa/raster.mjs";
 
 const CRC_TABLE = (() => {
   const table = new Int32Array(256);
@@ -110,6 +110,88 @@ test("非 PNG 文件被明确拒绝", () => {
   assert.throws(() => readPng(path), (err) => {
     assert.ok(err instanceof RasterError);
     assert.match(err.message, /不是合法 PNG/);
+    return true;
+  });
+});
+
+test("writePng 能够正确编码 8bit RGB 位图并被 readPng 读取", () => {
+  const dir = mkdtempSync(join(tmpdir(), "wbpub-write-"));
+  const path = join(dir, "written.png");
+  const pixels = Buffer.from([
+    255, 0, 0,    0, 255, 0,
+    0, 0, 255,    255, 255, 0
+  ]);
+  writePng(path, { width: 2, height: 2, channels: 3, pixels });
+  const read = readPng(path);
+  assert.equal(read.width, 2);
+  assert.equal(read.height, 2);
+  assert.equal(read.channels, 3);
+  assert.deepEqual(Array.from(read.pixels), Array.from(pixels));
+});
+
+test("diffPng 对相同位图判定为 0 差异且 mismatch=false", () => {
+  const dir = mkdtempSync(join(tmpdir(), "wbpub-diff-"));
+  const p1 = join(dir, "p1.png");
+  const p2 = join(dir, "p2.png");
+  const pixels = Buffer.alloc(4 * 4 * 3, 200);
+  writePng(p1, { width: 4, height: 4, channels: 3, pixels });
+  writePng(p2, { width: 4, height: 4, channels: 3, pixels });
+
+  const res = diffPng(p1, p2);
+  assert.equal(res.totalPixels, 16);
+  assert.equal(res.diffPixels, 0);
+  assert.equal(res.diffRatio, 0);
+  assert.equal(res.mismatch, false);
+});
+
+test("diffPng 准确识别差异像素并输出高亮差分图像", () => {
+  const dir = mkdtempSync(join(tmpdir(), "wbpub-diff-"));
+  const base = join(dir, "base.png");
+  const curr = join(dir, "curr.png");
+  const diffOut = join(dir, "diff.png");
+
+  // 10x10 全白图
+  const pixels1 = Buffer.alloc(10 * 10 * 3, 255);
+  // curr 在 (2, 2) 和 (2, 3) 处修改为红色
+  const pixels2 = Buffer.alloc(10 * 10 * 3, 255);
+  pixels2[(2 * 10 + 2) * 3] = 255;
+  pixels2[(2 * 10 + 2) * 3 + 1] = 0;
+  pixels2[(2 * 10 + 2) * 3 + 2] = 0;
+
+  pixels2[(2 * 10 + 3) * 3] = 255;
+  pixels2[(2 * 10 + 3) * 3 + 1] = 0;
+  pixels2[(2 * 10 + 3) * 3 + 2] = 0;
+
+  writePng(base, { width: 10, height: 10, channels: 3, pixels: pixels1 });
+  writePng(curr, { width: 10, height: 10, channels: 3, pixels: pixels2 });
+
+  const res = diffPng(base, curr, diffOut, { tolerance: 5, diffColor: [225, 29, 72] });
+  assert.equal(res.totalPixels, 100);
+  assert.equal(res.diffPixels, 2);
+  assert.equal(res.diffRatio, 0.02);
+  assert.equal(res.mismatch, true);
+
+  // 验证生成的 diff 图像
+  const diffImg = readPng(diffOut);
+  assert.equal(diffImg.width, 10);
+  assert.equal(diffImg.height, 10);
+  // 检查差异点处的颜色高亮
+  const offset = (2 * 10 + 2) * 3;
+  assert.equal(diffImg.pixels[offset], 225);
+  assert.equal(diffImg.pixels[offset + 1], 29);
+  assert.equal(diffImg.pixels[offset + 2], 72);
+});
+
+test("diffPng 拒绝尺寸不一致的位图", () => {
+  const dir = mkdtempSync(join(tmpdir(), "wbpub-diff-"));
+  const p1 = join(dir, "p1.png");
+  const p2 = join(dir, "p2.png");
+  writePng(p1, { width: 4, height: 4, channels: 3, pixels: Buffer.alloc(4 * 4 * 3) });
+  writePng(p2, { width: 5, height: 5, channels: 3, pixels: Buffer.alloc(5 * 5 * 3) });
+
+  assert.throws(() => diffPng(p1, p2), (err) => {
+    assert.ok(err instanceof RasterError);
+    assert.match(err.message, /尺寸不匹配/);
     return true;
   });
 });

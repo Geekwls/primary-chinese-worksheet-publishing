@@ -1,0 +1,14 @@
+{
+  "printer_id": "laser-compact",
+  "name": "商用激光打印机 / 紧凑安全配置",
+  "description": "针对进纸精度高、可打印区域大的商用激光打印机（施乐/理光/惠普企业级），边距为 6.0mm",
+  "hardware_type": "laser",
+  "margins_mm": {
+    "top": 6.0,
+    "bottom": 6.0,
+    "left": 6.0,
+    "right": 6.0
+  },
+  "binding_gutter_mm": 0.0,
+  "notes": "6.0mm 紧凑边距，版心宽达 198.0mm，适合大题量排版并显著节省纸张。"
+}

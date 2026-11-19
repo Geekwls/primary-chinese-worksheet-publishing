@@ -38,9 +38,9 @@ body {
 
 .run-hdr {
   position: absolute;
-  left: var(--mx);
-  right: var(--mx);
-  top: calc(var(--my) - 7mm);
+  left: var(--mx-left, var(--mx));
+  right: var(--mx-right, var(--mx));
+  top: calc(var(--my-top, var(--my)) - 7mm);
   display: flex;
   justify-content: space-between;
   font-size: var(--fs-footer);
@@ -52,8 +52,8 @@ body {
 
 .ftr {
   position: absolute;
-  left: var(--mx);
-  right: var(--mx);
+  left: var(--mx-left, var(--mx));
+  right: var(--mx-right, var(--mx));
   bottom: var(--my-footer);
   display: flex;
   justify-content: space-between;
@@ -70,6 +70,14 @@ body {
   text-align: center;
   line-height: 1.45;
   letter-spacing: 0.04em;
+}
+.doc-subtitle {
+  text-align: center;
+  font-size: var(--fs-section);
+  font-weight: 600;
+  color: var(--ink-2);
+  margin-top: 1.5mm;
+  line-height: 1.35;
 }
 .doc-sub {
   text-align: center;
@@ -123,6 +131,7 @@ body {
 }
 .stem .no { font-weight: 700; }
 .stem .pt { color: var(--ink-2); font-size: var(--fs-hint); }
+.comp-prompt,
 .note {
   font-size: var(--fs-hint);
   color: var(--ink-2);
@@ -240,6 +249,11 @@ body {
 .cols1 { grid-template-columns: 1fr; }
 .cols2 { grid-template-columns: repeat(2, 1fr); }
 .cols3 { grid-template-columns: repeat(3, 1fr); }
+.cols4 { grid-template-columns: repeat(4, 1fr); }
+.col-span-12 { width: 100%; }
+.col-span-6 { width: var(--col-6); }
+.col-span-4 { width: var(--col-4); }
+.col-span-3 { width: var(--col-3); }
 .gc { display: flex; align-items: baseline; gap: 1.2mm; font-size: var(--fs-q); line-height: var(--lh-q); }
 .gc .ch { font-weight: 700; letter-spacing: 0.04em; }
 .wrow {
@@ -252,6 +266,44 @@ body {
   padding-bottom: var(--gap-row);
 }
 .witem { white-space: nowrap; }
+
+/* ---------- 多音字辨析组件 ---------- */
+
+.poly-group {
+  padding-bottom: var(--gap-row);
+}
+.poly-card {
+  display: flex;
+  align-items: baseline;
+  gap: var(--gap-s);
+  font-size: var(--fs-q);
+  line-height: var(--lh-q);
+  white-space: nowrap;
+}
+.poly-word {
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.poly-options {
+  font-size: var(--fs-py);
+  color: var(--color-note);
+}
+.poly-slot {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+.poly-slot .ans-slot {
+  position: absolute;
+  left: 0.5mm;
+  right: 0.5mm;
+  bottom: 0.5mm;
+  text-align: center;
+  font-size: var(--fs-q);
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--color-answer);
+}
 
 /* ---------- 给加点字注音 ---------- */
 
@@ -361,6 +413,25 @@ body {
 .sub { padding-bottom: var(--gap-s); }
 .sub .subh { font-size: var(--fs-q); line-height: var(--lh-q); text-align: justify; }
 .sub .subh .no { font-weight: 700; }
+.sub-options {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--gap-col);
+  row-gap: var(--gap-xs);
+  padding-left: 6mm;
+  padding-top: 1mm;
+  padding-bottom: 1.5mm;
+  font-size: var(--fs-q);
+  line-height: var(--lh-q);
+}
+.sub-options .opt {
+  display: inline-block;
+}
+.choice-bracket {
+  position: relative;
+  white-space: nowrap;
+  margin-left: 2mm;
+}
 /* 仿写题的例句必须与待答区在视觉上分开：学生看到"例"旁边就是横线，会去改写例句 */
 .sub .subh .eg {
   border-left: 0.8mm solid var(--line-2);
@@ -375,6 +446,23 @@ body {
 }
 
 /* ---------- 作文/写话方格 ---------- */
+
+.comp-img-wrap {
+  text-align: center;
+  padding: 1.5mm 0 2.5mm;
+}
+.comp-img {
+  display: inline-block;
+  max-width: 90%;
+  object-fit: contain;
+  border: var(--lw-hair) solid var(--line-2);
+  border-radius: 2px;
+}
+.comp-img-cap {
+  font-size: var(--fs-hint);
+  color: var(--ink-3);
+  margin-top: 1mm;
+}
 
 .zw-wrap { display: flex; justify-content: center; }
 .zwg {
@@ -422,4 +510,152 @@ body {
   line-height: 1.75;
   color: var(--ink-2);
   text-align: justify;
+}
+
+/* ---------- 独立选择题 ---------- */
+
+.choice-sub {
+  padding-bottom: var(--gap-row);
+}
+.choice-standalone {
+  padding-bottom: var(--gap-row);
+}
+.choice-options {
+  margin-top: 1.5mm;
+  font-size: var(--fs-q);
+  line-height: var(--lh-q);
+}
+.choice-bracket {
+  margin-left: 1.5mm;
+  white-space: nowrap;
+}
+.opt {
+  display: inline-block;
+  padding-right: 2mm;
+  white-space: nowrap;
+}
+
+/* ---------- 独立判断题 ---------- */
+
+.judge-sub {
+  padding-bottom: var(--gap-row);
+}
+.judge-standalone {
+  padding-bottom: var(--gap-row);
+}
+.judge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: var(--fs-q);
+  line-height: var(--lh-q);
+}
+.judge-bracket {
+  margin-left: 3mm;
+  white-space: nowrap;
+}
+
+/* ---------- 笔顺笔画题 ---------- */
+
+.stroke-sub {
+  padding-bottom: var(--gap-row);
+}
+.stroke-row {
+  display: flex;
+  align-items: center;
+  gap: 2mm;
+  font-size: var(--fs-q);
+  line-height: var(--lh-q);
+}
+.stroke-tzg-wrap {
+  display: inline-flex;
+  flex: 0 0 auto;
+  margin-right: 1mm;
+}
+.stroke-tzg-wrap .tzg {
+  width: var(--tz);
+  height: var(--tz);
+  position: relative;
+  border: var(--lw-normal) solid var(--line-1);
+}
+.stroke-tzg-wrap .tzg .ch {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--tz) * 0.62);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ---------- 拼音/生字连线题 ---------- */
+
+.match-part {
+  padding-bottom: var(--gap-row);
+}
+.match-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1mm;
+  padding-bottom: var(--gap-row);
+  position: relative;
+  width: 100%;
+}
+.match-row {
+  display: flex;
+  align-items: center;
+  font-size: var(--fs-q);
+  line-height: 1;
+  position: relative;
+  width: 100%;
+}
+.match-left-text {
+  width: 35%;
+  text-align: right;
+  white-space: nowrap;
+}
+.match-right-text {
+  width: 35%;
+  text-align: left;
+  white-space: nowrap;
+}
+.match-spacer {
+  flex: 1 1 auto;
+}
+.match-dot {
+  display: inline-block;
+  width: 2.2mm;
+  height: 2.2mm;
+  border-radius: 50%;
+  background: var(--ink-1);
+  flex: 0 0 auto;
+}
+.match-left-dot {
+  margin-left: 3mm;
+}
+.match-right-dot {
+  margin-right: 3mm;
+}
+.match-text {
+  white-space: nowrap;
+}
+.match-svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* ---------- 数学作答 ---------- */
+
+.calc-work-box {
+  padding-top: 1mm;
+  padding-bottom: var(--gap-s);
+}
+.calc-oral-slot {
+  display: inline-block;
+  margin-left: 2mm;
 }

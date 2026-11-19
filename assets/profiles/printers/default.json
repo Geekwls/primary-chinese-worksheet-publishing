@@ -1,0 +1,14 @@
+{
+  "printer_id": "default",
+  "name": "全局设计规范基准 (15mm 初始设计基线)",
+  "description": "设计规范 v2.2.0 全局页面基准，左右/上下各 15mm，保证普通打印机物理安全、装订线与低段视觉呼吸感",
+  "hardware_type": "standard",
+  "margins_mm": {
+    "top": 15.0,
+    "bottom": 15.0,
+    "left": 15.0,
+    "right": 15.0
+  },
+  "binding_gutter_mm": 0.0,
+  "notes": "四边均匀 15.0mm 安全边界，版心 180.0mm × 267.0mm。"
+}

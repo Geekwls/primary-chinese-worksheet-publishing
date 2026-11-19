@@ -1,0 +1,31 @@
+{
+  "$schema": "colors-specification",
+  "version": "2.2.0",
+  "description": "L2 全局视觉色彩规范：黑白印刷第一原则与高清晰度色彩语义",
+  "palette": {
+    "body_text": "#0F172A",
+    "section_title": "#0F172A",
+    "secondary_text": "#1E293B",
+    "assistant_text": "#475569",
+    "grid_line": "#94A3B8",
+    "divider_line": "#CBD5E1",
+    "background": "#FFFFFF",
+    "teacher_answer": "#B3261E"
+  },
+  "roles": {
+    "font-family-body": "#0F172A",
+    "font-family-title": "#0F172A",
+    "font-family-section": "#0F172A",
+    "font-family-pinyin": "#0F172A",
+    "font-family-hint": "#475569",
+    "border-grid": "#94A3B8",
+    "border-divider": "#CBD5E1",
+    "color-answer": "#B3261E"
+  },
+  "printing_rules": [
+    "默认以黑白打印为第一验收目标",
+    "严禁使用大面积彩色背景底纹或渐变填充",
+    "田字格与拼音四线三格线条不得浅于 #94A3B8，避免普通打印机断线或虚化",
+    "教师卷答案采用高对比红色 (#B3261E)，黑白打印时转换为清晰可见的中深灰"
+  ]
+}

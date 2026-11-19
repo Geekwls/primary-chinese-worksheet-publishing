@@ -1,55 +1,55 @@
 {
-  "token_version": "1.0.0",
+  "token_version": "2.1.0",
   "status": "DRAFT",
-  "note": "字号为各年级的默认中值，年级覆盖值在 profiles/grade-*.json 的 font_pt 中。单位 pt，对应 CSS pt。",
+  "note": "字号为各年级的默认中值，遵循 v2.1.0 规范，年级覆盖值在 profiles/grade-*.json 的 font_pt 中。单位 pt，对应 CSS pt。",
   "roles": {
     "title": {
-      "role": "试卷标题",
-      "default_pt": 17,
-      "line_height": 1.45,
+      "role": "试卷主标题",
+      "default_pt": 21,
+      "line_height": 1.35,
       "weight": 700,
       "align": "center"
     },
     "section": {
-      "role": "大题标题",
-      "default_pt": 13,
+      "role": "一级题型标题",
+      "default_pt": 15,
       "line_height": 1.4,
       "weight": 700
     },
     "question": {
-      "role": "题干与题目正文",
+      "role": "题目正文与题干",
       "default_pt": 12.5,
-      "line_height": 1.85,
+      "line_height": 1.75,
       "weight": 400
     },
     "body": {
       "role": "阅读文章正文",
       "default_pt": 12,
-      "line_height": 2.0,
+      "line_height": 1.75,
       "weight": 400
     },
     "pinyin": {
-      "role": "拼音注音",
-      "default_pt": 11,
-      "line_height": 1.35,
+      "role": "拼音与注音",
+      "default_pt": 11.5,
+      "line_height": 1.65,
       "weight": 400
     },
     "hint": {
       "role": "分值与辅助说明",
-      "default_pt": 10.2,
+      "default_pt": 10.5,
       "line_height": 1.5,
       "weight": 400
     },
     "answer": {
-      "role": "教师卷答案",
-      "default_pt": null,
-      "line_height": 1.35,
+      "role": "教师卷答案解析",
+      "default_pt": 11,
+      "line_height": 1.45,
       "weight": 600,
-      "rule": "与对应正文字号一致，不单独放大或缩小"
+      "rule": "作答区与对应正文字号一致，独立解析区使用 10.5-12pt"
     },
     "footer": {
-      "role": "页脚",
-      "default_pt": 8.5,
+      "role": "页码与页脚",
+      "default_pt": 9.5,
       "line_height": 1.2,
       "weight": 400
     }

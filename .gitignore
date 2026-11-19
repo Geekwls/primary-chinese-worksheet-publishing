@@ -2,6 +2,10 @@
 build/
 .preview/
 .demo-*/
+_work/
+.cache/
+standard-sample/_work/
+standard-sample/.cache/
 
 # 依赖与缓存（本项目零运行时依赖，正常不会出现）
 node_modules/
@@ -13,3 +17,7 @@ node_modules/
 
 # 助手工作区（本地记忆与临时文件）
 .workbuddy/
+
+# 样卷构建输出（npm run sample / 手工构建，可重新生成）
+build-g1-comprehensive/
+standard-sample/

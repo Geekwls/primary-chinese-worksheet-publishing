@@ -1,5 +1,5 @@
 {
-  "token_version": "1.0.0",
+  "token_version": "2.1.0",
   "status": "DRAFT",
   "note": "全局基础令牌。字体族、线性、纸张。字号见 typography.json，颜色见 colors.json，间距见 spacing.json。",
   "font": {

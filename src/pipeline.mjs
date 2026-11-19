@@ -10,10 +10,10 @@ import { buildDocHead, buildExplanationParts, buildSection } from "./components/
 import { resolveComponent } from "./components/registry.mjs";
 import { Ctx } from "./components/context.mjs";
 import { buildCss } from "./config/css.mjs";
-import { geometryOf, loadDocProfile, loadGradeProfile, loadTokens } from "./config/tokens.mjs";
+import { geometryOf, loadDocProfile, loadGradeProfile, loadPrinterProfile, loadTokens } from "./config/tokens.mjs";
 import { LAYOUT_VERSION } from "./core/version.mjs";
 import { loadDocument } from "./domain/document.mjs";
-import { structureTexts, teacherAnswers, visibleText } from "./domain/texts.mjs";
+import { structureSegments, teacherAnswers, visibleText } from "./domain/texts.mjs";
 import { measurePartsDetailed } from "./layout/measure.mjs";
 import { manifestOf } from "./layout/manifest.mjs";
 import { paginate } from "./layout/paginate.mjs";
@@ -48,21 +48,44 @@ export function buildParts(doc, ctx) {
  * @param {boolean} [options.preview]   是否输出逐页 PNG
  * @param {(msg: string) => void} [options.log]
  */
-export function runBuild({ document, out, grade, docType, teacher = true, preview = true, log = () => {} }) {
+export function runBuild({
+  document,
+  out,
+  grade,
+  docType,
+  printer,
+  margins = {},
+  teacher = true,
+  preview = true,
+  log = () => {},
+}) {
   // 1) 契约
   const { doc, warnings, stats } = loadDocument(document);
   const effectiveGrade = Number(grade ?? doc.grade);
   const tokens = loadTokens();
   const profile = loadGradeProfile(effectiveGrade);
   const docProfile = loadDocProfile(docType ?? doc.doc_type);
+  const printerProfile = loadPrinterProfile(printer);
+  const geo = geometryOf(tokens, printerProfile, margins);
+  const css = buildCss(tokens, profile, docProfile, geo);
 
   log(
-    `[1/6] 契约校验通过：${stats.question_count} 题，合计 ${stats.score_sum} 分（${profile.label} / ${docProfile.label}）`,
+    `[1/6] 契约校验通过：${stats.question_count} 题，合计 ${stats.score_sum} 分` +
+      `（${profile.label} / ${docProfile.label} / 打印配置: ${geo.printer}）`,
   );
+  if (
+    geo.margin_bottom !== 10 ||
+    geo.margin_top !== 10 ||
+    geo.margin_left !== 10 ||
+    geo.margin_right !== 10
+  ) {
+    log(
+      `      硬件边距补偿生效：上 ${geo.margin_top}mm / 下 ${geo.margin_bottom}mm / ` +
+        `左 ${geo.margin_left}mm / 右 ${geo.margin_right}mm（版心可用高度: ${(geo.content_bottom - geo.content_top).toFixed(1)}mm）`,
+    );
+  }
   for (const w of warnings) log(`      ⚠ ${w}`);
 
-  const css = buildCss(tokens, profile, docProfile);
-  const geo = geometryOf(tokens);
   const outDir = ensureDir(out);
   const work = join(outDir, "_work");
 
@@ -176,7 +199,9 @@ export function runBuild({ document, out, grade, docType, teacher = true, previe
     pdfTeacher,
     expected: {
       student: partsStudent.map((p) => visibleText(p.html)).filter((t) => t.trim().length >= 2),
-      teacherTexts: [...structureTexts(doc), ...partsExplain.map((p) => visibleText(p.html))],
+      // 教师卷题干按作答槽切分核对：槽位处学生卷为空、教师卷内嵌答案，
+      // 整段题干在提取流中不连续，只有分段核对才能既不误报也不漏检。
+      teacherTexts: [...structureSegments(doc), ...partsExplain.map((p) => visibleText(p.html))],
       teacherAnswers: teacher ? teacherAnswers(doc) : [],
     },
     contractWarnings: warnings,

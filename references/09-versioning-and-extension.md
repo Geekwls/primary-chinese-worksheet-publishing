@@ -2,27 +2,30 @@
 
 > 目的：避免后续 Agent 随手改规范、随手改参数，把"标准"变成"某次生成的结果"。
 
-## 1. 版本号规则
+## 1. 三维独立版本号规则
 
-| 变化 | 版本位 | 例子 |
-| --- | --- | --- |
-| 修文档错字、补充说明、参数注释，不改契约 | Patch `1.0.x` | 修正 P0 描述措辞 |
-| 新增组件、新增布局能力、新增年级 Profile，不破坏旧配置 | Minor `1.x.0` | 新增 `inline_pinyin_passage` |
-| 改核心尺寸体系、数据契约、分页机制 | Major `x.0.0` | 内容区从 186 改 180，或 Part 结构变更 |
+不要将设计规范、数据契约与引擎实现绑定为同一个版本号，三者具有不同的演进周期：
 
-版本同时体现在三处，必须同步：
+| 版本常量 | 说明 | 演进对象 | 例子 |
+| --- | --- | --- | --- |
+| `SPEC_VERSION` | 设计规范手册版本 | `docs/DESIGN_SPECIFICATION.md` | 修改字号推荐区间、新增排版质量原则（如升级到 v2.1.0） |
+| `LAYOUT_VERSION` | 布局清单数据契约版本 | `layout-manifest.json` 结构与坐标语义 | 布局清单新增字段、调整单位或坐标定义（如从 1.0.0 到 2.0.0） |
+| `ENGINE_VERSION` | 排版引擎代码实现版本 | `src/` 代码实现、流水线、QA 质检器 | 优化分页算法、修复测量浮点误差、重构组件渲染（如 1.1.0） |
 
-1. `SKILL.md` 的 `metadata.version`
-2. `src/core/version.mjs` 的 `LAYOUT_VERSION`（写入每份 Manifest）
-3. `qa-report.json` 的 `stats["排版规范版本"]`
+版本与文件映射：
+1. `SKILL.md` 的 `metadata.spec_version`: 对齐 `SPEC_VERSION`。
+2. `src/core/version.mjs` 中的 `LAYOUT_VERSION`: 写入每份 Layout Manifest。
+3. `package.json` 中的 `version`: 对齐 `ENGINE_VERSION`。
+4. `qa-report.json`: 同时记录 `SPEC_VERSION` 与 `LAYOUT_VERSION`。
 
-## 2. 规范状态三态
+## 2. 规范状态四态
 
 | 状态 | 含义 | 允许的动作 |
 | --- | --- | --- |
-| `DRAFT` | 设计中，未验证 | 可自由修改 |
-| `VALIDATED` | 已通过 PDF 样张与规定测试 | 修改需记录校准证据 |
-| `FROZEN` | 已审定 | 未经变更审查不得修改 |
+| `DRAFT` | 设计中/草案，待样卷验证 | 可自由修改 |
+| `VALIDATED` | 已通过程序和样卷验证 | 修改需记录校准证据 |
+| `PRINT_VALIDATED` | 已通过实际打印验证 | 冻结前置阶段 |
+| `FROZEN` | 当前版本冻结 | 未经变更审查不得修改 |
 
 当前状态：`assets/tokens/*` 与 `assets/profiles/*` 全部为 `DRAFT`，因为尚未完成实物打样与教师试写。
 

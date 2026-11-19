@@ -3,9 +3,9 @@ name: primary-chinese-worksheet-publishing
 description: >-
   小学低段（一至二年级）语文试卷与复习卷的出版级排版与验收系统。当用户要求生成语文试卷、单元复习卷、专项练习卷（看拼音写词语、田字格、形近字组词、成语补充、古诗填空、句子改写、阅读理解、看图写话）、配套教师解析卷，或要求检查试卷 PDF 的字号、格子尺寸、分页、字体嵌入与打印安全区时使用。产出学生卷 PDF、教师解析卷 PDF、布局清单与验收报告。不负责命题内容创作、非语文试卷排版、非印刷用途的普通网页。
 metadata:
-  version: 1.1.0
-  spec_version: 1.0.0
-  status: DRAFT
+  version: 1.2.0
+  spec_version: 2.2.0
+  status: VALIDATED
   author: 出版排版工程
   platforms: [linux, macos, windows]
   requires:
@@ -18,6 +18,7 @@ agent_created: true
 # 小学语文试卷出版级排版系统
 
 > 定位：不是"让 AI 随手排出好看的卷子"，而是把"出版质量目标"变成可执行、可复现、可追溯的工程流水线。
+> 本项目遵循 [《小学低段语文试卷与复习卷出版级排版设计规范手册 (v2.2.0)》](docs/DESIGN_SPECIFICATION.md)。
 > 一句话原则：**L1 出版标准决定什么算好，L2 设计系统决定语言统一，L3 排版引擎负责确定性地实现，L4 验收用证据证明它真的达标。**
 
 ## 何时使用

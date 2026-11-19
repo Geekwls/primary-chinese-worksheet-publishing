@@ -27,17 +27,25 @@ const USAGE = `小学语文试卷出版级排版引擎（Node 版）
   wbpub <题目.json> [选项]
 
 选项：
-  --out <dir>       输出目录（默认 ./build）
-  --grade <n>       覆盖题目中的年级（仅用于对比试验）
-  --doc-type <name> 覆盖卷型 profile：practice / review / examination
-  --no-teacher      只生成学生卷（教师相关验收项标记为人工）
-  --no-preview      不输出逐页 PNG 预览
-  --check-only      只做数据契约校验，不渲染
-  --quiet           只输出错误
-  -h, --help        显示本帮助
+  --out <dir>          输出目录（默认 ./build）
+  --grade <n>          覆盖题目中的年级（仅用于对比试验）
+  --doc-type <name>    覆盖卷型 profile：practice / review / examination
+  --printer <id>       硬件打印机 profile：default / inkjet-desktop / laser-compact / binding-left
+  --margin-bottom <mm> 覆盖底边距（如针对家用喷墨走纸盲区补偿设为 15）
+  --margin-top <mm>    覆盖顶边距
+  --margin-left <mm>   覆盖左边距（如左侧装订槽设为 18）
+  --margin-right <mm>  覆盖右边距
+  --margins <t,b,l,r>  批量指定四边物理边距 (mm)
+  --no-teacher         只生成学生卷（教师相关验收项标记为人工）
+  --no-preview         不输出逐页 PNG 预览
+  --check-only         只做数据契约校验，不渲染
+  --quiet              只输出错误
+  -h, --help           显示本帮助
 
 示例：
   wbpub examples/g2-review-unit56.json --out ./build
+  wbpub doc.json --printer inkjet-desktop --out ./build-inkjet
+  wbpub doc.json --margin-bottom 15 --out ./build-safe
   wbpub doc.json --grade 1 --doc-type practice --out ./build-g1
   wbpub doc.json --check-only`;
 
@@ -47,6 +55,8 @@ function parseArgs(argv) {
     out: "./build",
     grade: null,
     docType: null,
+    printer: null,
+    margins: {},
     teacher: true,
     preview: true,
     checkOnly: false,
@@ -66,6 +76,32 @@ function parseArgs(argv) {
     else if (arg === "--out") opts.out = takeValue();
     else if (arg === "--grade") opts.grade = Number(takeValue());
     else if (arg === "--doc-type") opts.docType = takeValue();
+    else if (arg === "--printer") opts.printer = takeValue();
+    else if (arg === "--margin-top") opts.margins.top = Number(takeValue());
+    else if (arg === "--margin-bottom") opts.margins.bottom = Number(takeValue());
+    else if (arg === "--margin-left") opts.margins.left = Number(takeValue());
+    else if (arg === "--margin-right") opts.margins.right = Number(takeValue());
+    else if (arg === "--margins") {
+      const parts = takeValue().split(",").map(Number);
+      if (parts.length === 1) {
+        opts.margins.top = parts[0];
+        opts.margins.bottom = parts[0];
+        opts.margins.left = parts[0];
+        opts.margins.right = parts[0];
+      } else if (parts.length === 2) {
+        opts.margins.top = parts[0];
+        opts.margins.bottom = parts[0];
+        opts.margins.left = parts[1];
+        opts.margins.right = parts[1];
+      } else if (parts.length === 4) {
+        opts.margins.top = parts[0];
+        opts.margins.bottom = parts[1];
+        opts.margins.left = parts[2];
+        opts.margins.right = parts[3];
+      } else {
+        throw new CliError("--margins 必须是 1、2 或 4 个逗号分隔的数值 (如: --margins 10,15,10,10)");
+      }
+    }
     else if (arg === "--no-teacher") opts.teacher = false;
     else if (arg === "--no-preview") opts.preview = false;
     else if (arg === "--check-only") opts.checkOnly = true;
@@ -77,6 +113,9 @@ function parseArgs(argv) {
 
   if (!opts.help && !opts.document) throw new CliError("缺少题目文件路径");
   if (opts.grade !== null && !Number.isFinite(opts.grade)) throw new CliError("--grade 必须是数字");
+  for (const [k, v] of Object.entries(opts.margins)) {
+    if (!Number.isFinite(v) || v < 0) throw new CliError(`边距 --margin-${k} 必须为非负数`);
+  }
   return opts;
 }
 
@@ -120,6 +159,8 @@ function main(argv) {
       out: opts.out,
       grade: opts.grade ?? undefined,
       docType: opts.docType ?? undefined,
+      printer: opts.printer ?? undefined,
+      margins: opts.margins,
       teacher: opts.teacher,
       preview: opts.preview,
       log,

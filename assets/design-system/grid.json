@@ -1,0 +1,36 @@
+{
+  "$schema": "grid-specification",
+  "version": "2.2.0",
+  "description": "L1 全局页面 12 栅格规范：列宽、列间距与多栏布局约束",
+  "columns": 12,
+  "gutter_mm": 4.0,
+  "column_width_mm": 11.333,
+  "spans_mm": {
+    "col_12": 180.0,
+    "col_6": 88.0,
+    "col_4": 57.33,
+    "col_3": 42.0
+  },
+  "layout_modes": {
+    "full": {
+      "span": 12,
+      "width_mm": 180.0,
+      "description": "整行布局：阅读短文、长篇作答、大题标题、看图写话"
+    },
+    "dual": {
+      "span": 6,
+      "width_mm": 88.0,
+      "description": "双栏半行：多音字辨析对卡、短小选择题、词语搭配"
+    },
+    "triple": {
+      "span": 4,
+      "width_mm": 57.33,
+      "description": "三栏网格：看拼音写词语（两字词组）、成语填空"
+    },
+    "quad": {
+      "span": 3,
+      "width_mm": 42.0,
+      "description": "四栏紧凑：单字田字格注音、生字组词"
+    }
+  }
+}

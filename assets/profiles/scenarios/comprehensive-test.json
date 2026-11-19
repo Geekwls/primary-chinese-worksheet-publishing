@@ -1,0 +1,12 @@
+{
+  "scenario_id": "comprehensive-test",
+  "label": "期中/期末综合测试卷",
+  "description": "严格依照标准化考试标准，包含学号、准考证与正式答题得分栏",
+  "header_style": "formal_exam",
+  "show_total_score": true,
+  "show_time_limit": true,
+  "meta_fields": ["姓名", "班级", "考号", "得分"],
+  "section_score_visible": true,
+  "answer_hint_inline": false,
+  "teacher_track": "dual_layout_plus_explanation_pages"
+}

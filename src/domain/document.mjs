@@ -81,12 +81,85 @@ export function validate(doc) {
         }
       }
 
+      if (q.type === "polyphonic") {
+        if (!q.items?.length) {
+          throw new ContractError(`题目 ${q.question_id} 是多音字辨析题，但 items 为空。`);
+        }
+        for (const it of q.items) {
+          if (!it.word) {
+            throw new ContractError(`题目 ${q.question_id} 的多音字条目缺少 word：${JSON.stringify(it)}`);
+          }
+          if (!it.answer) {
+            throw new ContractError(`题目 ${q.question_id} 的多音字条目缺少 answer：${JSON.stringify(it)}`);
+          }
+        }
+      }
+
       if (q.type === "reading") {
         if (!q.passage?.paragraphs?.length) {
           throw new ContractError(`题目 ${q.question_id} 是阅读题，但 passage.paragraphs 为空。`);
         }
         if (!q.subs?.length) {
           throw new ContractError(`题目 ${q.question_id} 是阅读题，但缺少 subs。`);
+        }
+      }
+
+      if (q.type === "choice") {
+        const hasDirect = Array.isArray(q.options) && q.options.length >= 2 && q.answer;
+        const hasItems = Array.isArray(q.items) && q.items.length >= 1;
+        if (!hasDirect && !hasItems) {
+          throw new ContractError(`题目 ${q.question_id} 是选择题，但缺少 options/answer 或 items 列表。`);
+        }
+        if (hasItems) {
+          for (const it of q.items) {
+            if (!it.options?.length || !it.answer) {
+              throw new ContractError(`题目 ${q.question_id} 的选择题小题缺少 options/answer：${JSON.stringify(it)}`);
+            }
+          }
+        }
+      }
+
+      if (q.type === "judge") {
+        const hasDirect = Boolean(q.answer);
+        const hasItems = Array.isArray(q.items) && q.items.length >= 1;
+        if (!hasDirect && !hasItems) {
+          throw new ContractError(`题目 ${q.question_id} 是判断题，但缺少 answer 或 items 列表。`);
+        }
+        if (hasItems) {
+          for (const it of q.items) {
+            if (it.answer === undefined || it.answer === null) {
+              throw new ContractError(`题目 ${q.question_id} 的判断题小题缺少 answer：${JSON.stringify(it)}`);
+            }
+          }
+        }
+      }
+
+      if (q.type === "stroke_order") {
+        const hasDirect = Boolean(q.word);
+        const hasItems = Array.isArray(q.items) && q.items.length >= 1;
+        if (!hasDirect && !hasItems) {
+          throw new ContractError(`题目 ${q.question_id} 是笔顺题，但缺少 word 或 items 列表。`);
+        }
+      }
+
+      if (q.type === "pinyin_match") {
+        const hasItems = Array.isArray(q.items) && q.items.length >= 1;
+        const hasPairs = Array.isArray(q.pairs) && q.pairs.length >= 1;
+        if (!hasItems && !hasPairs) {
+          throw new ContractError(`题目 ${q.question_id} 是连线题，但缺少 items 或 pairs。`);
+        }
+      }
+
+      if (q.type === "calculation" || q.type === "word_problem") {
+        if (!q.answer) {
+          throw new ContractError(`题目 ${q.question_id} 是${q.type === "calculation" ? "计算题" : "解决问题"}，但缺少 answer（名师卷答案覆盖必需）。`);
+        }
+      }
+
+      if (q.type === "fill_blank" || q.type === "blank") {
+        const hasAnswer = Boolean(q.answer) && (Array.isArray(q.answer) ? q.answer.some(Boolean) : true);
+        if (!hasAnswer) {
+          throw new ContractError(`题目 ${q.question_id} 是填空题，但缺少 answer（单个答案或按括号顺序的数组）。`);
         }
       }
     }

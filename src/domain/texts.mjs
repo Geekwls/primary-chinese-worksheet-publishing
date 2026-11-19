@@ -7,7 +7,7 @@
 import { norm, stripTags, unescapeHtml } from "../core/text.mjs";
 
 const BLANK_RE = /\{[^{}]*\}/g;
-const ANS_RE = /<span class="ans">([\s\S]*?)<\/span>/g;
+const ANS_RE = /<span class="ans(?:\s+[^"]*)?">([\s\S]*?)<\/span>/g;
 
 /** 去掉填空占位与标签后的纯文本。 */
 export function plain(text) {
@@ -17,6 +17,31 @@ export function plain(text) {
 /** 组件 HTML 中"学生可见"的文本（剔除教师答案覆盖层）。 */
 export function visibleText(html) {
   return unescapeHtml(stripTags(String(html ?? "").replace(ANS_RE, "")));
+}
+
+/**
+ * 卷面结构文本（槽位切分版）。
+ *
+ * 作答槽（括号槽/花括号槽）会把题干原地替换：学生卷槽位为空、教师卷槽位内
+ * 嵌答案文本，整段题干在 PDF 提取流中不再连续，子串匹配必然误报。
+ * 按槽位切成片段逐段核对，题干每一段文字仍必须完整可提取。
+ */
+export function structureSegments(doc) {
+  const out = [];
+  const pushSegments = (text) => {
+    String(text ?? "")
+      .split(/（[^（）]*）|\([^()]*\)|\{[^{}]*\}/g)
+      .forEach((seg) => out.push(plain(seg)));
+  };
+  out.push(plain(doc.title ?? ""));
+  for (const sec of doc.sections ?? []) {
+    out.push(plain(sec.title ?? ""));
+    for (const q of sec.questions ?? []) {
+      pushSegments(q.stem ?? "");
+      for (const para of q.passage?.paragraphs ?? []) out.push(plain(para).slice(0, 30));
+    }
+  }
+  return [...new Set(out.map((t) => t.trim()))].filter((t) => [...t].length >= 2);
 }
 
 export function answerStrings(html) {
@@ -49,11 +74,17 @@ export function teacherAnswers(doc) {
       .split(/[／/；;、]/)
       .forEach((seg) => out.push(seg));
 
+  // q.answer 可能是多槽串（fill_blank 用 、 分隔，与组件解析一致）或按槽位数组
+  const pushAnswer = (answer) => {
+    if (Array.isArray(answer)) answer.forEach((a) => splitAnswer(a));
+    else if (answer) splitAnswer(answer);
+  };
+
   for (const sec of doc.sections ?? []) {
     for (const q of sec.questions ?? []) {
       if (q.answer_text) splitAnswer(q.answer_text);
       if (q.explain) out.push(plain(q.explain));
-      if (q.answer) out.push(plain(q.answer));
+      pushAnswer(q.answer);
       for (const it of q.items ?? []) {
         for (const a of it.answers ?? []) out.push(plain(a));
         if (it.answer) out.push(plain(it.answer));

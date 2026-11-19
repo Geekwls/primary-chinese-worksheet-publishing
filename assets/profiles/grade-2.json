@@ -4,30 +4,30 @@
   "label": "二年级 · 语言运用型",
   "status": "DRAFT",
   "font_pt": {
-    "title": 16.5,
-    "section": 12.8,
-    "question": 12.2,
-    "body": 11.6,
-    "pinyin": 11,
-    "pinyin_annotation": 9.5,
-    "hint": 10,
-    "footer": 8.5
+    "title": 21,
+    "section": 15,
+    "question": 12.5,
+    "body": 12.5,
+    "pinyin": 12,
+    "pinyin_annotation": 10.5,
+    "hint": 11,
+    "footer": 9
   },
   "line_height": {
     "question": 1.85,
-    "body": 2.0,
-    "pinyin": 1.35
+    "body": 1.85,
+    "pinyin": 1.65
   },
   "geometry": {
-    "tianzi_mm": 11.5,
+    "tianzi_mm": 12,
     "pinyin_slot_h_mm": 5.0,
     "pinyin_col_mm": 10,
     "writing_line_gap_mm": 9,
     "writing_line_width_mm": 150,
     "answer_line_gap_mm": 9,
     "passage_width_mm": 165,
-    "composition_cell_mm": 10.5,
-    "composition_cols": 16
+    "composition_cell_mm": 11,
+    "composition_cols": 15
   },
   "spacing": {
     "block_gap_mm": 4.5,
@@ -46,7 +46,7 @@
     "阅读文章必须通栏，不得进入双栏",
     "字词类可在双栏内紧凑排布，句式改写必须单栏",
     "句子改写书写行距 9mm 为下限，答案区不得被题干挤压",
-    "写话方格不得小于田字格的 0.9 倍（10.5 / 11.5），否则成段书写与拼音替代都会挤",
+    "写话方格 11mm，保持良好阅读与书写体验",
     "注音字号独立于拼音行字号：正上方注音用 pinyin_annotation，不得复用 pinyin"
   ]
 }

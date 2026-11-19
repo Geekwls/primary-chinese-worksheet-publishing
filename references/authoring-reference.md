@@ -78,6 +78,25 @@
 
 - `target` 是 `word` 中目标字的**下标（从 0 开始）**。
 - 目标字下方自动加点，上方留注音槽；学生卷注音槽为空。
+
+## 3.1 `polyphonic` 多音字辨析
+
+```json
+{
+  "question_id": "q3_poly",
+  "type": "polyphonic",
+  "stem": "给下列多音字选择正确的读音。",
+  "score": 6,
+  "items": [
+    {"word": "长大", "options": ["zhǎng", "cháng"], "answer": "zhǎng"},
+    {"word": "音乐", "options": ["yuè", "lè"], "answer": "yuè"}
+  ]
+}
+```
+
+- `options` 为可选读音列表（通常 2~3 个音节）。
+- `answer` 为教师卷标准读音，受固定槽宽约束，不会因文本过长溢出遮挡相邻选项。
+- 整行词语 + 读音选项 + 作答槽设置 `splittable: false`，不可跨栏或跨页拆散。
 - 只支持"词语并排"形态；语段内注音需要新组件（见 `05-question-layouts.md` 第 3 节）。
 
 ## 4. `idiom_fill` 成语补充（支持 `{}` 空槽）

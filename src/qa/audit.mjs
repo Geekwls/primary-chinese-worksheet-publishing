@@ -11,6 +11,7 @@ import { join } from "node:path";
 
 import { fixed, g } from "../core/format.mjs";
 import { norm } from "../core/text.mjs";
+import { SPEC_VERSION, ENGINE_VERSION } from "../core/version.mjs";
 import { pageInkBoxes } from "./raster.mjs";
 import { pdfFonts, pdfInfo, pdfText } from "./poppler.mjs";
 import { Report } from "./report.mjs";
@@ -20,7 +21,10 @@ const TOL_MM = 1.2;
 
 function checkManifest(rep, manifest, tag) {
   const geo = manifest.page;
-  const { margin_x: mx, content_width: cw, content_top: top, content_bottom: bottom } = geo;
+  const mxLeft = geo.margin_left ?? geo.margin_x;
+  const cw = geo.content_width;
+  const top = geo.content_top;
+  const bottom = geo.content_bottom;
   const bad = [];
   const overlaps = [];
 
@@ -28,8 +32,8 @@ function checkManifest(rep, manifest, tag) {
     const blocks = page.blocks;
     for (const b of blocks) {
       if (
-        b.x < mx - 0.2 ||
-        b.x + b.width > mx + cw + 0.2 ||
+        b.x < mxLeft - 0.2 ||
+        b.x + b.width > mxLeft + cw + 0.2 ||
         b.y < top - 0.2 ||
         b.y + b.height > bottom + 0.3
       ) {
@@ -155,15 +159,17 @@ export function runQa({
     blankPages.length ? `空白页：${blankPages.join(", ")}` : "全部页面均有内容",
   );
 
+  const minX = (geo.margin_left ?? geo.margin_x) - TOL_MM;
+  const maxX = (geo.width ?? 210) - (geo.margin_right ?? geo.margin_x) + TOL_MM;
+  // 页眉顶部物理安全边界：正文起始于 margin_top，续页页眉允许位于 margin_top 上方的专用页眉带中（最低 6.5mm）
+  const headerMinY = 6.5;
+  const minY = Math.min(geo.margin_top ?? geo.margin_y, headerMinY) - TOL_MM;
+  const maxY = (geo.height ?? 297) - (geo.margin_bottom ?? geo.margin_y) + TOL_MM;
+
   const over = [];
   for (const [i, p] of inkS.entries()) {
     if (p.blank) continue;
-    if (
-      p.x0 < margin - TOL_MM ||
-      p.x1 > 210 - margin + TOL_MM ||
-      p.y0 < margin - TOL_MM ||
-      p.y1 > 297 - margin + TOL_MM
-    ) {
+    if (p.x0 < minX || p.x1 > maxX || p.y0 < minY || p.y1 > maxY) {
       over.push(`p${i + 1} 墨迹(${fixed(p.x0, 1)},${fixed(p.y0, 1)})-(${fixed(p.x1, 1)},${fixed(p.y1, 1)})`);
     }
   }
@@ -172,12 +178,21 @@ export function runQa({
     .filter(Boolean)
     .join("；")
     .slice(0, 120);
+
+  const isSymmetric =
+    geo.margin_left === geo.margin_right &&
+    geo.margin_top === geo.margin_bottom &&
+    geo.margin_left === geo.margin_top;
+  const marginDesc = isSymmetric
+    ? `${g(geo.margin_left ?? geo.margin_x)}mm`
+    : `上${g(geo.margin_top ?? geo.margin_y)}/下${g(geo.margin_bottom ?? geo.margin_y)}/左${g(geo.margin_left ?? geo.margin_x)}/右${g(geo.margin_right ?? geo.margin_x)}mm`;
+
   rep.add(
     "P0-02-T",
     "P0",
     "墨迹未越过安全边界（位图实测）",
     over.length ? "FAIL" : "PASS",
-    over.length ? `越界：${over.slice(0, 4).join("；")}` : `全部墨迹在 ${g(margin)}mm 安全区内（${inkReport}）`,
+    over.length ? `越界：${over.slice(0, 4).join("；")}` : `全部墨迹在 ${marginDesc} 安全区内（${inkReport}）`,
   );
 
   // ---------- 底部空白（P1，需人工判断是否值得拆块）
@@ -331,7 +346,9 @@ export function runQa({
     字体数量: fonts.length,
     题目数: stats.question_count,
     总分: stats.score_sum,
-    排版规范版本: layoutVersion,
+    设计规范版本: SPEC_VERSION,
+    布局契约版本: layoutVersion,
+    排版引擎版本: ENGINE_VERSION,
     检测方式: "Layout Manifest + PDF 位图墨迹 + pdftotext 文本",
   };
   return rep;

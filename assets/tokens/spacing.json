@@ -1,5 +1,5 @@
 {
-  "token_version": "1.0.0",
+  "token_version": "2.1.0",
   "status": "DRAFT",
   "note": "间距均为毫米。年级覆盖值见 profiles/grade-*.json。模块间距与书写行距是两类不同令牌，不可混用。",
   "gap": {

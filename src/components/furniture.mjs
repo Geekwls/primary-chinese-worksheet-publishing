@@ -7,9 +7,10 @@
 import { Part } from "../domain/part.mjs";
 import { esc } from "../core/text.mjs";
 
-/** 卷头：标题 + 时限/满分 + 姓名班级等填写栏 + 分隔粗线。 */
+/** 卷头：标题 + 副标题/单元 + 时限/满分 + 姓名班级等填写栏 + 分隔粗线。 */
 export function buildDocHead(doc, ctx) {
   const dp = ctx.docProfile;
+  const subtitleHtml = doc.subtitle ? `<div class="doc-subtitle">${esc(doc.subtitle)}</div>` : "";
   const subs = [];
   if (dp.show_time_limit && doc.time_limit) subs.push(`时间：${esc(doc.time_limit)}`);
   if (dp.show_total_score && doc.total_score) subs.push(`满分：${esc(doc.total_score)}分`);
@@ -20,7 +21,7 @@ export function buildDocHead(doc, ctx) {
     ? `<div class="doc-meta">${fields.map((f) => `<span class="mf">${esc(f)}：<b></b></span>`).join("")}</div>`
     : "";
 
-  const body = `<div class="doc-title">${esc(doc.title ?? "")}</div>${subHtml}${meta}<div class="doc-head-rule"></div>`;
+  const body = `<div class="doc-title">${esc(doc.title ?? "")}</div>${subtitleHtml}${subHtml}${meta}<div class="doc-head-rule"></div>`;
   return new Part("doc-head", body, { cls: "doc-head", group: "doc", role: "doc_head" });
 }
 

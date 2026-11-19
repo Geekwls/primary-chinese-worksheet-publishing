@@ -1,0 +1,30 @@
+{
+  "$schema": "spacing-specification",
+  "version": "2.2.0",
+  "description": "L2 全局视觉间距规范：基础标度 (spacing-1~spacing-6) 与语义间距体系",
+  "scale_mm": {
+    "spacing-1": 2.0,
+    "spacing-2": 3.0,
+    "spacing-3": 4.0,
+    "spacing-4": 6.0,
+    "spacing-5": 8.0,
+    "spacing-6": 12.0
+  },
+  "semantic_mm": {
+    "title_to_stem": 3.0,
+    "stem_to_options": 3.0,
+    "options_to_answer": 4.0,
+    "question_to_question": 4.0,
+    "section_to_section": 6.0,
+    "block_to_block": 4.0,
+    "zone_to_zone": 8.0,
+    "major_section": 12.0,
+    "content_to_footer": 3.0,
+    "inline_char_gap": 2.0
+  },
+  "slot_mm": {
+    "inline_mm": 14.0,
+    "word_mm": 32.0,
+    "phrase_mm": 48.0
+  }
+}

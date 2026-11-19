@@ -6,9 +6,9 @@
  *   拿它判越界会大量误报，也看不出线条、田字格、方格的溢出。
  *   所以几何验收以 pdftoppm 位图的像素边界为准，文本检测只用于内容完整性。
  */
-import { readdirSync, readFileSync, rmSync } from "node:fs";
+import { readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { inflateSync } from "node:zlib";
+import { deflateSync, inflateSync, crc32 as zlibCrc32 } from "node:zlib";
 
 import { RasterError } from "../core/errors.mjs";
 import { roundHalfEven } from "../core/format.mjs";
@@ -17,6 +17,35 @@ import { pdfToPng } from "./poppler.mjs";
 
 const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 const CHANNELS = { 0: 1, 2: 3, 3: 1, 4: 2, 6: 4 };
+
+const CRC_TABLE = zlibCrc32
+  ? null
+  : (() => {
+      const table = new Int32Array(256);
+      for (let n = 0; n < 256; n++) {
+        let c = n;
+        for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+        table[n] = c;
+      }
+      return table;
+    })();
+
+function getCrc32(buffer) {
+  if (zlibCrc32) return zlibCrc32(buffer) >>> 0;
+  let c = 0xffffffff;
+  for (const byte of buffer) c = CRC_TABLE[(c ^ byte) & 0xff] ^ (c >>> 8);
+  return (c ^ 0xffffffff) >>> 0;
+}
+
+function makeChunk(type, data = Buffer.alloc(0)) {
+  const length = Buffer.alloc(4);
+  length.writeUInt32BE(data.length, 0);
+  const typeBuf = Buffer.from(type, "latin1");
+  const body = Buffer.concat([typeBuf, data]);
+  const crc = Buffer.alloc(4);
+  crc.writeUInt32BE(getCrc32(body), 0);
+  return Buffer.concat([length, body, crc]);
+}
 
 /** 解码 8bit PNG（不引第三方库：poppler 输出的就是标准 8bit RGB/灰度）。 */
 export function readPng(path) {
@@ -162,4 +191,146 @@ export function pageInkBoxes(pdf, workdir, { dpi = 100, threshold = 240 } = {}) 
     rec.y1 = roundHalfEven((info.px.maxY + 1) * mmPerPx, 2);
     return rec;
   });
+}
+
+/** 编码并写入 8bit PNG 文件（纯内置实现，零第三方依赖）。 */
+export function writePng(path, { width, height, channels = 3, pixels }) {
+  const colorType = channels === 1 ? 0 : channels === 3 ? 2 : channels === 4 ? 6 : null;
+  if (colorType === null) throw new RasterError(`不支持写入的通道数: ${channels}`);
+  if (pixels.length < width * height * channels) {
+    throw new RasterError(`像素缓冲区尺寸不足: 期望 ${width * height * channels}，实际 ${pixels.length}`);
+  }
+
+  const stride = width * channels;
+  const raw = Buffer.alloc(height * (1 + stride));
+  let inP = 0;
+  let outP = 0;
+
+  for (let y = 0; y < height; y++) {
+    raw[outP++] = 0; // Filter 0 (None)
+    pixels.copy(raw, outP, inP, inP + stride);
+    outP += stride;
+    inP += stride;
+  }
+
+  const ihdr = Buffer.alloc(13);
+  ihdr.writeUInt32BE(width, 0);
+  ihdr.writeUInt32BE(height, 4);
+  ihdr[8] = 8; // bit depth
+  ihdr[9] = colorType;
+  ihdr[10] = 0; // compression
+  ihdr[11] = 0; // filter
+  ihdr[12] = 0; // interlace
+
+  const idat = deflateSync(raw);
+
+  const png = Buffer.concat([
+    PNG_SIGNATURE,
+    makeChunk("IHDR", ihdr),
+    makeChunk("IDAT", idat),
+    makeChunk("IEND", Buffer.alloc(0)),
+  ]);
+
+  writeFileSync(path, png);
+}
+
+function extractRgb(buf, index, channels) {
+  if (channels === 1) {
+    const v = buf[index];
+    return [v, v, v];
+  }
+  return [buf[index], buf[index + 1], buf[index + 2]];
+}
+
+/**
+ * 图像差分检测（Visual Diff）：逐像素对比两张位图。
+ *
+ * @param {string} baselinePath - 基准图路径
+ * @param {string} currentPath - 当前构建图路径
+ * @param {string|null} diffOutputPath - 差分高亮图输出路径（可选）
+ * @param {object} options
+ * @param {number} [options.tolerance=10] - 单通道允许容差 (0-255)
+ * @param {number[]} [options.diffColor=[225, 29, 72]] - 差异像素高亮色彩 RGB
+ * @param {boolean} [options.fadeBackground=true] - 相同像素是否作为浅灰底衬展示
+ * @returns {object} { width, height, totalPixels, diffPixels, diffRatio, mismatch, maxDelta, diffOutputPath }
+ */
+export function diffPng(baselinePath, currentPath, diffOutputPath = null, options = {}) {
+  const {
+    tolerance = 10,
+    diffColor = [225, 29, 72], // #E11D48
+    fadeBackground = true,
+  } = options;
+
+  const base = readPng(baselinePath);
+  const curr = readPng(currentPath);
+
+  if (base.width !== curr.width || base.height !== curr.height) {
+    throw new RasterError(
+      `位图尺寸不匹配无法比对：基准图(${base.width}×${base.height}) vs 当前图(${curr.width}×${curr.height})`,
+    );
+  }
+
+  const width = base.width;
+  const height = base.height;
+  const totalPixels = width * height;
+  let diffPixels = 0;
+  let maxDelta = 0;
+
+  // 输出 3 通道 RGB 差分图像
+  const diffPixelsBuf = diffOutputPath ? Buffer.alloc(width * height * 3) : null;
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const idxBase = (y * width + x) * base.channels;
+      const idxCurr = (y * width + x) * curr.channels;
+
+      const [r1, g1, b1] = extractRgb(base.pixels, idxBase, base.channels);
+      const [r2, g2, b2] = extractRgb(curr.pixels, idxCurr, curr.channels);
+
+      const dr = Math.abs(r1 - r2);
+      const dg = Math.abs(g1 - g2);
+      const db = Math.abs(b1 - b2);
+      const delta = Math.max(dr, dg, db);
+      if (delta > maxDelta) maxDelta = delta;
+
+      const isDiff = delta > tolerance;
+      if (isDiff) diffPixels += 1;
+
+      if (diffPixelsBuf) {
+        const outIdx = (y * width + x) * 3;
+        if (isDiff) {
+          diffPixelsBuf[outIdx] = diffColor[0];
+          diffPixelsBuf[outIdx + 1] = diffColor[1];
+          diffPixelsBuf[outIdx + 2] = diffColor[2];
+        } else if (fadeBackground) {
+          const lum = Math.round(0.299 * r1 + 0.587 * g1 + 0.114 * b1);
+          const faded = Math.min(255, Math.round(210 + lum * 0.17));
+          diffPixelsBuf[outIdx] = faded;
+          diffPixelsBuf[outIdx + 1] = faded;
+          diffPixelsBuf[outIdx + 2] = faded;
+        } else {
+          diffPixelsBuf[outIdx] = r1;
+          diffPixelsBuf[outIdx + 1] = g1;
+          diffPixelsBuf[outIdx + 2] = b1;
+        }
+      }
+    }
+  }
+
+  if (diffOutputPath && diffPixelsBuf) {
+    writePng(diffOutputPath, { width, height, channels: 3, pixels: diffPixelsBuf });
+  }
+
+  const diffRatio = totalPixels > 0 ? diffPixels / totalPixels : 0;
+
+  return {
+    width,
+    height,
+    totalPixels,
+    diffPixels,
+    diffRatio: roundHalfEven(diffRatio, 6),
+    mismatch: diffPixels > 0,
+    maxDelta,
+    diffOutputPath,
+  };
 }

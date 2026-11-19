@@ -1,0 +1,208 @@
+{
+  "document_id": "g1-comprehensive-v1",
+  "grade": 1,
+  "doc_type": "examination",
+  "title": "部编版小学一年级语文上册期末综合测试卷",
+  "subtitle": "第一学期学业水平综合评估 · 阶段练习",
+  "total_score": 100,
+  "time_limit": "60分钟",
+  "meta_fields": ["姓名", "班级", "座号", "得分"],
+  "sections": [
+    {
+      "section_id": "s1",
+      "title": "一、看拼音，写词语",
+      "score": 16,
+      "questions": [
+        {
+          "question_id": "q1",
+          "type": "pinyin_write_word",
+          "stem": "看拼音，写词语，把字写在田字格中间。",
+          "score": 16,
+          "items": [
+            { "pinyin": "tiān shàng", "answer": "天上" },
+            { "pinyin": "bái yún", "answer": "白云" },
+            { "pinyin": "shuǐ niú", "answer": "水牛" },
+            { "pinyin": "xiǎo niǎo", "answer": "小鸟" },
+            { "pinyin": "shū běn", "answer": "书本" },
+            { "pinyin": "mù tou", "answer": "木头" }
+          ],
+          "answer_text": "天上　白云　水牛　小鸟　书本　木头",
+          "explain": "书写时注意田字格居中，横平竖直，撇捺舒展。"
+        }
+      ]
+    },
+    {
+      "section_id": "s2",
+      "title": "二、生字笔画与笔顺",
+      "score": 12,
+      "questions": [
+        {
+          "question_id": "q2",
+          "type": "stroke_order",
+          "stem": "数一数，按要求填空。",
+          "score": 12,
+          "items": [
+            { "word": "水", "total_strokes": 4, "query": "第二笔是", "answer": "㇇" },
+            { "word": "山", "total_strokes": 3, "query": "第一笔是", "answer": "丨" },
+            { "word": "火", "total_strokes": 4, "query": "第三笔是", "answer": "丿" },
+            { "word": "长", "total_strokes": 4, "query": "第一笔是", "answer": "丿" }
+          ],
+          "answer_text": "4／㇇　3／丨　4／丿　4／丿",
+          "explain": "水字笔顺：竖钩、横撇、撇、捺；火字笔顺：点、短撇、撇、捺。"
+        }
+      ]
+    },
+    {
+      "section_id": "s3",
+      "title": "三、拼音词语连一连",
+      "score": 12,
+      "questions": [
+        {
+          "question_id": "q3",
+          "type": "pinyin_match",
+          "stem": "读拼音，把对应的生字和词语连起来。",
+          "score": 12,
+          "pairs": [
+            { "left": "sēn lín", "right": "森林" },
+            { "left": "qīng cǎo", "right": "青草" },
+            { "left": "tài yáng", "right": "太阳" },
+            { "left": "yuè yá", "right": "月牙" }
+          ],
+          "answer_text": "sēn lín—森林　qīng cǎo—青草　tài yáng—太阳　yuè yá—月牙",
+          "explain": "sēn 是平舌音，qīng 是后鼻音，注意拼读准确。"
+        }
+      ]
+    },
+    {
+      "section_id": "s4",
+      "title": "四、单项选择题",
+      "score": 12,
+      "questions": [
+        {
+          "question_id": "q4",
+          "type": "choice",
+          "stem": "选择题。（把正确答案的序号填在括号里）",
+          "score": 12,
+          "items": [
+            {
+              "stem": "下列生字笔画最多的是（　）。",
+              "options": ["A. 口", "B. 山", "C. 水", "D. 鸟"],
+              "answer": "D"
+            },
+            {
+              "stem": "“床前明月光”的下一句是（　）。",
+              "options": ["A. 疑是地上霜", "B. 举头望明月", "C. 低头思故乡", "D. 春去花还在"],
+              "answer": "A"
+            },
+            {
+              "stem": "“天”的第一笔是（　）。",
+              "options": ["A. 横", "B. 撇", "C. 点", "D. 捺"],
+              "answer": "A"
+            }
+          ],
+          "answer_text": "D　A　A",
+          "explain": "鸟有5画，水有4画，口和山有3画；李白《静夜思》：床前明月光，疑是地上霜。"
+        }
+      ]
+    },
+    {
+      "section_id": "s5",
+      "title": "五、是非判断题",
+      "score": 8,
+      "questions": [
+        {
+          "question_id": "q5",
+          "type": "judge",
+          "stem": "判断下列说法是否正确，对的打“√”，错的打“×”。",
+          "score": 8,
+          "items": [
+            { "stem": "“日”比“目”少一横。", "answer": "√" },
+            { "stem": "“大”加一笔可以变成“太”或“天”。", "answer": "√" },
+            { "stem": "一年有四个季节，分别是春、夏、秋、雪。", "answer": "×" },
+            { "stem": "“长”在“长大”中读 cháng。", "answer": "×" }
+          ],
+          "answer_text": "√　√　×　×",
+          "explain": "一年四个季节是春、夏、秋、冬；长大读 zhǎng dà。"
+        }
+      ]
+    },
+    {
+      "section_id": "s6",
+      "title": "六、形近字比一比，再组词",
+      "score": 12,
+      "questions": [
+        {
+          "question_id": "q6",
+          "type": "similar_character",
+          "stem": "比一比，再组词。",
+          "score": 12,
+          "items": [
+            { "chars": ["人", "入"], "answers": ["大人", "入口"] },
+            { "chars": ["日", "目"], "answers": ["日子", "目光"] },
+            { "chars": ["木", "本"], "answers": ["木头", "书本"] }
+          ],
+          "answer_text": "大人／入口　日子／目光　木头／书本",
+          "explain": "区分字形关键笔画：人撇长捺低，入撇短捺高。"
+        }
+      ]
+    },
+    {
+      "section_id": "s7",
+      "title": "七、快乐阅读",
+      "score": 14,
+      "questions": [
+        {
+          "question_id": "q7",
+          "type": "reading",
+          "stem": "阅读儿歌，回答问题。",
+          "score": 14,
+          "passage": {
+            "title": "秋天到",
+            "paragraphs": [
+              "秋天到，秋天到，田里庄稼长得好。棉花白，稻子黄，高粱红，大豆香。",
+              "秋天到，秋天到，果园果子长得好。苹果红，梨儿黄，石榴笑得咧开嘴。"
+            ]
+          },
+          "subs": [
+            {
+              "sub_type": "choice",
+              "stem": "儿歌一共写了（　）个自然段。",
+              "options": ["A. 1", "B. 2", "C. 3"],
+              "answer": "B"
+            },
+            {
+              "sub_type": "choice",
+              "stem": "儿歌中田里丰收的庄稼不包括（　）。",
+              "options": ["A. 棉花", "B. 高粱", "C. 苹果"],
+              "answer": "C"
+            },
+            {
+              "sub_type": "text",
+              "stem": "果园里，{苹果}红，{梨儿}黄，石榴笑得咧开嘴。",
+              "lines": 0,
+              "answer": "苹果／梨儿"
+            }
+          ],
+          "answer_text": "B　C　苹果／梨儿",
+          "explain": "短文共有两个自然段；苹果是果园里的果子，不是田里的庄稼。"
+        }
+      ]
+    },
+    {
+      "section_id": "s8",
+      "title": "八、看图写话",
+      "score": 14,
+      "questions": [
+        {
+          "question_id": "q8",
+          "type": "composition",
+          "stem": "看图写话。",
+          "score": 14,
+          "rows": 5,
+          "prompt": "仔细观察图画，想一想：图上有谁？他们在什么地方？在干什么？用两三句话写下来。",
+          "explain": "写话提示：按顺序观察，先写时间、地点、人物，再写做了什么事，注意标点符号。"
+        }
+      ]
+    }
+  ]
+}

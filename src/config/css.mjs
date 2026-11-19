@@ -7,7 +7,7 @@
 import { trimNum } from "../core/format.mjs";
 import { loadBaseCss } from "./tokens.mjs";
 
-function buildVariables(tokens, profile) {
+function buildVariables(tokens, profile, pageGeo = null) {
   const g = tokens.global;
   const sp = tokens.spacing;
   const col = tokens.colors;
@@ -17,9 +17,29 @@ function buildVariables(tokens, profile) {
   const lh = profile.line_height;
   const geo = profile.geometry;
   const psp = profile.spacing;
-  const contentWidth = paper.page_width_mm - 2 * paper.margin_x_mm;
+
+  const marginXLeft = pageGeo ? pageGeo.margin_left : Number(paper.margin_x_mm);
+  const marginXRight = pageGeo ? pageGeo.margin_right : Number(paper.margin_x_mm);
+  const marginTop = pageGeo ? pageGeo.margin_top : Number(paper.margin_y_mm);
+  const marginBottom = pageGeo ? pageGeo.margin_bottom : Number(paper.margin_y_mm);
+  const contentWidth = pageGeo ? pageGeo.content_width : paper.page_width_mm - 2 * paper.margin_x_mm;
+  const footerBaseline = pageGeo ? pageGeo.footer_baseline_bottom : marginBottom;
 
   return {
+    "--font-family-title": `"${g.font.family_cjk}", sans-serif`,
+    "--font-family-body": `"${g.font.family_cjk}", sans-serif`,
+    "--font-family-pinyin": `${g.font.family_pinyin}, sans-serif`,
+    "--font-family-number": `${g.font.family_latin ?? "Noto Sans, Arial"}, sans-serif`,
+    "--font-family-emphasis": `"${g.font.family_cjk}", sans-serif`,
+    "--font-family-answer": `"${g.font.family_cjk}", sans-serif`,
+    "--color-primary": col.ink.primary,
+    "--color-secondary": col.ink.secondary,
+    "--color-border": col.line.secondary,
+    "--color-grid": col.line.primary,
+    "--color-divider": col.line.primary,
+    "--color-background": col.surface?.base ?? "#FFFFFF",
+    "--color-answer": col.answer.teacher,
+    "--color-note": col.ink.muted,
     "--f-cjk": `"${g.font.family_cjk}", sans-serif`,
     "--f-py": `${g.font.family_pinyin}, sans-serif`,
     "--fs-title": `${trimNum(fp.title)}pt`,
@@ -51,17 +71,36 @@ function buildVariables(tokens, profile) {
     "--gap-q": `${trimNum(psp.question_gap_mm)}mm`,
     "--gap-row": `${trimNum(psp.row_gap_mm)}mm`,
     "--gap-col": `${trimNum(psp.col_gap_mm)}mm`,
-    "--page-w": `${trimNum(paper.page_width_mm)}mm`,
-    "--page-h": `${trimNum(paper.page_height_mm)}mm`,
-    "--mx": `${trimNum(paper.margin_x_mm)}mm`,
-    "--my": `${trimNum(paper.margin_y_mm)}mm`,
-    "--my-footer": `${trimNum(paper.margin_y_mm)}mm`,
+    "--spacing-1": "2mm",
+    "--spacing-2": "3mm",
+    "--spacing-3": "4mm",
+    "--spacing-4": "6mm",
+    "--spacing-5": "8mm",
+    "--spacing-6": "12mm",
+    "--gap-title-stem": "3mm",
+    "--gap-stem-options": "3mm",
+    "--gap-options-answer": "4mm",
+    "--gap-item": "4mm",
+    "--gap-section": "6mm",
+    "--col-12": `${trimNum(contentWidth)}mm`,
+    "--col-6": `${trimNum((contentWidth - 4) / 2)}mm`,
+    "--col-4": `${trimNum((contentWidth - 8) / 3)}mm`,
+    "--col-3": `${trimNum((contentWidth - 12) / 4)}mm`,
+    "--page-w": `${trimNum(pageGeo ? pageGeo.page_width : paper.page_width_mm)}mm`,
+    "--page-h": `${trimNum(pageGeo ? pageGeo.page_height : paper.page_height_mm)}mm`,
+    "--mx": `${trimNum(marginXLeft)}mm`,
+    "--mx-left": `${trimNum(marginXLeft)}mm`,
+    "--mx-right": `${trimNum(marginXRight)}mm`,
+    "--my": `${trimNum(marginTop)}mm`,
+    "--my-top": `${trimNum(marginTop)}mm`,
+    "--my-bottom": `${trimNum(marginBottom)}mm`,
+    "--my-footer": `${trimNum(footerBaseline)}mm`,
     "--tz": `${trimNum(geo.tianzi_mm)}mm`,
     "--py-pad": `${trimNum(geo.pinyin_slot_h_mm * 0.35)}mm`,
     "--pin-col-w": `${trimNum(geo.pinyin_col_mm ?? geo.tianzi_mm)}mm`,
     "--wgap": `${trimNum(geo.writing_line_gap_mm)}mm`,
-    "--wline-w": `${trimNum(geo.writing_line_width_mm ?? contentWidth)}mm`,
-    "--passage-w": `${trimNum(geo.passage_width_mm ?? contentWidth)}mm`,
+    "--wline-w": `${trimNum(Math.min(geo.writing_line_width_mm ?? contentWidth, contentWidth))}mm`,
+    "--passage-w": `${trimNum(Math.min(geo.passage_width_mm ?? contentWidth, contentWidth))}mm`,
     "--zw": `${trimNum(geo.composition_cell_mm)}mm`,
     "--zw-cols": String(Math.trunc(geo.composition_cols)),
     "--slot-i": `${trimNum(sp.slot.inline_mm)}mm`,
@@ -70,9 +109,9 @@ function buildVariables(tokens, profile) {
   };
 }
 
-export function buildCss(tokens, profile, docProfile) {
+export function buildCss(tokens, profile, docProfile, pageGeo = null) {
   const paper = tokens.global.paper;
-  const variables = buildVariables(tokens, profile);
+  const variables = buildVariables(tokens, profile, pageGeo);
   const root = Object.entries(variables)
     .map(([key, value]) => `  ${key}: ${value};`)
     .join("\n");
@@ -80,8 +119,10 @@ export function buildCss(tokens, profile, docProfile) {
   // 文档级开关：某些卷型不需要行内作答提示，直接用 CSS 关掉，避免在组件里写分支。
   const extra = docProfile.answer_hint_inline === false ? ".note{display:none}\n" : "";
 
+  const pageWidth = pageGeo ? pageGeo.page_width : paper.page_width_mm;
+  const pageHeight = pageGeo ? pageGeo.page_height : paper.page_height_mm;
   const pageRule =
-    `@page { size: ${trimNum(paper.page_width_mm)}mm ${trimNum(paper.page_height_mm)}mm; margin: 0; }`;
+    `@page { size: ${trimNum(pageWidth)}mm ${trimNum(pageHeight)}mm; margin: 0; }`;
 
   return `:root {\n${root}\n}\n\n${pageRule}\n\n${extra}${loadBaseCss()}`;
 }

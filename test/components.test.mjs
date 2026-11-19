@@ -21,8 +21,8 @@ function contextFor(grade, variant) {
   return new Ctx(loadGradeProfile(grade), loadDocProfile("review"), variant, 40);
 }
 
-test("注册表覆盖 10 类题型且组件 ID 唯一", () => {
-  assert.equal(SUPPORTED_TYPES.length, 10);
+test("注册表覆盖 19 类题型且组件 ID 唯一", () => {
+  assert.equal(SUPPORTED_TYPES.length, 19);
   const ids = SUPPORTED_TYPES.map((t) => REGISTRY[t].componentId);
   assert.equal(new Set(ids).size, ids.length);
 });
@@ -34,6 +34,7 @@ test("未收录题型抛 ComponentError 并列出支持范围", () => {
     return true;
   });
   assert.equal(componentIdOf("reading"), "reading_passage_block");
+  assert.equal(componentIdOf("polyphonic"), "polyphonic_choice_group");
 });
 
 test("学生卷与教师卷的排版原子序列完全同构", () => {
@@ -82,4 +83,224 @@ test("预留行数不足时给出警告而不是裁切", () => {
   };
   REGISTRY.generic.build(q, ctx, "qx");
   assert.ok(ctx.warnings.some((w) => w.includes("只预留 1 行")));
+});
+
+test("多音字辨析组件：支持双轨且答案只在教师卷渲染", () => {
+  const q = {
+    question_id: "qp",
+    type: "polyphonic",
+    stem: "选择正确的读音。",
+    items: [
+      { word: "长大", options: ["zhǎng", "cháng"], answer: "zhǎng" },
+      { word: "音乐", options: ["yuè", "lè"], answer: "yuè" },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.polyphonic.build(q, ctxS, "qp");
+  const partsT = REGISTRY.polyphonic.build(q, ctxT, "qp");
+
+  assert.equal(partsS.length, partsT.length);
+  assert.equal(partsS[1].splittable, false, "多音字选项行必须为不可拆分 (splittable: false)");
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 2);
+});
+
+test("阅读理解小题变体：选择题与判断题在学生卷留空槽、教师卷覆盖答案", () => {
+  const q = {
+    question_id: "qr",
+    type: "reading",
+    stem: "读短文，回答问题。",
+    passage: { paragraphs: ["小鸟和青蛙在争论天有多大。"] },
+    subs: [
+      { sub_type: "choice", stem: "文章写了谁和谁在争论？", options: ["A. 小鸟和青蛙", "B. 青蛙和小鱼"], answer: "A" },
+      { sub_type: "judge", stem: "小鸟认为天只有井口那么大。", answer: "×" },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.reading.build(q, ctxS, "qr");
+  const partsT = REGISTRY.reading.build(q, ctxT, "qr");
+
+  assert.equal(partsS.length, partsT.length);
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 2);
+  assert.ok(partsS[2].html.includes("sub-options"));
+});
+
+test("看图写话组件：支持图文配图与题目提示", () => {
+  const q = {
+    question_id: "qc",
+    type: "composition",
+    stem: "看图写话。",
+    rows: 4,
+    prompt: "看看图中有谁，他们在做什么。",
+    image: { src: "test.png", height_mm: 30, caption: "仔细观察小动物" },
+  };
+  const ctx = contextFor(2, "student");
+  const parts = REGISTRY.composition.build(q, ctx, "qc");
+  assert.ok(parts[0].html.includes("comp-img"));
+  assert.ok(parts[0].html.includes("仔细观察小动物"));
+});
+
+test("独立选择题组件：支持自适应选项分栏与双轨同构答案", () => {
+  const q = {
+    question_id: "q_ch",
+    type: "choice",
+    stem: "选择正确读音（把序号填在括号里）。",
+    items: [
+      { stem: "下列词语读音正确的是", options: ["A. 仔细（zǐ）", "B. 音乐（lè）"], answer: "A" },
+      { stem: "下列生字笔画最多的是", options: ["A. 口", "B. 鸟", "C. 水", "D. 长"], answer: "B" },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.choice.build(q, ctxS, "q_ch");
+  const partsT = REGISTRY.choice.build(q, ctxT, "q_ch");
+
+  assert.equal(partsS.length, partsT.length);
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 2);
+  assert.ok(partsS[1].html.includes("choice-options"));
+});
+
+test("独立判断题组件：支持陈述句与右侧对齐判断括号槽", () => {
+  const q = {
+    question_id: "q_jd",
+    type: "judge",
+    stem: "判断下列说法是否正确。",
+    items: [
+      { stem: "“水”共有 4 笔。", answer: "√" },
+      { stem: "“天”的第一笔是撇。", answer: "×" },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.judge.build(q, ctxS, "q_jd");
+  const partsT = REGISTRY.judge.build(q, ctxT, "q_jd");
+
+  assert.equal(partsS.length, partsT.length);
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 2);
+  assert.ok(partsT[1].html.includes("judge-bracket"));
+});
+
+test("笔顺拆解组件：支持示范田字格与指定笔画填空", () => {
+  const q = {
+    question_id: "q_st",
+    type: "stroke_order",
+    stem: "按要求填空。",
+    items: [
+      { word: "水", total_strokes: 4, query: "第二笔是", answer: "㇇" },
+      { word: "火", total_strokes: 4, order: "丶 丷 火" },
+    ],
+  };
+  const ctxS = contextFor(1, "student");
+  const ctxT = contextFor(1, "teacher");
+  const partsS = REGISTRY.stroke_order.build(q, ctxS, "q_st");
+  const partsT = REGISTRY.stroke_order.build(q, ctxT, "q_st");
+
+  assert.equal(partsS.length, partsT.length);
+  assert.ok(partsS[1].html.includes("stroke-tzg-wrap"));
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 4);
+});
+
+test("计算题组件：口算单行答题槽与竖式作答区均支持双轨同构", () => {
+  const oral = {
+    question_id: "q_ca",
+    type: "calculation",
+    stem: "36×25 = ？",
+    answer: "900",
+    score: 2,
+  };
+  const vertical = {
+    question_id: "q_cv",
+    type: "calculation",
+    stem: "列竖式计算：456 + 287 = ？",
+    answer: "743",
+  };
+  const ctxS = contextFor(3, "student");
+  const ctxT = contextFor(3, "teacher");
+
+  const oralS = REGISTRY.calculation.build(oral, ctxS, "q_ca");
+  const oralT = REGISTRY.calculation.build(oral, ctxT, "q_ca");
+  assert.equal(oralS.length, oralT.length);
+  assert.ok(oralS[0].html.includes("calc-oral-slot"), "口算题应渲染答题槽");
+  assert.equal(oralS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.equal(oralT.flatMap((p) => answerStrings(p.html)).length, 1);
+
+  const vertS = REGISTRY.calculation.build(vertical, ctxS, "q_cv");
+  const vertT = REGISTRY.calculation.build(vertical, ctxT, "q_cv");
+  assert.equal(vertS.length, vertT.length);
+  assert.ok(vertS[1].html.includes("calc-work-box"), "竖式题应预留作答区");
+  assert.ok(vertS[1].html.includes("wline"), "作答区由书写线构成");
+});
+
+test("填空题组件：{槽}语法与括号槽双模式，多答案按序填充教师卷", () => {
+  const bracketMode = {
+    question_id: "q_fb",
+    type: "fill_blank",
+    stem: "3分米 = （　）厘米 7000米 = （　）千米",
+    answer: ["300", "7"],
+    score: 4,
+  };
+  const ctxS = contextFor(3, "student");
+  const ctxT = contextFor(3, "teacher");
+  const partsS = REGISTRY.fill_blank.build(bracketMode, ctxS, "q_fb");
+  const partsT = REGISTRY.fill_blank.build(bracketMode, ctxT, "q_fb");
+
+  assert.equal(partsS.length, partsT.length);
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 2, "两个括号槽各覆盖一个答案");
+
+  const slotMode = { ...bracketMode, stem: "一块正方形手帕的周长是 2.4{米}，边长是{米}。" };
+  const slotParts = REGISTRY.fill_blank.build(slotMode, ctxS, "q_fb2");
+  assert.ok(slotParts[0].html.includes("slot"), "花括号语法应渲染行内槽");
+});
+
+test("解决问题组件：题干 + 预留书写行，教师卷行内覆盖答案", () => {
+  const q = {
+    question_id: "q_wp",
+    type: "word_problem",
+    stem: "商店运来 5 箱苹果，每箱 24 个，一共运来多少个？",
+    lines: 4,
+    answer: "5×24=120（个）",
+    score: 5,
+  };
+  const ctxS = contextFor(3, "student");
+  const ctxT = contextFor(3, "teacher");
+  const partsS = REGISTRY.word_problem.build(q, ctxS, "q_wp");
+  const partsT = REGISTRY.word_problem.build(q, ctxT, "q_wp");
+
+  assert.equal(partsS.length, partsT.length);
+  assert.ok(partsS[1].html.includes("wlines"));
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 1);
+});
+
+test("连线题组件：学生卷留白供画线，教师卷以 SVG 矢量红线连接对应锚点", () => {
+  const q = {
+    question_id: "q_ma",
+    type: "pinyin_match",
+    stem: "读拼音，连一连。",
+    pairs: [
+      { left: "tiān shàng", right: "天上" },
+      { left: "bái yún", right: "白云" },
+      { left: "xiǎo niǎo", right: "小鸟" },
+    ],
+  };
+  const ctxS = contextFor(1, "student");
+  const ctxT = contextFor(1, "teacher");
+  const partsS = REGISTRY.pinyin_match.build(q, ctxS, "q_ma");
+  const partsT = REGISTRY.pinyin_match.build(q, ctxT, "q_ma");
+
+  assert.equal(partsS.length, partsT.length);
+  // 学生卷有锚点但无 SVG 连线
+  assert.ok(partsS[1].html.includes("match-dot"));
+  assert.ok(!partsS[1].html.includes("<line"));
+
+  // 教师卷包含精确连线 SVG
+  assert.ok(partsT[1].html.includes("<svg class=\"match-svg\""));
+  assert.ok(partsT[1].html.includes("<line"));
 });

@@ -1,0 +1,12 @@
+{
+  "scenario_id": "special-practice",
+  "label": "课后巩固与专项练习卷",
+  "description": "针对生字、拼音、词语或阅读理解单一维度的专项突破练习",
+  "header_style": "compact",
+  "show_total_score": false,
+  "show_time_limit": false,
+  "meta_fields": ["姓名", "班级", "日期"],
+  "section_score_visible": false,
+  "answer_hint_inline": true,
+  "teacher_track": "dual_layout_plus_explanation_pages"
+}

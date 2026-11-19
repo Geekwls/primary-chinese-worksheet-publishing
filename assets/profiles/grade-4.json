@@ -1,0 +1,49 @@
+{
+  "profile_id": "grade-4",
+  "grade": 4,
+  "label": "四年级 · 思维深化型",
+  "status": "DRAFT",
+  "font_pt": {
+    "title": 20,
+    "section": 14,
+    "question": 11,
+    "body": 10.5,
+    "pinyin": 10,
+    "pinyin_annotation": 9,
+    "hint": 9.5,
+    "footer": 9
+  },
+  "line_height": {
+    "question": 1.7,
+    "body": 1.7,
+    "pinyin": 1.5
+  },
+  "geometry": {
+    "tianzi_mm": 10,
+    "pinyin_slot_h_mm": 4.2,
+    "pinyin_col_mm": 8.5,
+    "writing_line_gap_mm": 7.5,
+    "writing_line_width_mm": 160,
+    "answer_line_gap_mm": 7.5,
+    "passage_width_mm": 168,
+    "composition_cell_mm": 9,
+    "composition_cols": 18
+  },
+  "spacing": {
+    "block_gap_mm": 3.8,
+    "question_gap_mm": 3,
+    "row_gap_mm": 3.2,
+    "col_gap_mm": 8
+  },
+  "layout": {
+    "default_columns": 1,
+    "max_columns": 2,
+    "pinyin_items_per_row": 5,
+    "similar_cols": 2,
+    "allow_section_two_column": true
+  },
+  "rules": [
+    "四年级强化逻辑思维与长篇解答",
+    "书写行距 7.5mm"
+  ]
+}

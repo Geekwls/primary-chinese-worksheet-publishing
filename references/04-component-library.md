@@ -30,12 +30,17 @@
 | 古诗空槽 | `.poem-l` + `.slot`（em 宽） | 答案字数 |
 | 阅读文章 | `.passage` `.passage-title` | `font_pt.body` |
 | 答题区 | `.wlines` `.sub` | `answer_line_gap_mm` |
+| 多音字选择组 | `.poly-group` `.poly-card` `.poly-slot` | `layout.similar_cols` / `slot.word_mm` |
 | 写话方格 | `.zwg` `.zw-wrap` | `composition_cell_mm` / `composition_cols` |
+| 选择题选项组 | `.choice-sub` `.choice-options` `.opt` | 自适应 1/2/4 列栅格 |
+| 判断题括号槽 | `.judge-sub` `.judge-row` `.judge-bracket` | 16mm 右对齐括号槽 |
+| 笔顺拆解组 | `.stroke-sub` `.stroke-row` `.stroke-tzg-wrap` | 示范田字格 + 填空槽 |
+| 拼音连线单元 | `.match-container` `.match-row` `.match-dot` `.match-svg` | 左右对齐 + 0.35mm SVG 矢量红线 |
 
-**Level 3 · 题型组合**（`src/components/questions.mjs` 的 `comp*` 函数）
+**Level 3 · 题型组合**（`src/components/questions.mjs` 的 `comp*` 函数，共 15 类）
 
-`pinyin_write_word` · `similar_character` · `add_pinyin` · `idiom_fill` · `word_pattern` ·
-`poem_fill` · `sentence_rewrite` · `reading` · `composition` · `generic`
+`pinyin_write_word` · `similar_character` · `polyphonic` · `add_pinyin` · `idiom_fill` · `word_pattern` ·
+`poem_fill` · `sentence_rewrite` · `reading` · `composition` · `generic` · `choice` · `judge` · `stroke_order` · `pinyin_match`
 
 ## 2. 组件契约（新增组件必须填全）
 

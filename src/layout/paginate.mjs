@@ -48,9 +48,10 @@ export function paginate(parts, heights, geo, eps = 0.3) {
       need = chain > roomFull ? h : chain;
     }
 
+    const blockX = geo.margin_left ?? geo.margin_x;
     const room = geo.content_bottom - y;
     if (need <= room + eps) {
-      current.push(new Block(part.pid, part.group, part.role, part.cls, geo.margin_x, y, geo.content_width, h, part.label));
+      current.push(new Block(part.pid, part.group, part.role, part.cls, blockX, y, geo.content_width, h, part.label));
       y += h;
       i += 1;
       continue;
@@ -72,7 +73,7 @@ export function paginate(parts, heights, geo, eps = 0.3) {
       );
     }
 
-    current.push(new Block(part.pid, part.group, part.role, part.cls, geo.margin_x, y, geo.content_width, h, part.label));
+    current.push(new Block(part.pid, part.group, part.role, part.cls, blockX, y, geo.content_width, h, part.label));
     y += h;
     i += 1;
   }

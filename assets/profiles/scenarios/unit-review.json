@@ -1,0 +1,12 @@
+{
+  "scenario_id": "unit-review",
+  "label": "单元专项复习卷",
+  "description": "单元知识点全面梳理与阶段性强化复习卷",
+  "header_style": "standard",
+  "show_total_score": true,
+  "show_time_limit": true,
+  "meta_fields": ["姓名", "班级", "得分"],
+  "section_score_visible": true,
+  "answer_hint_inline": true,
+  "teacher_track": "dual_layout_plus_explanation_pages"
+}

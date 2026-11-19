@@ -1,0 +1,14 @@
+{
+  "printer_id": "inkjet-desktop",
+  "name": "家用/桌面喷墨打印机 (底部走纸补偿)",
+  "description": "针对爱普生、佳能、惠普等家用桌面喷墨机底部滚轴走纸盲区（常见 12–14.3mm），对底边距实施抬升补偿",
+  "hardware_type": "inkjet",
+  "margins_mm": {
+    "top": 10.0,
+    "bottom": 14.3,
+    "left": 10.0,
+    "right": 10.0
+  },
+  "binding_gutter_mm": 0.0,
+  "notes": "底边距补偿至 15.0mm，正文与页脚自动上移，避免最后一题或页脚页码被进纸滚轮截断。"
+}

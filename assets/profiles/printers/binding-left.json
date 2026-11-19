@@ -1,0 +1,14 @@
+{
+  "printer_id": "binding-left",
+  "name": "左侧装订练习卷 / 单元复习册",
+  "description": "为订书机装订针、活页打孔或骑马钉预留左侧 18.0mm 装订槽",
+  "hardware_type": "binding",
+  "margins_mm": {
+    "top": 10.0,
+    "bottom": 10.0,
+    "left": 18.0,
+    "right": 10.0
+  },
+  "binding_gutter_mm": 8.0,
+  "notes": "左侧留出 18.0mm 装订区，装订成册后不会遮挡题号、大题序号与作答空间。"
+}
