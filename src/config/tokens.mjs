@@ -96,7 +96,17 @@ export function loadTokens() {
   return tokens;
 }
 
-export function loadGradeProfile(grade) {
+/**
+ * 年级 Profile 加载（学科 overlay 可选）：
+ *   assets/profiles/grade-N.json            学科无关基底
+ *   assets/profiles/subjects/{subject}-grade-N.json   可选学科覆盖层
+ *
+ * overlay 只允许覆盖基底已有参数（含 font_pt/line_height/geometry/spacing/layout
+ * 内的二级键与顶层标量/数组整体替换），禁止发明新键或覆盖 profile_id/grade 身份键 ——
+ * 否则学科层就会偷改全局规范，破坏"全局规范管一致性"的分层原则。
+ * 中文为历史默认学科，不设 overlay。
+ */
+export function loadGradeProfile(grade, subject = null) {
   const path = join(PROFILES_DIR, `grade-${Number(grade)}.json`);
   if (!existsSync(path)) {
     const available = readdirSync(PROFILES_DIR)
@@ -108,7 +118,46 @@ export function loadGradeProfile(grade) {
         "扩展年级前必须先建 Profile 并通过样卷校验，不允许临时改字号糊过去。",
     );
   }
-  return loadConfigJson(path, "年级 Profile");
+  const base = loadConfigJson(path, "年级 Profile");
+
+  if (!subject || subject === "chinese") return base;
+  const overlayPath = join(PROFILES_DIR, "subjects", `${subject}-grade-${Number(grade)}.json`);
+  if (!existsSync(overlayPath)) return base;
+  const overlay = loadConfigJson(overlayPath, "学科 Profile 覆盖层");
+  return mergeProfileOverlay(base, overlay, overlayPath);
+}
+
+const MERGEABLE_SECTIONS = new Set(["font_pt", "line_height", "geometry", "spacing", "layout"]);
+const IDENTITY_KEYS = new Set(["profile_id", "grade"]);
+
+function mergeProfileOverlay(base, overlay, source) {
+  const merged = { ...base };
+  for (const [key, value] of Object.entries(overlay)) {
+    if (IDENTITY_KEYS.has(key)) {
+      throw new ConfigError(`学科 overlay 不得覆盖身份键 ${key}：${source}`);
+    }
+    if (MERGEABLE_SECTIONS.has(key)) {
+      if (!base[key] || typeof base[key] !== "object") {
+        throw new ConfigError(`学科 overlay 键 ${key} 在基底 Profile 中不存在：${source}`);
+      }
+      merged[key] = { ...base[key] };
+      for (const [k, v] of Object.entries(value ?? {})) {
+        if (!(k in base[key])) {
+          throw new ConfigError(
+            `学科 overlay 键 ${key}.${k} 在基底 Profile 中不存在（overlay 只允许覆盖已有参数）：${source}`,
+          );
+        }
+        merged[key][k] = v;
+      }
+    } else if (key in base) {
+      merged[key] = value;
+    } else {
+      throw new ConfigError(
+        `学科 overlay 键 ${key} 在基底 Profile 中不存在（overlay 只允许覆盖已有参数）：${source}`,
+      );
+    }
+  }
+  return merged;
 }
 
 export function loadDocProfile(name) {

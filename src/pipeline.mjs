@@ -64,7 +64,7 @@ export function runBuild({
   const { doc, warnings, stats } = loadDocument(document);
   const effectiveGrade = Number(grade ?? doc.grade);
   const tokens = loadTokens();
-  const profile = loadGradeProfile(effectiveGrade);
+  const profile = loadGradeProfile(effectiveGrade, doc.subject);
   const docProfile = loadDocProfile(docType ?? doc.doc_type);
   const printerProfile = loadPrinterProfile(printer);
   const geo = geometryOf(tokens, printerProfile, margins);
