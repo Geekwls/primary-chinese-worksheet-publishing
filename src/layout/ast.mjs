@@ -71,13 +71,15 @@ export const choice_options = (options) => ({ kind: "choice_options", options })
 /** 阅读小题选项行：<div class="sub-options">（无分栏）。 */
 export const sub_options = (options) => ({ kind: "sub_options", options });
 
-/** 小题行（plain 变体）：题干 + 可选要求 + 可选"仿写："引导 + 可选书写线（句子改写/阅读简答共用）。 */
-export const sub_plain = ({ number, children, require = "", cue = false, lines = null }) => ({
+/** 小题行（plain 变体）：题干 + 可选答题括号/要求 + 可选"仿写："引导 + 可选选项行与书写线（阅读/句子改写共用）。 */
+export const sub_plain = ({ number, children, bracket = null, require = "", cue = false, options = null, lines = null }) => ({
   kind: "sub_plain",
   number,
   children,
+  bracket,
   require,
   cue,
+  options,
   lines,
 });
 
