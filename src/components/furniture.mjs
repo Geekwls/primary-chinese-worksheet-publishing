@@ -29,8 +29,12 @@ export function buildDocHead(doc, ctx) {
 export function buildSection(sec, ctx, index) {
   const score = sec.score;
   const scoreHtml = score !== null && score !== undefined ? `<span class="sec-score">（${esc(score)}分）</span>` : "";
-  return new Part(`sec-${index}`, `<span>${esc(sec.title ?? "")}</span>${scoreHtml}`, {
-    cls: "sec",
+  // 命题标签色块（生活情境/新角度等，来自草稿 section.tag_label）
+  const tagHtml = sec.tag_label ? `<span class="sec-tag">${esc(sec.tag_label)}</span>` : "";
+  // 卡片式题头（基础知识回顾卷的卡片化布局）：题头改为圆角色块胶囊
+  const cardCls = sec.card_style ? "sec sec-card" : "sec";
+  return new Part(`sec-${index}`, `${tagHtml}<span>${esc(sec.title ?? "")}</span>${scoreHtml}`, {
+    cls: cardCls,
     group: sec.section_id ?? `s${index}`,
     role: "section",
     keepNext: true,

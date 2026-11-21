@@ -206,6 +206,14 @@ export function astToHtml(node, ctx) {
     case "passage": {
       let html = "";
       if (node.title) html += `<div class="passage-title">${esc(node.title)}</div>`;
+      if (node.dialogue?.length) {
+        for (const line of node.dialogue) {
+          html +=
+            `<div class="dialogue-line"><span class="dialogue-speaker">${esc(line.speaker)}</span>` +
+            `<div class="dialogue-bubble">${esc(line.text)}</div></div>`;
+        }
+        return html;
+      }
       for (const para of node.paragraphs ?? []) {
         html += `<p class="passage">${esc(para)}</p>`;
       }
@@ -320,6 +328,48 @@ export function astToHtml(node, ctx) {
       const cap = node.caption ? `<div class="comp-img-cap">${esc(node.caption)}</div>` : "";
       if (!node.src) return "";
       return `<div class="comp-img-wrap"><img class="comp-img" src="${esc(node.src)}" style="max-height:${h}" />${cap}</div>`;
+    }
+
+    case "table": {
+      let html = `<table class="qtable">`;
+      if (node.headers?.length) {
+        html += `<tr>${node.headers.map((h) => `<th>${esc(h)}</th>`).join("")}</tr>`;
+      }
+      for (const row of node.rows ?? []) {
+        html += `<tr>${row.map((cell) => {
+          if (cell && typeof cell === "object" && cell.fill) {
+            return `<td>${ctx.isTeacher ? ans(cell.answer) : "&nbsp;"}</td>`;
+          }
+          return `<td>${esc(cell && typeof cell === "object" ? cell.text : cell)}</td>`;
+        }).join("")}</tr>`;
+      }
+      return `${html}</table>`;
+    }
+
+    case "flow_diagram": {
+      const nodes = (node.nodes ?? []).map((n) => {
+        const inner = n && typeof n === "object" && n.fill
+          ? (ctx.isTeacher ? ans(n.answer) : `<span class="fd-blank">&nbsp;&nbsp;&nbsp;&nbsp;</span>`)
+          : esc(n && typeof n === "object" ? n.text : n);
+        return `<div class="fd-node">${inner}</div>`;
+      });
+      return `<div class="flow-diagram">${nodes.join(`<div class="fd-arrow">${esc(node.arrow ?? "→")}</div>`)}</div>`;
+    }
+
+    case "dialogue": {
+      return (node.lines ?? [])
+        .map((line) =>
+          `<div class="dialogue-line"><span class="dialogue-speaker">${esc(line.speaker)}</span>` +
+          `<div class="dialogue-bubble">${esc(line.text)}</div></div>`)
+        .join("");
+    }
+
+    case "frame_sequence": {
+      return `<div class="frame-seq">${(node.frames ?? []).map((f, i) =>
+        `<div class="frame-box"><span class="frame-no">第${i + 1}幅</span>` +
+        (f.qmark ? `<span class="frame-q">？</span>` : "") +
+        (f.caption ? `<span class="frame-caption">${esc(f.caption)}</span>` : "") +
+        `</div>`).join("")}</div>`;
     }
 
     case "match_board": {

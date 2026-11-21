@@ -16,7 +16,7 @@
  * 契约版本：AST_VERSION 随词汇表变更递增，并写入 layout-manifest.ast_version。
  */
 
-export const AST_VERSION = "1.0.0";
+export const AST_VERSION = "1.1.0";
 
 /* ============================================================
  * 行内原语（题干/小题文本流内部）
@@ -118,8 +118,10 @@ export const sub_stroke = ({ number, word = "", detail = null }) => ({
   detail,
 });
 
-/** 阅读文章块：标题 + 段落（整块不可拆，keepNext 由 Part 层声明）。 */
-export const passage = ({ title = "", paragraphs = [] }) => ({ kind: "passage", title, paragraphs });
+/** 阅读文章块：标题 + 段落或对话行（dialogue 非空时渲染气泡；整块不可拆，keepNext 由 Part 层声明）。 */
+export const passage = ({ title = "", paragraphs = [], dialogue = null }) => ({
+  kind: "passage", title, paragraphs, dialogue,
+});
 
 /** 拼音+田字格行：一组"看拼音写词语"词条（对齐/居中双分支 + 教师卷格心答案）。 */
 export const pinyin_row = (items) => ({ kind: "pinyin_row", items });
@@ -153,3 +155,19 @@ export const image = ({ src, height_mm = null, caption = "" }) => ({ kind: "imag
 
 /** 连线板：<div class="match-container"> 左右双列 + 锚点，教师卷以 SVG 矢量红线覆盖。 */
 export const match_board = (rows) => ({ kind: "match_board", rows });
+
+/* ============================================================
+ * v1.1 新增：表格 / 流程图 / 对话 / 多格图（排版组件补齐）
+ * ============================================================ */
+
+/** 表格任务（查字典/信息卡/积累卡）：rows 为二维数组，单元格 {text} 或 {fill:true, answer}。 */
+export const table = ({ headers = [], rows = [] }) => ({ kind: "table", headers, rows });
+
+/** 线性流程图/思维导图链：nodes 节点（{text} 或 {fill:true, answer}），arrow 为连接符字形。 */
+export const flow_diagram = ({ nodes = [], arrow = "→" }) => ({ kind: "flow_diagram", nodes, arrow });
+
+/** 对话行（口语交际气泡）：lines 为 [{speaker, text}]。 */
+export const dialogue = (lines) => ({ kind: "dialogue", lines });
+
+/** 多格图叙事框（看图写话排序/续写）：frames 为 [{caption, qmark?}]。 */
+export const frame_sequence = (frames) => ({ kind: "frame_sequence", frames });

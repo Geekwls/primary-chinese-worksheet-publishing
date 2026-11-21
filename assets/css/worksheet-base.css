@@ -659,3 +659,172 @@ body {
   display: inline-block;
   margin-left: 2mm;
 }
+
+/* ---------- 主题装饰（v1.1 排版增强）：主题色只作用于装饰层，不污染正文墨色 ---------- */
+
+.block-banner-wrap { padding-top: var(--gap-block); }
+.block-banner {
+  display: flex;
+  align-items: center;
+  gap: 2.5mm;
+  background: var(--theme-primary);
+  color: #ffffff;
+  font-size: var(--fs-section);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 1.8mm 5mm;
+  border-radius: 2mm;
+}
+.block-banner .bb-deco { opacity: 0.75; font-weight: 400; }
+
+.sec-tag {
+  display: inline-block;
+  background: var(--theme-accent);
+  color: #ffffff;
+  font-size: var(--fs-hint);
+  font-weight: 700;
+  padding: 0.4mm 2mm;
+  border-radius: 1.2mm;
+  margin-right: 2mm;
+  vertical-align: 0.4mm;
+}
+
+.sec > span:first-of-type::before {
+  content: "";
+  display: inline-block;
+  width: 1.2mm;
+  height: 4.2mm;
+  border-radius: 0.6mm;
+  background: var(--theme-primary);
+  margin-right: 2mm;
+}
+.sec-card {
+  background: var(--theme-soft);
+  border: var(--lw-thin) solid var(--theme-accent);
+  border-radius: 2.5mm;
+  padding: 2mm 3mm var(--gap-q) 3mm;
+  margin-bottom: var(--gap-q);
+}
+
+/* ---------- 表格任务（查字典/信息卡/积累卡） ---------- */
+
+.qtable {
+  width: var(--col-12);
+  border-collapse: collapse;
+  font-size: var(--fs-q);
+  margin: var(--gap-s) 0;
+}
+.qtable th {
+  background: var(--theme-soft);
+  border: var(--lw-thin) solid var(--ink-1);
+  padding: 1.4mm 2mm;
+  font-weight: 700;
+  text-align: center;
+}
+.qtable td {
+  border: var(--lw-thin) solid var(--ink-1);
+  padding: 2.2mm 2mm;
+  min-height: 7mm;
+  text-align: center;
+}
+.qtable .cell-blank { color: transparent; }
+
+/* ---------- 流程图（思维导图线性变体） ---------- */
+
+.flow-diagram {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin: var(--gap-s) 0;
+  width: var(--col-12);
+}
+.fd-node {
+  flex: 1;
+  border: var(--lw-normal) solid var(--ink-1);
+  border-radius: 1.5mm;
+  background: var(--theme-soft);
+  min-height: 12mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: var(--fs-q);
+  padding: 1.5mm 1.5mm;
+  position: relative;
+}
+.fd-node .ans { position: absolute; left: 50%; transform: translateX(-50%); }
+.fd-arrow {
+  display: flex;
+  align-items: center;
+  padding: 0 1.5mm;
+  font-size: var(--fs-q);
+  color: var(--ink-2);
+}
+
+/* ---------- 对话气泡（口语交际） ---------- */
+
+.dialogue-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 2.5mm;
+  margin: var(--gap-row) 0;
+  max-width: var(--passage-w);
+}
+.dialogue-speaker {
+  flex: 0 0 auto;
+  background: var(--theme-accent);
+  color: #ffffff;
+  font-size: var(--fs-hint);
+  font-weight: 700;
+  border-radius: 1.5mm;
+  padding: 0.6mm 2mm;
+  margin-top: 0.6mm;
+  white-space: nowrap;
+}
+.dialogue-bubble {
+  flex: 1;
+  background: var(--theme-soft);
+  border: var(--lw-thin) solid var(--theme-accent);
+  border-radius: 2mm;
+  padding: 1.5mm 2.5mm;
+  line-height: var(--lh-q);
+}
+
+/* ---------- 多格图叙事框（看图写话排序/续写） ---------- */
+
+.frame-seq {
+  display: flex;
+  gap: 3mm;
+  margin: var(--gap-s) 0;
+}
+.frame-box {
+  flex: 1;
+  border: var(--lw-normal) solid var(--ink-1);
+  border-radius: 1.5mm;
+  min-height: 24mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: #ffffff;
+}
+.frame-box .frame-no {
+  position: absolute;
+  left: 1.5mm;
+  top: 1.2mm;
+  font-size: var(--fs-hint);
+  font-weight: 700;
+  color: var(--ink-2);
+}
+.frame-box .frame-caption {
+  font-size: var(--fs-hint);
+  color: var(--ink-2);
+  padding: 0 1.5mm 1mm;
+  text-align: center;
+}
+.frame-box .frame-q {
+  font-size: calc(var(--fs-q) * 2);
+  font-weight: 700;
+  color: var(--ink-2);
+}

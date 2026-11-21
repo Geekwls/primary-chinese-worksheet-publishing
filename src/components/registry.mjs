@@ -11,6 +11,7 @@ import {
   compChoice,
   compComposition,
   compFillBlank,
+  compFlowDiagram,
   compGeneric,
   compIdiomFill,
   compJudge,
@@ -22,6 +23,7 @@ import {
   compSentenceRewrite,
   compSimilarCharacter,
   compStrokeOrder,
+  compTableTask,
   compWordPattern,
   compWordProblem,
 } from "./questions.mjs";
@@ -46,6 +48,8 @@ export const REGISTRY = {
   fill_blank: { build: compFillBlank, componentId: "fill_blank_block", label: "填空题" },
   blank: { build: compFillBlank, componentId: "blank_fill_block", label: "填空题" },
   word_problem: { build: compWordProblem, componentId: "word_problem_block", label: "解决问题" },
+  table_task: { build: compTableTask, componentId: "table_task_block", label: "表格任务" },
+  flow_diagram: { build: compFlowDiagram, componentId: "flow_diagram_block", label: "流程图填空" },
 };
 
 export const SUPPORTED_TYPES = Object.keys(REGISTRY);

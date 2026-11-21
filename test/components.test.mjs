@@ -21,8 +21,8 @@ function contextFor(grade, variant) {
   return new Ctx(loadGradeProfile(grade), loadDocProfile("review"), variant, 40);
 }
 
-test("注册表覆盖 19 类题型且组件 ID 唯一", () => {
-  assert.equal(SUPPORTED_TYPES.length, 19);
+test("注册表覆盖 21 类题型且组件 ID 唯一", () => {
+  assert.equal(SUPPORTED_TYPES.length, 21);
   const ids = SUPPORTED_TYPES.map((t) => REGISTRY[t].componentId);
   assert.equal(new Set(ids).size, ids.length);
 });
@@ -277,6 +277,70 @@ test("解决问题组件：题干 + 预留书写行，教师卷行内覆盖答�
   assert.ok(partsS[1].html.includes("wlines"));
   assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
   assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 1);
+});
+
+test("表格任务组件：单元格留空作答，教师卷覆盖答案", () => {
+  const q = {
+    question_id: "q_tb",
+    type: "table_task",
+    stem: "按查字典的要求填表。",
+    table: {
+      headers: ["受查的字", "部首", "读音"],
+      rows: [
+        ["钢", { fill: true, answer: "钅" }, { fill: true, answer: "gāng" }],
+        ["保", { fill: true, answer: "亻" }, { fill: true, answer: "bǎo" }],
+      ],
+    },
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.table_task.build(q, ctxS, "q_tb");
+  const partsT = REGISTRY.table_task.build(q, ctxT, "q_tb");
+
+  assert.equal(partsS.length, partsT.length);
+  assert.ok(partsS[1].html.includes("qtable"), "表格容器类");
+  assert.ok(!partsS[1].html.includes("class=\"ans\""), "学生卷无答案");
+  assert.equal(partsT[1].html.includes("钅"), true, "教师卷覆盖部首答案");
+});
+
+test("流程图组件：节点留空作答，教师卷覆盖答案", () => {
+  const q = {
+    question_id: "q_fd",
+    type: "flow_diagram",
+    stem: "根据短文内容，把小水滴的变化过程补充完整。",
+    nodes: ["小水滴", { fill: true, answer: "水蒸气" }, "小水滴", { fill: true, answer: "雨" }],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.flow_diagram.build(q, ctxS, "q_fd");
+  const partsT = REGISTRY.flow_diagram.build(q, ctxT, "q_fd");
+
+  assert.equal(partsS.length, partsT.length);
+  assert.ok(partsS[1].html.includes("flow-diagram"), "流程图容器类");
+  assert.ok(!partsS[1].html.includes("水蒸气"), "学生卷无答案");
+  assert.ok(partsT[1].html.includes("水蒸气"), "教师卷覆盖节点答案");
+  assert.ok(partsT[1].html.includes("→"), "流程箭头存在");
+});
+
+test("阅读对话变体：口语交际以气泡渲染对话 stimulus", () => {
+  const q = {
+    question_id: "q_dlg",
+    type: "reading",
+    stem: "口语交际：补全他们之间的对话。",
+    passage: {
+      title: "说说自己喜欢的动物",
+      dialogue: [
+        { speaker: "乐乐", text: "我最喜欢的动物是小白兔，它圆滚滚的，像一个雪球。" },
+        { speaker: "阳阳", text: "我最喜欢的动物是＿＿＿＿。因为＿＿＿＿。" },
+      ],
+    },
+    subs: [{ sub_type: "text", stem: "请补全阳阳说的话。", answer: "我最喜欢小狗。", lines: 2 }],
+  };
+  const ctx = contextFor(2, "student");
+  const parts = REGISTRY.reading.build(q, ctx, "q_dlg");
+  assert.ok(parts.some((p) => p.html.includes("dialogue-speaker")), "对话气泡说话人标签");
+  assert.ok(parts.some((p) => p.html.includes("dialogue-bubble")), "对话气泡容器");
+  assert.ok(!parts.some((p) => p.html.includes("passage\"")), "对话模式不再渲染普通段落");
 });
 
 test("连线题组件：学生卷留白供画线，教师卷以 SVG 矢量红线连接对应锚点", () => {

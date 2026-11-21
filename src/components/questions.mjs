@@ -13,6 +13,41 @@ import * as ast from "../layout/ast.mjs";
 import { answerLines, chunks, parseInline } from "./atoms.mjs";
 import { astPart } from "./ast-part.mjs";
 
+/** 表格任务：查字典填表/信息卡/积累卡——单元格留空作答，教师卷覆盖答案。 */
+export function compTableTask(q, ctx, pid) {
+  const table = q.table ?? {};
+  if (!table.headers?.length || !table.rows?.length) {
+    throw new ComponentError(`表格任务 ${q.question_id ?? ""} 缺少 table.headers 或 table.rows`);
+  }
+  return [
+    astPart(
+      `${pid}-h`,
+      ast.q_head({ number: ctx.nextNo(), children: [ast.text(q.stem ?? "")], score: q.score }),
+      { cls: "stem", group: pid, role: "q_head", keepNext: true },
+      ctx,
+    ),
+    astPart(`${pid}-t`, ast.table({ headers: table.headers, rows: table.rows }), { group: pid, splittable: false }, ctx),
+    tail(pid),
+  ];
+}
+
+/** 流程图/思维导图链：节点留空作答（如小水滴变形、迎客松导图），教师卷覆盖答案。 */
+export function compFlowDiagram(q, ctx, pid) {
+  if (!q.nodes?.length) {
+    throw new ComponentError(`流程图任务 ${q.question_id ?? ""} 缺少 nodes`);
+  }
+  return [
+    astPart(
+      `${pid}-h`,
+      ast.q_head({ number: ctx.nextNo(), children: [ast.text(q.stem ?? "")], score: q.score }),
+      { cls: "stem", group: pid, role: "q_head", keepNext: true },
+      ctx,
+    ),
+    astPart(`${pid}-d`, ast.flow_diagram({ nodes: q.nodes, arrow: q.arrow ?? "→" }), { group: pid, splittable: false }, ctx),
+    tail(pid),
+  ];
+}
+
 /** 题干 Part：编号由上下文自增，题干与分值进 q_head 节点（渲染在解释器）。 */
 const head = (pid, q, ctx) =>
   astPart(
@@ -162,12 +197,18 @@ export function compReading(q, ctx, pid) {
   const passage = q.passage ?? {};
   const parts = [head(pid, q, ctx)];
 
-  const hasPassage = Boolean(passage.title) || (passage.paragraphs ?? []).length > 0;
+  const hasPassage = Boolean(passage.title)
+    || (passage.paragraphs ?? []).length > 0
+    || (passage.dialogue ?? []).length > 0;
   if (hasPassage) {
     parts.push(
       astPart(
         `${pid}-p`,
-        ast.passage({ title: passage.title ?? "", paragraphs: passage.paragraphs ?? [] }),
+        ast.passage({
+          title: passage.title ?? "",
+          paragraphs: passage.paragraphs ?? [],
+          dialogue: passage.dialogue ?? null,
+        }),
         { group: pid, keepNext: true, splittable: false, label: "passage" },
         ctx,
       ),
@@ -213,6 +254,7 @@ export function compComposition(q, ctx, pid) {
 
   const headNodes = [ast.q_head({ number: ctx.nextNo(), children: [ast.text(q.stem ?? "")], score: q.score })];
   if (q.prompt) headNodes.push(ast.prompt(q.prompt));
+  if (q.frames?.length) headNodes.push(ast.frame_sequence(q.frames));
   if (q.image) {
     const src = typeof q.image === "string" ? q.image : q.image.src ?? "";
     const height_mm = typeof q.image === "object" && q.image.height_mm ? q.image.height_mm : null;

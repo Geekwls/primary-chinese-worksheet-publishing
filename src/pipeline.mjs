@@ -6,6 +6,8 @@
  */
 import { join } from "node:path";
 
+import { Part } from "./domain/part.mjs";
+import { esc } from "./core/text.mjs";
 import { buildDocHead, buildExplanationParts, buildSection } from "./components/furniture.mjs";
 import { resolveComponent } from "./components/registry.mjs";
 import { Ctx } from "./components/context.mjs";
@@ -29,7 +31,18 @@ import { ensureDir, writeJson } from "./core/io.mjs";
 /** 把整卷拆成排版原子序列（学生卷与教师卷各跑一次，互不共享状态）。 */
 export function buildParts(doc, ctx) {
   const parts = [buildDocHead(doc, ctx)];
+  let lastBlock = null;
   doc.sections.forEach((sec, index) => {
+    // 板块横幅：Section 的 block 字段变化时插入主题色横幅（三板块/闯关组织）
+    const block = sec.block ?? null;
+    if (block && block !== lastBlock) {
+      parts.push(new Part(
+        `block-banner-${String(index + 1)}`,
+        `<div class="block-banner"><span class="bb-deco">≡</span>${esc(block)}<span class="bb-deco">≡</span></div>`,
+        { cls: "block-banner-wrap", group: `block-${index + 1}`, role: "section", keepNext: true },
+      ));
+    }
+    lastBlock = block;
     if (sec.title) parts.push(buildSection(sec, ctx, index + 1));
     for (const q of sec.questions ?? []) {
       const { build } = resolveComponent(q.type);
@@ -68,7 +81,7 @@ export function runBuild({
   const docProfile = loadDocProfile(docType ?? doc.doc_type);
   const printerProfile = loadPrinterProfile(printer);
   const geo = geometryOf(tokens, printerProfile, margins);
-  const css = buildCss(tokens, profile, docProfile, geo);
+  const css = buildCss(tokens, profile, docProfile, geo, doc);
 
   log(
     `[1/6] 契约校验通过：${stats.question_count} 题，合计 ${stats.score_sum} 分` +

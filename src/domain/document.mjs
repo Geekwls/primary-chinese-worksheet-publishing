@@ -96,8 +96,10 @@ export function validate(doc) {
       }
 
       if (q.type === "reading") {
-        if (!q.passage?.paragraphs?.length) {
-          throw new ContractError(`题目 ${q.question_id} 是阅读题，但 passage.paragraphs 为空。`);
+        const hasText = (q.passage?.paragraphs?.length ?? 0) > 0;
+        const hasDialogue = (q.passage?.dialogue?.length ?? 0) > 0;
+        if (!hasText && !hasDialogue) {
+          throw new ContractError(`题目 ${q.question_id} 是阅读题，但 passage.paragraphs 与 passage.dialogue 均为空。`);
         }
         if (!q.subs?.length) {
           throw new ContractError(`题目 ${q.question_id} 是阅读题，但缺少 subs。`);
@@ -160,6 +162,18 @@ export function validate(doc) {
         const hasAnswer = Boolean(q.answer) && (Array.isArray(q.answer) ? q.answer.some(Boolean) : true);
         if (!hasAnswer) {
           throw new ContractError(`题目 ${q.question_id} 是填空题，但缺少 answer（单个答案或按括号顺序的数组）。`);
+        }
+      }
+
+      if (q.type === "table_task") {
+        if (!q.table?.headers?.length || !q.table?.rows?.length) {
+          throw new ContractError(`题目 ${q.question_id} 是表格任务，但缺少 table.headers 或 table.rows。`);
+        }
+      }
+
+      if (q.type === "flow_diagram") {
+        if (!q.nodes?.length) {
+          throw new ContractError(`题目 ${q.question_id} 是流程图任务，但缺少 nodes。`);
         }
       }
     }

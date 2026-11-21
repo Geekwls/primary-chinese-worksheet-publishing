@@ -68,7 +68,7 @@ test("阅读题缺 passage 被拦下", () => {
     const q = doc.sections.flatMap((s) => s.questions).find((x) => x.type === "reading");
     delete q.passage;
   });
-  assert.throws(() => loadDocument(path), /passage\.paragraphs 为空/);
+  assert.throws(() => loadDocument(path), /passage\.paragraphs 与 passage\.dialogue 均为空/);
 });
 
 test("多音字题缺 word 或 answer 被拦下", () => {

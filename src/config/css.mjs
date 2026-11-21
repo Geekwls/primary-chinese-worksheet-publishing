@@ -109,9 +109,10 @@ function buildVariables(tokens, profile, pageGeo = null) {
   };
 }
 
-export function buildCss(tokens, profile, docProfile, pageGeo = null) {
+export function buildCss(tokens, profile, docProfile, pageGeo = null, doc = null) {
   const paper = tokens.global.paper;
   const variables = buildVariables(tokens, profile, pageGeo);
+  Object.assign(variables, themeVariables(doc));
   const root = Object.entries(variables)
     .map(([key, value]) => `  ${key}: ${value};`)
     .join("\n");
@@ -125,4 +126,38 @@ export function buildCss(tokens, profile, docProfile, pageGeo = null) {
     `@page { size: ${trimNum(pageWidth)}mm ${trimNum(pageHeight)}mm; margin: 0; }`;
 
   return `:root {\n${root}\n}\n\n${pageRule}\n\n${extra}${loadBaseCss()}`;
+}
+
+/**
+ * 主题令牌（v1.1 排版增强）：文档契约可携带 doc.theme = {primary, accent}，
+ * 未携带时回退默认暖橙主题（参照主流教辅的视觉基线）。
+ * 主题色只作用于装饰层（板块横幅/标签色块/题头点缀），不污染正文墨色。
+ */
+const DEFAULT_THEME = {
+  primary: "#E8590C",
+  soft: "#FFF4E6",
+  accent: "#F59F00",
+};
+
+function themeVariables(doc) {
+  const theme = (doc && typeof doc.theme === "object" && doc.theme) || {};
+  const primary = /^#[0-9a-fA-F]{6}$/.test(theme.primary ?? "") ? theme.primary : DEFAULT_THEME.primary;
+  const accent = /^#[0-9a-fA-F]{6}$/.test(theme.accent ?? "") ? theme.accent : DEFAULT_THEME.accent;
+  const soft = /^#[0-9a-fA-F]{6}$/.test(theme.soft ?? "")
+    ? theme.soft
+    : softTint(primary);
+  return {
+    "--theme-primary": primary,
+    "--theme-accent": accent,
+    "--theme-soft": soft,
+  };
+}
+
+/** 十六进制主色 → 浅底色（与白色按 1:8 混合的近似值，逐通道线性插值）。 */
+function softTint(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  const ch = (shift) => (n >> shift) & 0xff;
+  const mix = (c) => Math.round(c + (255 - c) * 0.88);
+  const to = (v) => v.toString(16).padStart(2, "0");
+  return `#${to(mix(ch(16)))}${to(mix(ch(8)))}${to(mix(ch(0)))}`;
 }
