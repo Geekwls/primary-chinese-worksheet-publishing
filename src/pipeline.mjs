@@ -11,6 +11,7 @@ import { resolveComponent } from "./components/registry.mjs";
 import { Ctx } from "./components/context.mjs";
 import { buildCss } from "./config/css.mjs";
 import { geometryOf, loadDocProfile, loadGradeProfile, loadPrinterProfile, loadTokens } from "./config/tokens.mjs";
+import { AST_VERSION } from "./layout/ast.mjs";
 import { LAYOUT_VERSION } from "./core/version.mjs";
 import { loadDocument } from "./domain/document.mjs";
 import { structureSegments, teacherAnswers, visibleText } from "./domain/texts.mjs";
@@ -149,7 +150,12 @@ export function runBuild({
   );
 
   // 5) 渲染
-  const meta = { document_id: doc.document_id, grade: effectiveGrade, layout_version: LAYOUT_VERSION };
+  const meta = {
+    document_id: doc.document_id,
+    grade: effectiveGrade,
+    layout_version: LAYOUT_VERSION,
+    ast_version: AST_VERSION,
+  };
   const manifestStudent = manifestOf(pagesStudent, geo, { ...meta, variant: "student" });
   const manifestTeacher = teacher ? manifestOf(pagesTeacher, geo, { ...meta, variant: "teacher" }) : null;
   const manifestTeacherFull = teacher

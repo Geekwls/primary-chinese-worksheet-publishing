@@ -21,6 +21,7 @@ export function manifestOf(pages, geo, meta) {
   return {
     document_id: meta.document_id ?? null,
     layout_version: meta.layout_version ?? "1.0.0",
+    ast_version: meta.ast_version ?? null,
     units: "mm",
     grade: meta.grade ?? null,
     variant: meta.variant ?? null,
