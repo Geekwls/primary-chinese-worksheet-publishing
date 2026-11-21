@@ -1,0 +1,112 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_st-h",
+        "html": "<span class=\"no\">1.</span> 按要求填空。",
+        "cls": "stem",
+        "group": "q_st",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_st-s1",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（1）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">水</span></span></span><span class=\"stroke-details\">共有（<i class=\"slot i\"></i>）画，第二笔是（<i class=\"slot w\"></i>）。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "q_st-s2",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（2）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">火</span></span></span><span class=\"stroke-details\">共有（<i class=\"slot i\"></i>）画，笔顺是：（<i class=\"slot p\"></i>）。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "q_st-s3",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（3）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">木</span></span></span><span class=\"stroke-text\">“木”的笔顺是<span class=\"brk\">（<i class=\"gap\"></i>）</span>。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub3"
+      },
+      {
+        "pid": "q_st-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_st",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_st-h",
+        "html": "<span class=\"no\">1.</span> 按要求填空。",
+        "cls": "stem",
+        "group": "q_st",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_st-s1",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（1）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">水</span></span></span><span class=\"stroke-details\">共有（<i class=\"slot i\"></i><span class=\"ans\">4</span>）画，第二笔是（<i class=\"slot w\"></i><span class=\"ans\">㇇</span>）。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "q_st-s2",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（2）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">火</span></span></span><span class=\"stroke-details\">共有（<i class=\"slot i\"></i><span class=\"ans\">4</span>）画，笔顺是：（<i class=\"slot p\"></i><span class=\"ans\">丶 丷 火</span>）。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "q_st-s3",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（3）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">木</span></span></span><span class=\"stroke-text\">“木”的笔顺是<span class=\"brk\">（<i class=\"gap\"></i>）<span class=\"ans\">丶一丨丿乀</span></span>。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub3"
+      },
+      {
+        "pid": "q_st-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_st",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

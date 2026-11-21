@@ -1,0 +1,72 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_py-h",
+        "html": "<span class=\"no\">1.</span> 看拼音，写词语。",
+        "cls": "stem",
+        "group": "q_py",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_py-r0",
+        "html": "<div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">xiǎo</span><span class=\"pyc\">niǎo</span></div><div class=\"tzrow\"><span class=\"tzg\"></span><span class=\"tzg\"></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">bái</span><span class=\"pyc\">yún</span></div><div class=\"tzrow\"><span class=\"tzg\"></span><span class=\"tzg\"></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\" style=\"width:calc(var(--tz)*2)\">tiān shàng de yún duǒ</span></div><div class=\"tzrow\"><span class=\"tzg\"></span><span class=\"tzg\"></span></div></div>",
+        "cls": "prow",
+        "group": "q_py",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row0"
+      },
+      {
+        "pid": "q_py-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_py",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_py-h",
+        "html": "<span class=\"no\">1.</span> 看拼音，写词语。",
+        "cls": "stem",
+        "group": "q_py",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_py-r0",
+        "html": "<div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">xiǎo</span><span class=\"pyc\">niǎo</span></div><div class=\"tzrow\"><span class=\"tzg\"><span class=\"ans\">小</span></span><span class=\"tzg\"><span class=\"ans\">鸟</span></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">bái</span><span class=\"pyc\">yún</span></div><div class=\"tzrow\"><span class=\"tzg\"><span class=\"ans\">白</span></span><span class=\"tzg\"><span class=\"ans\">云</span></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\" style=\"width:calc(var(--tz)*2)\">tiān shàng de yún duǒ</span></div><div class=\"tzrow\"><span class=\"tzg\"><span class=\"ans\">云</span></span><span class=\"tzg\"><span class=\"ans\">朵</span></span></div></div>",
+        "cls": "prow",
+        "group": "q_py",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row0"
+      },
+      {
+        "pid": "q_py-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_py",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

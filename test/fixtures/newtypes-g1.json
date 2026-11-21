@@ -1,0 +1,95 @@
+{
+  "document_id": "test-newtypes-v1",
+  "grade": 1,
+  "doc_type": "practice",
+  "title": "一年级语文 综合基础练习卷",
+  "sections": [
+    {
+      "section_id": "s1",
+      "title": "一、单项选择题",
+      "questions": [
+        {
+          "question_id": "q_ch",
+          "type": "choice",
+          "stem": "下列汉字笔画最多的是（　）。",
+          "options": ["A. 口", "B. 山", "C. 水", "D. 鸟"],
+          "answer": "D",
+          "explain": "口有3画，山有3画，水有4画，鸟有5画。"
+        },
+        {
+          "question_id": "q_ch2",
+          "type": "choice",
+          "stem": "下列词语搭配完全正确的一项是",
+          "options": ["A. 弯弯曲曲", "B. 弯湾曲曲"],
+          "answer": "A"
+        }
+      ]
+    },
+    {
+      "section_id": "s2",
+      "title": "二、是非判断题",
+      "questions": [
+        {
+          "question_id": "q_jd",
+          "type": "judge",
+          "stem": "判断下列说法是否正确。",
+          "items": [
+            { "stem": "“水”共有4画，第一笔是竖钩。", "answer": "√" },
+            { "stem": "“天”的第一笔是横，第二笔是撇。", "answer": "×" }
+          ],
+          "explain": "“天”的第一笔是横，第二笔也是横，第三笔才是撇。"
+        },
+        {
+          "question_id": "q_jd2",
+          "type": "judge",
+          "stem": "水的密度比油大。",
+          "answer": "√"
+        }
+      ]
+    },
+    {
+      "section_id": "s3",
+      "title": "三、生字笔顺与笔画",
+      "questions": [
+        {
+          "question_id": "q_st",
+          "type": "stroke_order",
+          "stem": "按要求填空。",
+          "items": [
+            { "word": "水", "total_strokes": 4, "query": "第二笔是", "answer": "㇇" },
+            { "word": "火", "total_strokes": 4, "order": "丶 丷 火" },
+            { "word": "木", "text": "“木”的笔顺是{丶一丨丿乀}。" }
+          ],
+          "explain": "水字第二笔是横撇；火字笔顺为：点、撇、撇、捺。"
+        }
+      ]
+    },
+    {
+      "section_id": "s4",
+      "title": "四、读拼音，连一连",
+      "questions": [
+        {
+          "question_id": "q_ma",
+          "type": "pinyin_match",
+          "stem": "把拼音和对应的词语连起来。",
+          "pairs": [
+            { "left": "tiān shàng", "right": "天上" },
+            { "left": "bái yún", "right": "白云" },
+            { "left": "xiǎo niǎo", "right": "小鸟" }
+          ],
+          "explain": "逐词拼读对照连线：tiān shàng 连 天上，bái yún 连 白云，xiǎo niǎo 连 小鸟。"
+        },
+        {
+          "question_id": "q_ma2",
+          "type": "pinyin_match",
+          "stem": "把图和词语连起来。",
+          "items": [
+            { "left": "太阳", "right": "白天", "match_index": 2 },
+            { "left": "月亮", "right": "黑夜", "match_index": 0 },
+            { "left": "星星", "right": "夜空", "match_index": 1 }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "document_id": "test-math-g3-v1",
+  "grade": 3,
+  "doc_type": "practice",
+  "subject": "math",
+  "title": "三年级数学 第一单元混合练习",
+  "sections": [
+    {
+      "section_id": "s1",
+      "title": "一、口算下面各题",
+      "questions": [
+        { "question_id": "q_o1", "type": "calculation", "stem": "36×25 =", "answer": "900", "score": 2 },
+        { "question_id": "q_o2", "type": "calculation", "stem": "480÷8 =", "answer": "60", "score": 2 },
+        { "question_id": "q_o3", "type": "calculation", "stem": "15×6 - 40 =", "answer": "50", "score": 2 }
+      ]
+    },
+    {
+      "section_id": "s2",
+      "title": "二、填空题",
+      "questions": [
+        {
+          "question_id": "q_f1",
+          "type": "fill_blank",
+          "stem": "3分米 = （　）厘米　7000米 = （　）千米",
+          "answer": ["300", "7"],
+          "score": 4
+        },
+        {
+          "question_id": "q_f2",
+          "type": "fill_blank",
+          "stem": "一块正方形菜地的周长是 24{米}，它的边长是{米}。",
+          "answer": ["6", "6"],
+          "score": 4
+        }
+      ]
+    },
+    {
+      "section_id": "s3",
+      "title": "三、列竖式计算",
+      "questions": [
+        { "question_id": "q_v1", "type": "calculation", "stem": "列竖式计算：456 + 287 = ？", "answer": "743", "score": 4 }
+      ]
+    },
+    {
+      "section_id": "s4",
+      "title": "四、解决问题",
+      "questions": [
+        {
+          "question_id": "q_w1",
+          "type": "word_problem",
+          "stem": "商店运来 5 箱苹果，每箱 24 个，一共运来多少个？",
+          "answer": "5×24=120（个）",
+          "lines": 4,
+          "score": 5
+        },
+        {
+          "question_id": "q_w2",
+          "type": "word_problem",
+          "stem": "一块长方形菜地长 18 米，宽 12 米，这块菜地的周长是多少米？",
+          "answer": "(18+12)×2=60（米）",
+          "lines": 4,
+          "score": 5
+        }
+      ]
+    }
+  ]
+}

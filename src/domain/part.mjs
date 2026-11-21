@@ -22,6 +22,8 @@ export class Part {
     this.keepNext = opts.keepNext ?? false;
     this.splittable = opts.splittable ?? false;
     this.label = opts.label ?? "";
+    // 生成该 Part 的布局 AST 节点（经 astPart 产出时存在；供测试断言与未来多渲染器消费）
+    this.ast = opts.ast ?? null;
   }
 }
 

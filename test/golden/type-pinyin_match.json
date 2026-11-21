@@ -1,0 +1,132 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_ma-h",
+        "html": "<span class=\"no\">1.</span> 读拼音，连一连。",
+        "cls": "stem",
+        "group": "q_ma",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma-m",
+        "html": "<div class=\"match-container\" style=\"position:relative;width:100%\"><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">tiān shàng</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">白云</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">bái yún</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">小鸟</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">xiǎo niǎo</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">天上</span></div></div>",
+        "cls": "match-part",
+        "group": "q_ma",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ma",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-h",
+        "html": "<span class=\"no\">1.</span> 把图和词语连一连。",
+        "cls": "stem",
+        "group": "q_ma2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-m",
+        "html": "<div class=\"match-container\" style=\"position:relative;width:100%\"><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">太阳</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">白天</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">月亮</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">黑夜</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">星星</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">夜空</span></div></div>",
+        "cls": "match-part",
+        "group": "q_ma2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ma2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_ma-h",
+        "html": "<span class=\"no\">1.</span> 读拼音，连一连。",
+        "cls": "stem",
+        "group": "q_ma",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma-m",
+        "html": "<div class=\"match-container\" style=\"position:relative;width:100%\"><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">tiān shàng</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">白云</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">bái yún</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">小鸟</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">xiǎo niǎo</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">天上</span></div><svg class=\"match-svg\" style=\"position:absolute;left:0;top:0;width:100%;height:36.0mm;pointer-events:none;overflow:visible\"><line x1=\"38%\" y1=\"6.0mm\" x2=\"62%\" y2=\"30.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /><line x1=\"38%\" y1=\"18.0mm\" x2=\"62%\" y2=\"6.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /><line x1=\"38%\" y1=\"30.0mm\" x2=\"62%\" y2=\"18.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /></svg></div>",
+        "cls": "match-part",
+        "group": "q_ma",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ma",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-h",
+        "html": "<span class=\"no\">1.</span> 把图和词语连一连。",
+        "cls": "stem",
+        "group": "q_ma2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-m",
+        "html": "<div class=\"match-container\" style=\"position:relative;width:100%\"><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">太阳</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">白天</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">月亮</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">黑夜</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">星星</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">夜空</span></div><svg class=\"match-svg\" style=\"position:absolute;left:0;top:0;width:100%;height:36.0mm;pointer-events:none;overflow:visible\"><line x1=\"38%\" y1=\"6.0mm\" x2=\"62%\" y2=\"30.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /><line x1=\"38%\" y1=\"18.0mm\" x2=\"62%\" y2=\"6.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /><line x1=\"38%\" y1=\"30.0mm\" x2=\"62%\" y2=\"18.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /></svg></div>",
+        "cls": "match-part",
+        "group": "q_ma2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ma2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

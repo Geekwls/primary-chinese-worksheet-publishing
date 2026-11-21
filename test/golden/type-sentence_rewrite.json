@@ -1,0 +1,92 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_sr-h",
+        "html": "<span class=\"no\">1.</span> 按要求写句子。",
+        "cls": "stem",
+        "group": "q_sr",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_sr-s1",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>小明把作业做完了。 <span class=\"pt\">改为被字句</span></div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
+        "cls": "",
+        "group": "q_sr",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "q_sr-s2",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span><span class=\"eg\">例：天上的白云像棉花。</span></div><div class=\"cue\">仿写：</div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
+        "cls": "",
+        "group": "q_sr",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "q_sr-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_sr",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_sr-h",
+        "html": "<span class=\"no\">1.</span> 按要求写句子。",
+        "cls": "stem",
+        "group": "q_sr",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_sr-s1",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>小明把作业做完了。 <span class=\"pt\">改为被字句</span></div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">作业被小明做完了。</span></div><div class=\"wline\"></div></div></div>",
+        "cls": "",
+        "group": "q_sr",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "q_sr-s2",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span><span class=\"eg\">例：天上的白云像棉花。</span></div><div class=\"cue\">仿写：</div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">水中的月亮像小船。</span></div><div class=\"wline\"></div></div></div>",
+        "cls": "",
+        "group": "q_sr",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "q_sr-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_sr",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

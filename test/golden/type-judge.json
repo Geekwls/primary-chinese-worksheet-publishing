@@ -1,0 +1,152 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_jd-h",
+        "html": "<span class=\"no\">1.</span> 判断下列说法是否正确。",
+        "cls": "stem",
+        "group": "q_jd",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd-s1",
+        "html": "<div class=\"sub judge-sub\"><div class=\"judge-row\"><span class=\"no\">（1）</span><span class=\"judge-stem\">“水”共有 4 画。</span><span class=\"judge-bracket\">（<i class=\"slot i\"></i>）</span></div></div>",
+        "cls": "",
+        "group": "q_jd",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "q_jd-s2",
+        "html": "<div class=\"sub judge-sub\"><div class=\"judge-row\"><span class=\"no\">（2）</span><span class=\"judge-stem\">“天”的第一笔是撇。</span><span class=\"judge-bracket\">（<i class=\"slot i\"></i>）</span></div></div>",
+        "cls": "",
+        "group": "q_jd",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "q_jd-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_jd",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-h",
+        "html": "<span class=\"no\">1.</span> 水的密度比油大。",
+        "cls": "stem",
+        "group": "q_jd2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-j",
+        "html": "<div class=\"judge-standalone\"><span class=\"judge-bracket\">（<i class=\"slot i\"></i>）</span></div>",
+        "cls": "",
+        "group": "q_jd2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_jd2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_jd-h",
+        "html": "<span class=\"no\">1.</span> 判断下列说法是否正确。",
+        "cls": "stem",
+        "group": "q_jd",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd-s1",
+        "html": "<div class=\"sub judge-sub\"><div class=\"judge-row\"><span class=\"no\">（1）</span><span class=\"judge-stem\">“水”共有 4 画。</span><span class=\"judge-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">√</span>）</span></div></div>",
+        "cls": "",
+        "group": "q_jd",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "q_jd-s2",
+        "html": "<div class=\"sub judge-sub\"><div class=\"judge-row\"><span class=\"no\">（2）</span><span class=\"judge-stem\">“天”的第一笔是撇。</span><span class=\"judge-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">×</span>）</span></div></div>",
+        "cls": "",
+        "group": "q_jd",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "q_jd-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_jd",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-h",
+        "html": "<span class=\"no\">1.</span> 水的密度比油大。",
+        "cls": "stem",
+        "group": "q_jd2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-j",
+        "html": "<div class=\"judge-standalone\"><span class=\"judge-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">√</span>）</span></div>",
+        "cls": "",
+        "group": "q_jd2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_jd2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

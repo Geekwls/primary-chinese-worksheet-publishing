@@ -1,0 +1,132 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_ch-h",
+        "html": "<span class=\"no\">1.</span> 下列汉字笔画最多的是（　）。",
+        "cls": "stem",
+        "group": "q_ch",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch-opt",
+        "html": "<div class=\"choice-sub choice-standalone\"><span class=\"choice-bracket\">（<i class=\"slot i\"></i>）</span><div class=\"choice-options cols cols4\"><span class=\"opt\">A. 口</span><span class=\"opt\">B. 山</span><span class=\"opt\">C. 水</span><span class=\"opt\">D. 鸟</span></div></div>",
+        "cls": "",
+        "group": "q_ch",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ch",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-h",
+        "html": "<span class=\"no\">1.</span> 下列说法完全正确的一项是",
+        "cls": "stem",
+        "group": "q_ch2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-opt",
+        "html": "<div class=\"choice-sub choice-standalone\"><span class=\"choice-bracket\">（<i class=\"slot i\"></i>）</span><div class=\"choice-options cols cols4\"><span class=\"opt\">A. 弯弯曲曲</span><span class=\"opt\">B. 弯湾曲曲</span><span class=\"opt\">C. 应该辉映</span><span class=\"opt\">D. 记忆尤新</span></div></div>",
+        "cls": "",
+        "group": "q_ch2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ch2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_ch-h",
+        "html": "<span class=\"no\">1.</span> 下列汉字笔画最多的是（　）。",
+        "cls": "stem",
+        "group": "q_ch",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch-opt",
+        "html": "<div class=\"choice-sub choice-standalone\"><span class=\"choice-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">D</span>）</span><div class=\"choice-options cols cols4\"><span class=\"opt\">A. 口</span><span class=\"opt\">B. 山</span><span class=\"opt\">C. 水</span><span class=\"opt\">D. 鸟</span></div></div>",
+        "cls": "",
+        "group": "q_ch",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ch",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-h",
+        "html": "<span class=\"no\">1.</span> 下列说法完全正确的一项是",
+        "cls": "stem",
+        "group": "q_ch2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-opt",
+        "html": "<div class=\"choice-sub choice-standalone\"><span class=\"choice-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">A</span>）</span><div class=\"choice-options cols cols4\"><span class=\"opt\">A. 弯弯曲曲</span><span class=\"opt\">B. 弯湾曲曲</span><span class=\"opt\">C. 应该辉映</span><span class=\"opt\">D. 记忆尤新</span></div></div>",
+        "cls": "",
+        "group": "q_ch2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ch2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

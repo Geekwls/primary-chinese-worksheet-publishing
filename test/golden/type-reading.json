@@ -1,0 +1,132 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "qr-h",
+        "html": "<span class=\"no\">1.</span> 读短文，回答问题。",
+        "cls": "stem",
+        "group": "qr",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "qr-p",
+        "html": "<div class=\"passage-title\">小鸟和青蛙</div><p class=\"passage\">小鸟和青蛙在争论天有多大。</p><p class=\"passage\">它们都说自己说得对。</p>",
+        "cls": "",
+        "group": "qr",
+        "role": "q_body",
+        "keepNext": true,
+        "splittable": false,
+        "label": "passage"
+      },
+      {
+        "pid": "qr-s1",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>文章写了谁和谁在争论？<span class=\"choice-bracket\">（<i class=\"slot i\"></i>）</span></div><div class=\"sub-options\"><span class=\"opt\">A. 小鸟和青蛙</span><span class=\"opt\">B. 青蛙和小鱼</span></div></div>",
+        "cls": "",
+        "group": "qr",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "qr-s2",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span>小鸟认为天只有井口那么大。<span class=\"choice-bracket\">（<i class=\"slot i\"></i>）</span></div></div>",
+        "cls": "",
+        "group": "qr",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "qr-s3",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（3）</span>你同意它们的说法吗？写一写你的理由。</div><div class=\"wlines\"><div class=\"wline\"></div></div></div>",
+        "cls": "",
+        "group": "qr",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub3"
+      },
+      {
+        "pid": "qr-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "qr",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "qr-h",
+        "html": "<span class=\"no\">1.</span> 读短文，回答问题。",
+        "cls": "stem",
+        "group": "qr",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "qr-p",
+        "html": "<div class=\"passage-title\">小鸟和青蛙</div><p class=\"passage\">小鸟和青蛙在争论天有多大。</p><p class=\"passage\">它们都说自己说得对。</p>",
+        "cls": "",
+        "group": "qr",
+        "role": "q_body",
+        "keepNext": true,
+        "splittable": false,
+        "label": "passage"
+      },
+      {
+        "pid": "qr-s1",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>文章写了谁和谁在争论？<span class=\"choice-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">A</span>）</span></div><div class=\"sub-options\"><span class=\"opt\">A. 小鸟和青蛙</span><span class=\"opt\">B. 青蛙和小鱼</span></div></div>",
+        "cls": "",
+        "group": "qr",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "qr-s2",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span>小鸟认为天只有井口那么大。<span class=\"choice-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">×</span>）</span></div></div>",
+        "cls": "",
+        "group": "qr",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "qr-s3",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（3）</span>你同意它们的说法吗？写一写你的理由。</div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">不同意，天很大。</span></div></div></div>",
+        "cls": "",
+        "group": "qr",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub3"
+      },
+      {
+        "pid": "qr-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "qr",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

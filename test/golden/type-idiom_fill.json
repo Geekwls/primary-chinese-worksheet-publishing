@@ -1,0 +1,72 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_if-h",
+        "html": "<span class=\"no\">1.</span> 把成语补充完整。",
+        "cls": "stem",
+        "group": "q_if",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_if-g",
+        "html": "<span class=\"witem\">一<span class=\"brk\">（<i class=\"gap\"></i>）</span>一<span class=\"brk\">（<i class=\"gap\"></i>）</span></span><span class=\"witem\">四<span class=\"brk\">（<i class=\"gap\"></i>）</span>为<span class=\"brk\">（<i class=\"gap\"></i>）</span></span>",
+        "cls": "wrow",
+        "group": "q_if",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": ""
+      },
+      {
+        "pid": "q_if-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_if",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_if-h",
+        "html": "<span class=\"no\">1.</span> 把成语补充完整。",
+        "cls": "stem",
+        "group": "q_if",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_if-g",
+        "html": "<span class=\"witem\">一<span class=\"brk\">（<i class=\"gap\"></i>）<span class=\"ans\">心</span></span>一<span class=\"brk\">（<i class=\"gap\"></i>）<span class=\"ans\">意</span></span></span><span class=\"witem\">四<span class=\"brk\">（<i class=\"gap\"></i>）<span class=\"ans\">海</span></span>为<span class=\"brk\">（<i class=\"gap\"></i>）<span class=\"ans\">家</span></span></span>",
+        "cls": "wrow",
+        "group": "q_if",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": ""
+      },
+      {
+        "pid": "q_if-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_if",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_wp-h",
+        "html": "<span class=\"no\">1.</span> 商店运来 5 箱苹果，每箱 24 个，一共运来多少个？<span class=\"pt\">（5分）</span>",
+        "cls": "stem",
+        "group": "q_wp",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_wp-lines",
+        "html": "<div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_wp",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_wp-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_wp",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_wp-h",
+        "html": "<span class=\"no\">1.</span> 商店运来 5 箱苹果，每箱 24 个，一共运来多少个？<span class=\"pt\">（5分）</span>",
+        "cls": "stem",
+        "group": "q_wp",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_wp-lines",
+        "html": "<div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">5×24=120（个）</span></div><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_wp",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_wp-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_wp",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

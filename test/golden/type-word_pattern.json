@@ -1,0 +1,72 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_wpt-h",
+        "html": "<span class=\"no\">1.</span> 照样子，写词语。",
+        "cls": "stem",
+        "group": "q_wpt",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_wpt-g",
+        "html": "<div class=\"wrow\"><span class=\"witem\">例：高高兴兴</span><span class=\"brk\" style=\"width:var(--slot-w)\"><i class=\"slot\" style=\"width:100%\"></i></span><span class=\"brk\" style=\"width:var(--slot-w)\"><i class=\"slot\" style=\"width:100%\"></i></span></div>",
+        "cls": "",
+        "group": "q_wpt",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_wpt-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_wpt",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_wpt-h",
+        "html": "<span class=\"no\">1.</span> 照样子，写词语。",
+        "cls": "stem",
+        "group": "q_wpt",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_wpt-g",
+        "html": "<div class=\"wrow\"><span class=\"witem\">例：高高兴兴</span><span class=\"brk\" style=\"width:var(--slot-w)\"><i class=\"slot\" style=\"width:100%\"></i><span class=\"ans\">开开心心</span></span><span class=\"brk\" style=\"width:var(--slot-w)\"><i class=\"slot\" style=\"width:100%\"></i><span class=\"ans\">快快乐乐</span></span></div>",
+        "cls": "",
+        "group": "q_wpt",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_wpt-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_wpt",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

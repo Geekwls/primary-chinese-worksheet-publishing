@@ -1,0 +1,507 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "doc-head",
+        "html": "<div class=\"doc-title\">三年级数学 第一单元混合练习</div><div class=\"doc-meta\"><span class=\"mf\">姓名：<b></b></span><span class=\"mf\">班级：<b></b></span><span class=\"mf\">日期：<b></b></span></div><div class=\"doc-head-rule\"></div>",
+        "cls": "doc-head",
+        "group": "doc",
+        "role": "doc_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-1",
+        "html": "<span>一、口算下面各题</span>",
+        "cls": "sec",
+        "group": "s1",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o1-h",
+        "html": "<span class=\"no\">1.</span> 36×25 = <span class=\"calc-oral-slot\"><span class=\"brk\" style=\"width:5.10em;display:inline-block\"><i class=\"slot\" style=\"width:100%\"></i></span></span>",
+        "cls": "stem",
+        "group": "q_o1",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o1-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_o1",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o2-h",
+        "html": "<span class=\"no\">2.</span> 480÷8 = <span class=\"calc-oral-slot\"><span class=\"brk\" style=\"width:3.80em;display:inline-block\"><i class=\"slot\" style=\"width:100%\"></i></span></span>",
+        "cls": "stem",
+        "group": "q_o2",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_o2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o3-h",
+        "html": "<span class=\"no\">3.</span> 15×6 - 40 = <span class=\"calc-oral-slot\"><span class=\"brk\" style=\"width:3.80em;display:inline-block\"><i class=\"slot\" style=\"width:100%\"></i></span></span>",
+        "cls": "stem",
+        "group": "q_o3",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o3-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_o3",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-2",
+        "html": "<span>二、填空题</span>",
+        "cls": "sec",
+        "group": "s2",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_f1-h",
+        "html": "<span class=\"no\">4.</span> 3分米 = <span class=\"brk\"><i class=\"slot\" style=\"width:4.04em\"></i></span>厘米　7000米 = <span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i></span>千米",
+        "cls": "stem",
+        "group": "q_f1",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_f1-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_f1",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_f2-h",
+        "html": "<span class=\"no\">5.</span> 一块正方形菜地的周长是 24<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i></span>，它的边长是<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i></span>。",
+        "cls": "stem",
+        "group": "q_f2",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_f2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_f2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-3",
+        "html": "<span>三、列竖式计算</span>",
+        "cls": "sec",
+        "group": "s3",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_v1-h",
+        "html": "<span class=\"no\">6.</span> 列竖式计算：456 + 287 = ？",
+        "cls": "stem",
+        "group": "q_v1",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_v1-work",
+        "html": "<div class=\"calc-work-box\"><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_v1",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_v1-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_v1",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-4",
+        "html": "<span>四、解决问题</span>",
+        "cls": "sec",
+        "group": "s4",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w1-h",
+        "html": "<span class=\"no\">7.</span> 商店运来 5 箱苹果，每箱 24 个，一共运来多少个？",
+        "cls": "stem",
+        "group": "q_w1",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w1-lines",
+        "html": "<div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_w1",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w1-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_w1",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w2-h",
+        "html": "<span class=\"no\">8.</span> 一块长方形菜地长 18 米，宽 12 米，这块菜地的周长是多少米？",
+        "cls": "stem",
+        "group": "q_w2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w2-lines",
+        "html": "<div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_w2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_w2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "doc-head",
+        "html": "<div class=\"doc-title\">三年级数学 第一单元混合练习</div><div class=\"doc-meta\"><span class=\"mf\">姓名：<b></b></span><span class=\"mf\">班级：<b></b></span><span class=\"mf\">日期：<b></b></span></div><div class=\"doc-head-rule\"></div>",
+        "cls": "doc-head",
+        "group": "doc",
+        "role": "doc_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-1",
+        "html": "<span>一、口算下面各题</span>",
+        "cls": "sec",
+        "group": "s1",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o1-h",
+        "html": "<span class=\"no\">1.</span> 36×25 = <span class=\"calc-oral-slot\"><span class=\"brk\" style=\"width:5.10em;display:inline-block\"><i class=\"slot\" style=\"width:100%\"></i><span class=\"ans\">900</span></span></span>",
+        "cls": "stem",
+        "group": "q_o1",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o1-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_o1",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o2-h",
+        "html": "<span class=\"no\">2.</span> 480÷8 = <span class=\"calc-oral-slot\"><span class=\"brk\" style=\"width:3.80em;display:inline-block\"><i class=\"slot\" style=\"width:100%\"></i><span class=\"ans\">60</span></span></span>",
+        "cls": "stem",
+        "group": "q_o2",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_o2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o3-h",
+        "html": "<span class=\"no\">3.</span> 15×6 - 40 = <span class=\"calc-oral-slot\"><span class=\"brk\" style=\"width:3.80em;display:inline-block\"><i class=\"slot\" style=\"width:100%\"></i><span class=\"ans\">50</span></span></span>",
+        "cls": "stem",
+        "group": "q_o3",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_o3-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_o3",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-2",
+        "html": "<span>二、填空题</span>",
+        "cls": "sec",
+        "group": "s2",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_f1-h",
+        "html": "<span class=\"no\">4.</span> 3分米 = <span class=\"brk\"><i class=\"slot\" style=\"width:4.04em\"></i><span class=\"ans\">300</span></span>厘米　7000米 = <span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i><span class=\"ans\">7</span></span>千米",
+        "cls": "stem",
+        "group": "q_f1",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_f1-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_f1",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_f2-h",
+        "html": "<span class=\"no\">5.</span> 一块正方形菜地的周长是 24<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i><span class=\"ans\">米</span></span>，它的边长是<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i><span class=\"ans\">米</span></span>。",
+        "cls": "stem",
+        "group": "q_f2",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_f2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_f2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-3",
+        "html": "<span>三、列竖式计算</span>",
+        "cls": "sec",
+        "group": "s3",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_v1-h",
+        "html": "<span class=\"no\">6.</span> 列竖式计算：456 + 287 = ？",
+        "cls": "stem",
+        "group": "q_v1",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_v1-work",
+        "html": "<div class=\"calc-work-box\"><div class=\"wline\"><span class=\"ans\">743</span></div><div class=\"wline\"></div><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_v1",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_v1-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_v1",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-4",
+        "html": "<span>四、解决问题</span>",
+        "cls": "sec",
+        "group": "s4",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w1-h",
+        "html": "<span class=\"no\">7.</span> 商店运来 5 箱苹果，每箱 24 个，一共运来多少个？",
+        "cls": "stem",
+        "group": "q_w1",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w1-lines",
+        "html": "<div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">5×24=120（个）</span></div><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_w1",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w1-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_w1",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w2-h",
+        "html": "<span class=\"no\">8.</span> 一块长方形菜地长 18 米，宽 12 米，这块菜地的周长是多少米？",
+        "cls": "stem",
+        "group": "q_w2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w2-lines",
+        "html": "<div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">(18+12)×2=60（米）</span></div><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_w2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_w2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_w2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "explain": {
+    "parts": [
+      {
+        "pid": "exp-title",
+        "html": "<div class=\"exp-page-title\">参考答案与教学解析</div>",
+        "cls": "",
+        "group": "exp",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

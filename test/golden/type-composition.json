@@ -1,0 +1,72 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "qc-h",
+        "html": "<span class=\"no\">1.</span> 看图写话。<div class=\"comp-prompt\">看看图中有谁，他们在做什么。</div><div class=\"comp-img-wrap\"><img class=\"comp-img\" src=\"test.png\" style=\"max-height:30mm\" /><div class=\"comp-img-cap\">仔细观察小动物</div></div>",
+        "cls": "stem",
+        "group": "qc",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "qc-g",
+        "html": "<div class=\"zwg\" style=\"grid-template-columns:repeat(15,var(--zw))\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>",
+        "cls": "zw-wrap",
+        "group": "qc",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "qc-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "qc",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "qc-h",
+        "html": "<span class=\"no\">1.</span> 看图写话。<div class=\"comp-prompt\">看看图中有谁，他们在做什么。</div><div class=\"comp-img-wrap\"><img class=\"comp-img\" src=\"test.png\" style=\"max-height:30mm\" /><div class=\"comp-img-cap\">仔细观察小动物</div></div>",
+        "cls": "stem",
+        "group": "qc",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "qc-g",
+        "html": "<div class=\"zwg\" style=\"grid-template-columns:repeat(15,var(--zw))\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>",
+        "cls": "zw-wrap",
+        "group": "qc",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "qc-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "qc",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_ca-h",
+        "html": "<span class=\"no\">1.</span> 36×25 = ？ <span class=\"calc-oral-slot\"><span class=\"brk\" style=\"width:5.10em;display:inline-block\"><i class=\"slot\" style=\"width:100%\"></i></span></span><span class=\"pt\">（2分）</span>",
+        "cls": "stem",
+        "group": "q_ca",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ca-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ca",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_cv-h",
+        "html": "<span class=\"no\">1.</span> 列竖式计算：456 + 287 = ？",
+        "cls": "stem",
+        "group": "q_cv",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_cv-work",
+        "html": "<div class=\"calc-work-box\"><div class=\"wline\"></div><div class=\"wline\"></div><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_cv",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_cv-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_cv",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_ca-h",
+        "html": "<span class=\"no\">1.</span> 36×25 = ？ <span class=\"calc-oral-slot\"><span class=\"brk\" style=\"width:5.10em;display:inline-block\"><i class=\"slot\" style=\"width:100%\"></i><span class=\"ans\">900</span></span></span><span class=\"pt\">（2分）</span>",
+        "cls": "stem",
+        "group": "q_ca",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ca-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ca",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_cv-h",
+        "html": "<span class=\"no\">1.</span> 列竖式计算：456 + 287 = ？",
+        "cls": "stem",
+        "group": "q_cv",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_cv-work",
+        "html": "<div class=\"calc-work-box\"><div class=\"wline\"><span class=\"ans\">743</span></div><div class=\"wline\"></div><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_cv",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_cv-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_cv",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

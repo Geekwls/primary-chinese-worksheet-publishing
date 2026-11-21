@@ -1,0 +1,72 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_ap-h",
+        "html": "<span class=\"no\">1.</span> 给加点字注音。",
+        "cls": "stem",
+        "group": "q_ap",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ap-g",
+        "html": "<span class=\"pin-item\"><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">你</span></span><span class=\"pin-col\"><span class=\"pin-slot\"></span><span class=\"pin-c tgt\">好</span></span><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">呀</span></span></span>",
+        "cls": "pin-grp",
+        "group": "q_ap",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": ""
+      },
+      {
+        "pid": "q_ap-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ap",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_ap-h",
+        "html": "<span class=\"no\">1.</span> 给加点字注音。",
+        "cls": "stem",
+        "group": "q_ap",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ap-g",
+        "html": "<span class=\"pin-item\"><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">你</span></span><span class=\"pin-col\"><span class=\"pin-slot\"><span class=\"ans\">hǎo</span></span><span class=\"pin-c tgt\">好</span></span><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">呀</span></span></span>",
+        "cls": "pin-grp",
+        "group": "q_ap",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": ""
+      },
+      {
+        "pid": "q_ap-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ap",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

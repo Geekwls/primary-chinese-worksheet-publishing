@@ -1,0 +1,72 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_pf-h",
+        "html": "<span class=\"no\">1.</span> 把古诗补充完整。",
+        "cls": "stem",
+        "group": "q_pf",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_pf-g",
+        "html": "<div class=\"poem\"><div class=\"poem-t\">静夜思</div><div class=\"poem-l\">床前明<span class=\"brk\"><i class=\"slot\" style=\"width:2.86em\"></i></span>，疑是地上<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i></span>。</div></div>",
+        "cls": "",
+        "group": "q_pf",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_pf-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_pf",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_pf-h",
+        "html": "<span class=\"no\">1.</span> 把古诗补充完整。",
+        "cls": "stem",
+        "group": "q_pf",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_pf-g",
+        "html": "<div class=\"poem\"><div class=\"poem-t\">静夜思</div><div class=\"poem-l\">床前明<span class=\"brk\"><i class=\"slot\" style=\"width:2.86em\"></i><span class=\"ans\">月光</span></span>，疑是地上<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i><span class=\"ans\">霜</span></span>。</div></div>",
+        "cls": "",
+        "group": "q_pf",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_pf-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_pf",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

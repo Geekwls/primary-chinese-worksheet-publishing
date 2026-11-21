@@ -1,0 +1,74 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_gen-h",
+        "html": "<span class=\"no\">1.</span> 把你的想法写下来。",
+        "cls": "stem",
+        "group": "q_gen",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_gen-g",
+        "html": "<div class=\"wlines\"><div class=\"wline\"></div></div>",
+        "cls": "",
+        "group": "q_gen",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_gen-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_gen",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_gen-h",
+        "html": "<span class=\"no\">1.</span> 把你的想法写下来。",
+        "cls": "stem",
+        "group": "q_gen",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_gen-g",
+        "html": "<div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">这是一段远远超过一行的很长很长的答案，用来触发教师卷的切行与行数</span></div></div>",
+        "cls": "",
+        "group": "q_gen",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_gen-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_gen",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": [
+      "教师卷答案预计需要 2 行，但只预留 1 行（q_gen），请增加 lines 或缩短答案"
+    ]
+  }
+}

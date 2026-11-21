@@ -1,0 +1,92 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_fb-h",
+        "html": "<span class=\"no\">1.</span> 3分米 = <span class=\"brk\"><i class=\"slot\" style=\"width:4.04em\"></i></span>厘米 7000米 = <span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i></span>千米<span class=\"pt\">（4分）</span>",
+        "cls": "stem",
+        "group": "q_fb",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_fb-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_fb",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_fb2-h",
+        "html": "<span class=\"no\">1.</span> 一块正方形手帕的周长是 2.4<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i></span>，边长是<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i></span>。",
+        "cls": "stem",
+        "group": "q_fb2",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_fb2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_fb2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_fb-h",
+        "html": "<span class=\"no\">1.</span> 3分米 = <span class=\"brk\"><i class=\"slot\" style=\"width:4.04em\"></i><span class=\"ans\">300</span></span>厘米 7000米 = <span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i><span class=\"ans\">7</span></span>千米<span class=\"pt\">（4分）</span>",
+        "cls": "stem",
+        "group": "q_fb",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_fb-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_fb",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_fb2-h",
+        "html": "<span class=\"no\">1.</span> 一块正方形手帕的周长是 2.4<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i><span class=\"ans\">米</span></span>，边长是<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i><span class=\"ans\">米</span></span>。",
+        "cls": "stem",
+        "group": "q_fb2",
+        "role": "q_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_fb2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_fb2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

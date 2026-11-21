@@ -1,0 +1,72 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "q_sim-h",
+        "html": "<span class=\"no\">1.</span> 比一比，再组词。",
+        "cls": "stem",
+        "group": "q_sim",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_sim-r0",
+        "html": "<span class=\"gc\"><span class=\"ch\">晴</span><span class=\"brk\">（<i class=\"slot w\"></i>）</span></span><span class=\"gc\"><span class=\"ch\">睛</span><span class=\"brk\">（<i class=\"slot w\"></i>）</span></span><span class=\"gc\"><span class=\"ch\">渴</span><span class=\"brk\">（<i class=\"slot w\"></i>）</span></span><span class=\"gc\"><span class=\"ch\">喝</span><span class=\"brk\">（<i class=\"slot w\"></i>）</span></span>",
+        "cls": "cols cols2",
+        "group": "q_sim",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row0"
+      },
+      {
+        "pid": "q_sim-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_sim",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "q_sim-h",
+        "html": "<span class=\"no\">1.</span> 比一比，再组词。",
+        "cls": "stem",
+        "group": "q_sim",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_sim-r0",
+        "html": "<span class=\"gc\"><span class=\"ch\">晴</span><span class=\"brk\">（<i class=\"slot w\"></i>）<span class=\"ans\">晴天</span></span></span><span class=\"gc\"><span class=\"ch\">睛</span><span class=\"brk\">（<i class=\"slot w\"></i>）<span class=\"ans\">眼睛</span></span></span><span class=\"gc\"><span class=\"ch\">渴</span><span class=\"brk\">（<i class=\"slot w\"></i>）<span class=\"ans\">口渴</span></span></span><span class=\"gc\"><span class=\"ch\">喝</span><span class=\"brk\">（<i class=\"slot w\"></i>）<span class=\"ans\">喝水</span></span></span>",
+        "cls": "cols cols2",
+        "group": "q_sim",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row0"
+      },
+      {
+        "pid": "q_sim-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_sim",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

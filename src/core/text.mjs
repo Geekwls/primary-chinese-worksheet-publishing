@@ -32,3 +32,29 @@ export function stripTags(value) {
 export function norm(value) {
   return String(value ?? "").normalize("NFC").replace(/\s+/g, "");
 }
+
+/**
+ * 长答案按每行可容纳字数切开，优先在标点后断行，模拟教师手写批注。
+ * 这是"答案不得被裁切"（P0-09）在组件层的前置保障。
+ */
+export function splitAnswer(text, capacity) {
+  const src = String(text ?? "").trim();
+  if (!src) return [];
+  const chars = [...src];
+  if (chars.length <= capacity) return [src];
+  const PUNCT = "，。；：、！？…";
+  const segs = [];
+  let buf = "";
+  let len = 0;
+  for (const ch of chars) {
+    buf += ch;
+    len += 1;
+    if ((len >= capacity - 1 && PUNCT.includes(ch)) || len >= capacity) {
+      segs.push(buf);
+      buf = "";
+      len = 0;
+    }
+  }
+  if (buf) segs.push(buf);
+  return segs;
+}

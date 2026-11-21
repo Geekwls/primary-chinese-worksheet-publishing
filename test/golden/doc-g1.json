@@ -1,0 +1,467 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "doc-head",
+        "html": "<div class=\"doc-title\">一年级上册语文 拼音与识字专项练习</div><div class=\"doc-meta\"><span class=\"mf\">姓名：<b></b></span><span class=\"mf\">班级：<b></b></span><span class=\"mf\">日期：<b></b></span></div><div class=\"doc-head-rule\"></div>",
+        "cls": "doc-head",
+        "group": "doc",
+        "role": "doc_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-1",
+        "html": "<span>一、看拼音，写词语</span><span class=\"sec-score\">（18分）</span>",
+        "cls": "sec",
+        "group": "s1",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q1-h",
+        "html": "<span class=\"no\">1.</span> 看拼音，写词语。",
+        "cls": "stem",
+        "group": "q1",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q1-r0",
+        "html": "<div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">tiān</span><span class=\"pyc\">shàng</span></div><div class=\"tzrow\"><span class=\"tzg\"></span><span class=\"tzg\"></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">bái</span><span class=\"pyc\">yún</span></div><div class=\"tzrow\"><span class=\"tzg\"></span><span class=\"tzg\"></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">shuǐ</span><span class=\"pyc\">niú</span></div><div class=\"tzrow\"><span class=\"tzg\"></span><span class=\"tzg\"></span></div></div>",
+        "cls": "prow",
+        "group": "q1",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row0"
+      },
+      {
+        "pid": "q1-r1",
+        "html": "<div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">mù</span><span class=\"pyc\">tou</span></div><div class=\"tzrow\"><span class=\"tzg\"></span><span class=\"tzg\"></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">xiǎo</span><span class=\"pyc\">niǎo</span></div><div class=\"tzrow\"><span class=\"tzg\"></span><span class=\"tzg\"></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">shū</span><span class=\"pyc\">běn</span></div><div class=\"tzrow\"><span class=\"tzg\"></span><span class=\"tzg\"></span></div></div>",
+        "cls": "prow",
+        "group": "q1",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row1"
+      },
+      {
+        "pid": "q1-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q1",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-2",
+        "html": "<span>二、给加点字选读音</span><span class=\"sec-score\">（8分）</span>",
+        "cls": "sec",
+        "group": "s2",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q2-h",
+        "html": "<span class=\"no\">2.</span> 把加点字的读音写在横线上。",
+        "cls": "stem",
+        "group": "q2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q2-g",
+        "html": "<span class=\"pin-item\"><span class=\"pin-col\"><span class=\"pin-slot\"></span><span class=\"pin-c tgt\">长</span></span><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">大</span></span></span><span class=\"pin-item\"><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">音</span></span><span class=\"pin-col\"><span class=\"pin-slot\"></span><span class=\"pin-c tgt\">乐</span></span></span><span class=\"pin-item\"><span class=\"pin-col\"><span class=\"pin-slot\"></span><span class=\"pin-c tgt\">白</span></span><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">云</span></span></span><span class=\"pin-item\"><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">小</span></span><span class=\"pin-col\"><span class=\"pin-slot\"></span><span class=\"pin-c tgt\">鸟</span></span></span>",
+        "cls": "pin-grp",
+        "group": "q2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": ""
+      },
+      {
+        "pid": "q2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-3",
+        "html": "<span>三、比一比，再组词</span><span class=\"sec-score\">（6分）</span>",
+        "cls": "sec",
+        "group": "s3",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q3-h",
+        "html": "<span class=\"no\">3.</span> 比一比，再组词。",
+        "cls": "stem",
+        "group": "q3",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q3-r0",
+        "html": "<span class=\"gc\"><span class=\"ch\">日</span><span class=\"brk\">（<i class=\"slot w\"></i>）</span></span><span class=\"gc\"><span class=\"ch\">目</span><span class=\"brk\">（<i class=\"slot w\"></i>）</span></span>",
+        "cls": "wrow",
+        "group": "q3",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row0"
+      },
+      {
+        "pid": "q3-r1",
+        "html": "<span class=\"gc\"><span class=\"ch\">木</span><span class=\"brk\">（<i class=\"slot w\"></i>）</span></span><span class=\"gc\"><span class=\"ch\">本</span><span class=\"brk\">（<i class=\"slot w\"></i>）</span></span>",
+        "cls": "wrow",
+        "group": "q3",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row1"
+      },
+      {
+        "pid": "q3-r2",
+        "html": "<span class=\"gc\"><span class=\"ch\">人</span><span class=\"brk\">（<i class=\"slot w\"></i>）</span></span><span class=\"gc\"><span class=\"ch\">入</span><span class=\"brk\">（<i class=\"slot w\"></i>）</span></span>",
+        "cls": "wrow",
+        "group": "q3",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row2"
+      },
+      {
+        "pid": "q3-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q3",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-4",
+        "html": "<span>四、写话</span><span class=\"sec-score\">（8分）</span>",
+        "cls": "sec",
+        "group": "s4",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q4-h",
+        "html": "<span class=\"no\">4.</span> 写话。<div class=\"comp-prompt\">用一两句话写一写你的好朋友。他（她）叫什么名字？你们常在一起做什么？</div>",
+        "cls": "stem",
+        "group": "q4",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q4-g",
+        "html": "<div class=\"zwg\" style=\"grid-template-columns:repeat(12,var(--zw))\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>",
+        "cls": "zw-wrap",
+        "group": "q4",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q4-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q4",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "doc-head",
+        "html": "<div class=\"doc-title\">一年级上册语文 拼音与识字专项练习</div><div class=\"doc-meta\"><span class=\"mf\">姓名：<b></b></span><span class=\"mf\">班级：<b></b></span><span class=\"mf\">日期：<b></b></span></div><div class=\"doc-head-rule\"></div>",
+        "cls": "doc-head",
+        "group": "doc",
+        "role": "doc_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-1",
+        "html": "<span>一、看拼音，写词语</span><span class=\"sec-score\">（18分）</span>",
+        "cls": "sec",
+        "group": "s1",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q1-h",
+        "html": "<span class=\"no\">1.</span> 看拼音，写词语。",
+        "cls": "stem",
+        "group": "q1",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q1-r0",
+        "html": "<div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">tiān</span><span class=\"pyc\">shàng</span></div><div class=\"tzrow\"><span class=\"tzg\"><span class=\"ans\">天</span></span><span class=\"tzg\"><span class=\"ans\">上</span></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">bái</span><span class=\"pyc\">yún</span></div><div class=\"tzrow\"><span class=\"tzg\"><span class=\"ans\">白</span></span><span class=\"tzg\"><span class=\"ans\">云</span></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">shuǐ</span><span class=\"pyc\">niú</span></div><div class=\"tzrow\"><span class=\"tzg\"><span class=\"ans\">水</span></span><span class=\"tzg\"><span class=\"ans\">牛</span></span></div></div>",
+        "cls": "prow",
+        "group": "q1",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row0"
+      },
+      {
+        "pid": "q1-r1",
+        "html": "<div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">mù</span><span class=\"pyc\">tou</span></div><div class=\"tzrow\"><span class=\"tzg\"><span class=\"ans\">木</span></span><span class=\"tzg\"><span class=\"ans\">头</span></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">xiǎo</span><span class=\"pyc\">niǎo</span></div><div class=\"tzrow\"><span class=\"tzg\"><span class=\"ans\">小</span></span><span class=\"tzg\"><span class=\"ans\">鸟</span></span></div></div><div class=\"pitem\"><div class=\"pyrow\"><span class=\"pyc\">shū</span><span class=\"pyc\">běn</span></div><div class=\"tzrow\"><span class=\"tzg\"><span class=\"ans\">书</span></span><span class=\"tzg\"><span class=\"ans\">本</span></span></div></div>",
+        "cls": "prow",
+        "group": "q1",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row1"
+      },
+      {
+        "pid": "q1-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q1",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-2",
+        "html": "<span>二、给加点字选读音</span><span class=\"sec-score\">（8分）</span>",
+        "cls": "sec",
+        "group": "s2",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q2-h",
+        "html": "<span class=\"no\">2.</span> 把加点字的读音写在横线上。",
+        "cls": "stem",
+        "group": "q2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q2-g",
+        "html": "<span class=\"pin-item\"><span class=\"pin-col\"><span class=\"pin-slot\"><span class=\"ans\">zhǎng</span></span><span class=\"pin-c tgt\">长</span></span><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">大</span></span></span><span class=\"pin-item\"><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">音</span></span><span class=\"pin-col\"><span class=\"pin-slot\"><span class=\"ans\">yuè</span></span><span class=\"pin-c tgt\">乐</span></span></span><span class=\"pin-item\"><span class=\"pin-col\"><span class=\"pin-slot\"><span class=\"ans\">bái</span></span><span class=\"pin-c tgt\">白</span></span><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">云</span></span></span><span class=\"pin-item\"><span class=\"pin-col\"><span class=\"pin-top\"></span><span class=\"pin-c\">小</span></span><span class=\"pin-col\"><span class=\"pin-slot\"><span class=\"ans\">niǎo</span></span><span class=\"pin-c tgt\">鸟</span></span></span>",
+        "cls": "pin-grp",
+        "group": "q2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": ""
+      },
+      {
+        "pid": "q2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-3",
+        "html": "<span>三、比一比，再组词</span><span class=\"sec-score\">（6分）</span>",
+        "cls": "sec",
+        "group": "s3",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q3-h",
+        "html": "<span class=\"no\">3.</span> 比一比，再组词。",
+        "cls": "stem",
+        "group": "q3",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q3-r0",
+        "html": "<span class=\"gc\"><span class=\"ch\">日</span><span class=\"brk\">（<i class=\"slot w\"></i>）<span class=\"ans\">日子</span></span></span><span class=\"gc\"><span class=\"ch\">目</span><span class=\"brk\">（<i class=\"slot w\"></i>）<span class=\"ans\">目光</span></span></span>",
+        "cls": "wrow",
+        "group": "q3",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row0"
+      },
+      {
+        "pid": "q3-r1",
+        "html": "<span class=\"gc\"><span class=\"ch\">木</span><span class=\"brk\">（<i class=\"slot w\"></i>）<span class=\"ans\">木头</span></span></span><span class=\"gc\"><span class=\"ch\">本</span><span class=\"brk\">（<i class=\"slot w\"></i>）<span class=\"ans\">书本</span></span></span>",
+        "cls": "wrow",
+        "group": "q3",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row1"
+      },
+      {
+        "pid": "q3-r2",
+        "html": "<span class=\"gc\"><span class=\"ch\">人</span><span class=\"brk\">（<i class=\"slot w\"></i>）<span class=\"ans\">大人</span></span></span><span class=\"gc\"><span class=\"ch\">入</span><span class=\"brk\">（<i class=\"slot w\"></i>）<span class=\"ans\">入口</span></span></span>",
+        "cls": "wrow",
+        "group": "q3",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "row2"
+      },
+      {
+        "pid": "q3-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q3",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-4",
+        "html": "<span>四、写话</span><span class=\"sec-score\">（8分）</span>",
+        "cls": "sec",
+        "group": "s4",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q4-h",
+        "html": "<span class=\"no\">4.</span> 写话。<div class=\"comp-prompt\">用一两句话写一写你的好朋友。他（她）叫什么名字？你们常在一起做什么？</div>",
+        "cls": "stem",
+        "group": "q4",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q4-g",
+        "html": "<div class=\"zwg\" style=\"grid-template-columns:repeat(12,var(--zw))\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>",
+        "cls": "zw-wrap",
+        "group": "q4",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q4-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q4",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "explain": {
+    "parts": [
+      {
+        "pid": "exp-title",
+        "html": "<div class=\"exp-page-title\">参考答案与教学解析</div>",
+        "cls": "",
+        "group": "exp",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "exp-q1",
+        "html": "<div class=\"exp-q\"><div class=\"exp-h\">1. 看拼音，写词语。</div><div class=\"exp-a\">天上　白云　水牛　木头　小鸟　书本</div><div class=\"exp-n\">一年级书写要求：字要写在田字格中间，先撇后捺、先横后竖，每个笔画都要写到位。</div></div>",
+        "cls": "",
+        "group": "q1",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "exp-q2",
+        "html": "<div class=\"exp-q\"><div class=\"exp-h\">2. 把加点字的读音写在横线上。</div><div class=\"exp-a\">zhǎng　yuè　bái　niǎo</div><div class=\"exp-n\">声调要标在主要元音上：ao 标在 a，iu 标在 u，ui 标在 i。</div></div>",
+        "cls": "",
+        "group": "q2",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "exp-q3",
+        "html": "<div class=\"exp-q\"><div class=\"exp-h\">3. 比一比，再组词。</div><div class=\"exp-a\">日子／目光　木头／书本　大人／入口</div><div class=\"exp-n\">「日」中间一横，「目」中间两横；「人」撇捺分开，「入」撇短捺长盖住撇。</div></div>",
+        "cls": "",
+        "group": "q3",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "exp-q4",
+        "html": "<div class=\"exp-q\"><div class=\"exp-h\">4. 写话。</div><div class=\"exp-a\">参考范文：我的好朋友叫小明。下课以后，我们常常一起跳绳。</div><div class=\"exp-n\">一年级写话只要求写完整的一两句话，能加句号即可，不要求字数。</div></div>",
+        "cls": "",
+        "group": "q4",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}

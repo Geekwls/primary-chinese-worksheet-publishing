@@ -6,9 +6,9 @@
  *   2. 教师卷答案一律用 <span class="ans"> 绝对定位覆盖，不参与高度计算。
  */
 import { ComponentError } from "../core/errors.mjs";
-import { esc } from "../core/text.mjs";
+import { esc, splitAnswer } from "../core/text.mjs";
 
-export { esc };
+export { esc, splitAnswer };
 
 /** 教师卷答案覆盖层；学生卷调用时应传入空串。 */
 export function ans(text, cls = "ans") {
@@ -89,30 +89,8 @@ export function stemInner(q, ctx, no) {
 }
 
 /**
- * 长答案按每行可容纳字数切开，优先在标点后断行，模拟教师手写批注。
- * 这是"答案不得被裁切"（P0-09）在组件层的前置保障。
+ * 长答案切行逻辑已上移 core/text.mjs（splitAnswer）；此处 re-export 保持兼容。
  */
-export function splitAnswer(text, capacity) {
-  const src = String(text ?? "").trim();
-  if (!src) return [];
-  const chars = [...src];
-  if (chars.length <= capacity) return [src];
-  const PUNCT = "，。；：、！？…";
-  const segs = [];
-  let buf = "";
-  let len = 0;
-  for (const ch of chars) {
-    buf += ch;
-    len += 1;
-    if ((len >= capacity - 1 && PUNCT.includes(ch)) || len >= capacity) {
-      segs.push(buf);
-      buf = "";
-      len = 0;
-    }
-  }
-  if (buf) segs.push(buf);
-  return segs;
-}
 
 /** 书写横线组。预留行数不足时记录警告，由 CLI 汇总上报而不是静默裁切。 */
 export function wlines(count, answers, ctx, label = "") {

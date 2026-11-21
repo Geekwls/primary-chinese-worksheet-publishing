@@ -1,0 +1,647 @@
+{
+  "student": {
+    "parts": [
+      {
+        "pid": "doc-head",
+        "html": "<div class=\"doc-title\">一年级语文 综合基础练习卷</div><div class=\"doc-meta\"><span class=\"mf\">姓名：<b></b></span><span class=\"mf\">班级：<b></b></span><span class=\"mf\">日期：<b></b></span></div><div class=\"doc-head-rule\"></div>",
+        "cls": "doc-head",
+        "group": "doc",
+        "role": "doc_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-1",
+        "html": "<span>一、单项选择题</span>",
+        "cls": "sec",
+        "group": "s1",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch-h",
+        "html": "<span class=\"no\">1.</span> 下列汉字笔画最多的是（　）。",
+        "cls": "stem",
+        "group": "q_ch",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch-opt",
+        "html": "<div class=\"choice-sub choice-standalone\"><span class=\"choice-bracket\">（<i class=\"slot i\"></i>）</span><div class=\"choice-options cols cols4\"><span class=\"opt\">A. 口</span><span class=\"opt\">B. 山</span><span class=\"opt\">C. 水</span><span class=\"opt\">D. 鸟</span></div></div>",
+        "cls": "",
+        "group": "q_ch",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ch",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-h",
+        "html": "<span class=\"no\">2.</span> 下列词语搭配完全正确的一项是",
+        "cls": "stem",
+        "group": "q_ch2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-opt",
+        "html": "<div class=\"choice-sub choice-standalone\"><span class=\"choice-bracket\">（<i class=\"slot i\"></i>）</span><div class=\"choice-options cols cols4\"><span class=\"opt\">A. 弯弯曲曲</span><span class=\"opt\">B. 弯湾曲曲</span></div></div>",
+        "cls": "",
+        "group": "q_ch2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ch2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-2",
+        "html": "<span>二、是非判断题</span>",
+        "cls": "sec",
+        "group": "s2",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd-h",
+        "html": "<span class=\"no\">3.</span> 判断下列说法是否正确。",
+        "cls": "stem",
+        "group": "q_jd",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd-s1",
+        "html": "<div class=\"sub judge-sub\"><div class=\"judge-row\"><span class=\"no\">（1）</span><span class=\"judge-stem\">“水”共有4画，第一笔是竖钩。</span><span class=\"judge-bracket\">（<i class=\"slot i\"></i>）</span></div></div>",
+        "cls": "",
+        "group": "q_jd",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "q_jd-s2",
+        "html": "<div class=\"sub judge-sub\"><div class=\"judge-row\"><span class=\"no\">（2）</span><span class=\"judge-stem\">“天”的第一笔是横，第二笔是撇。</span><span class=\"judge-bracket\">（<i class=\"slot i\"></i>）</span></div></div>",
+        "cls": "",
+        "group": "q_jd",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "q_jd-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_jd",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-h",
+        "html": "<span class=\"no\">4.</span> 水的密度比油大。",
+        "cls": "stem",
+        "group": "q_jd2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-j",
+        "html": "<div class=\"judge-standalone\"><span class=\"judge-bracket\">（<i class=\"slot i\"></i>）</span></div>",
+        "cls": "",
+        "group": "q_jd2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_jd2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-3",
+        "html": "<span>三、生字笔顺与笔画</span>",
+        "cls": "sec",
+        "group": "s3",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_st-h",
+        "html": "<span class=\"no\">5.</span> 按要求填空。",
+        "cls": "stem",
+        "group": "q_st",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_st-s1",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（1）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">水</span></span></span><span class=\"stroke-details\">共有（<i class=\"slot i\"></i>）画，第二笔是（<i class=\"slot w\"></i>）。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "q_st-s2",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（2）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">火</span></span></span><span class=\"stroke-details\">共有（<i class=\"slot i\"></i>）画，笔顺是：（<i class=\"slot p\"></i>）。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "q_st-s3",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（3）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">木</span></span></span><span class=\"stroke-text\">“木”的笔顺是<span class=\"brk\">（<i class=\"gap\"></i>）</span>。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub3"
+      },
+      {
+        "pid": "q_st-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_st",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-4",
+        "html": "<span>四、读拼音，连一连</span>",
+        "cls": "sec",
+        "group": "s4",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma-h",
+        "html": "<span class=\"no\">6.</span> 把拼音和对应的词语连起来。",
+        "cls": "stem",
+        "group": "q_ma",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma-m",
+        "html": "<div class=\"match-container\" style=\"position:relative;width:100%\"><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">tiān shàng</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">白云</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">bái yún</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">小鸟</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">xiǎo niǎo</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">天上</span></div></div>",
+        "cls": "match-part",
+        "group": "q_ma",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ma",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-h",
+        "html": "<span class=\"no\">7.</span> 把图和词语连起来。",
+        "cls": "stem",
+        "group": "q_ma2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-m",
+        "html": "<div class=\"match-container\" style=\"position:relative;width:100%\"><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">太阳</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">白天</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">月亮</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">黑夜</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">星星</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">夜空</span></div></div>",
+        "cls": "match-part",
+        "group": "q_ma2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ma2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "teacher": {
+    "parts": [
+      {
+        "pid": "doc-head",
+        "html": "<div class=\"doc-title\">一年级语文 综合基础练习卷</div><div class=\"doc-meta\"><span class=\"mf\">姓名：<b></b></span><span class=\"mf\">班级：<b></b></span><span class=\"mf\">日期：<b></b></span></div><div class=\"doc-head-rule\"></div>",
+        "cls": "doc-head",
+        "group": "doc",
+        "role": "doc_head",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-1",
+        "html": "<span>一、单项选择题</span>",
+        "cls": "sec",
+        "group": "s1",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch-h",
+        "html": "<span class=\"no\">1.</span> 下列汉字笔画最多的是（　）。",
+        "cls": "stem",
+        "group": "q_ch",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch-opt",
+        "html": "<div class=\"choice-sub choice-standalone\"><span class=\"choice-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">D</span>）</span><div class=\"choice-options cols cols4\"><span class=\"opt\">A. 口</span><span class=\"opt\">B. 山</span><span class=\"opt\">C. 水</span><span class=\"opt\">D. 鸟</span></div></div>",
+        "cls": "",
+        "group": "q_ch",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ch",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-h",
+        "html": "<span class=\"no\">2.</span> 下列词语搭配完全正确的一项是",
+        "cls": "stem",
+        "group": "q_ch2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-opt",
+        "html": "<div class=\"choice-sub choice-standalone\"><span class=\"choice-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">A</span>）</span><div class=\"choice-options cols cols4\"><span class=\"opt\">A. 弯弯曲曲</span><span class=\"opt\">B. 弯湾曲曲</span></div></div>",
+        "cls": "",
+        "group": "q_ch2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ch2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ch2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-2",
+        "html": "<span>二、是非判断题</span>",
+        "cls": "sec",
+        "group": "s2",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd-h",
+        "html": "<span class=\"no\">3.</span> 判断下列说法是否正确。",
+        "cls": "stem",
+        "group": "q_jd",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd-s1",
+        "html": "<div class=\"sub judge-sub\"><div class=\"judge-row\"><span class=\"no\">（1）</span><span class=\"judge-stem\">“水”共有4画，第一笔是竖钩。</span><span class=\"judge-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">√</span>）</span></div></div>",
+        "cls": "",
+        "group": "q_jd",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "q_jd-s2",
+        "html": "<div class=\"sub judge-sub\"><div class=\"judge-row\"><span class=\"no\">（2）</span><span class=\"judge-stem\">“天”的第一笔是横，第二笔是撇。</span><span class=\"judge-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">×</span>）</span></div></div>",
+        "cls": "",
+        "group": "q_jd",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "q_jd-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_jd",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-h",
+        "html": "<span class=\"no\">4.</span> 水的密度比油大。",
+        "cls": "stem",
+        "group": "q_jd2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-j",
+        "html": "<div class=\"judge-standalone\"><span class=\"judge-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">√</span>）</span></div>",
+        "cls": "",
+        "group": "q_jd2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_jd2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_jd2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-3",
+        "html": "<span>三、生字笔顺与笔画</span>",
+        "cls": "sec",
+        "group": "s3",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_st-h",
+        "html": "<span class=\"no\">5.</span> 按要求填空。",
+        "cls": "stem",
+        "group": "q_st",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_st-s1",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（1）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">水</span></span></span><span class=\"stroke-details\">共有（<i class=\"slot i\"></i><span class=\"ans\">4</span>）画，第二笔是（<i class=\"slot w\"></i><span class=\"ans\">㇇</span>）。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub1"
+      },
+      {
+        "pid": "q_st-s2",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（2）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">火</span></span></span><span class=\"stroke-details\">共有（<i class=\"slot i\"></i><span class=\"ans\">4</span>）画，笔顺是：（<i class=\"slot p\"></i><span class=\"ans\">丶 丷 火</span>）。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub2"
+      },
+      {
+        "pid": "q_st-s3",
+        "html": "<div class=\"sub stroke-sub\"><div class=\"stroke-row\"><span class=\"no\">（3）</span><span class=\"stroke-tzg-wrap\"><span class=\"tzg\"><span class=\"ch\">木</span></span></span><span class=\"stroke-text\">“木”的笔顺是<span class=\"brk\">（<i class=\"gap\"></i>）<span class=\"ans\">丶一丨丿乀</span></span>。</span></div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": true,
+        "label": "sub3"
+      },
+      {
+        "pid": "q_st-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_st",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "sec-4",
+        "html": "<span>四、读拼音，连一连</span>",
+        "cls": "sec",
+        "group": "s4",
+        "role": "section",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma-h",
+        "html": "<span class=\"no\">6.</span> 把拼音和对应的词语连起来。",
+        "cls": "stem",
+        "group": "q_ma",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma-m",
+        "html": "<div class=\"match-container\" style=\"position:relative;width:100%\"><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">tiān shàng</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">白云</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">bái yún</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">小鸟</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">xiǎo niǎo</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">天上</span></div><svg class=\"match-svg\" style=\"position:absolute;left:0;top:0;width:100%;height:36.0mm;pointer-events:none;overflow:visible\"><line x1=\"38%\" y1=\"6.0mm\" x2=\"62%\" y2=\"30.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /><line x1=\"38%\" y1=\"18.0mm\" x2=\"62%\" y2=\"6.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /><line x1=\"38%\" y1=\"30.0mm\" x2=\"62%\" y2=\"18.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /></svg></div>",
+        "cls": "match-part",
+        "group": "q_ma",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ma",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-h",
+        "html": "<span class=\"no\">7.</span> 把图和词语连起来。",
+        "cls": "stem",
+        "group": "q_ma2",
+        "role": "q_head",
+        "keepNext": true,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-m",
+        "html": "<div class=\"match-container\" style=\"position:relative;width:100%\"><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">太阳</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">白天</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">月亮</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">黑夜</span></div><div class=\"match-row\" style=\"height:12mm\"><span class=\"match-text match-left-text\">星星</span><span class=\"match-dot match-left-dot\"></span><span class=\"match-spacer\"></span><span class=\"match-dot match-right-dot\"></span><span class=\"match-text match-right-text\">夜空</span></div><svg class=\"match-svg\" style=\"position:absolute;left:0;top:0;width:100%;height:36.0mm;pointer-events:none;overflow:visible\"><line x1=\"38%\" y1=\"6.0mm\" x2=\"62%\" y2=\"30.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /><line x1=\"38%\" y1=\"18.0mm\" x2=\"62%\" y2=\"6.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /><line x1=\"38%\" y1=\"30.0mm\" x2=\"62%\" y2=\"18.0mm\" stroke=\"var(--answer)\" stroke-width=\"0.35mm\" stroke-linecap=\"round\" /></svg></div>",
+        "cls": "match-part",
+        "group": "q_ma2",
+        "role": "q_body",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "q_ma2-t",
+        "html": "",
+        "cls": "qtail",
+        "group": "q_ma2",
+        "role": "q_tail",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  },
+  "explain": {
+    "parts": [
+      {
+        "pid": "exp-title",
+        "html": "<div class=\"exp-page-title\">参考答案与教学解析</div>",
+        "cls": "",
+        "group": "exp",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "exp-q_ch",
+        "html": "<div class=\"exp-q\"><div class=\"exp-h\">1. 下列汉字笔画最多的是（　）。</div><div class=\"exp-n\">口有3画，山有3画，水有4画，鸟有5画。</div></div>",
+        "cls": "",
+        "group": "q_ch",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "exp-q_jd",
+        "html": "<div class=\"exp-q\"><div class=\"exp-h\">3. 判断下列说法是否正确。</div><div class=\"exp-n\">“天”的第一笔是横，第二笔也是横，第三笔才是撇。</div></div>",
+        "cls": "",
+        "group": "q_jd",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "exp-q_st",
+        "html": "<div class=\"exp-q\"><div class=\"exp-h\">5. 按要求填空。</div><div class=\"exp-n\">水字第二笔是横撇；火字笔顺为：点、撇、撇、捺。</div></div>",
+        "cls": "",
+        "group": "q_st",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      },
+      {
+        "pid": "exp-q_ma",
+        "html": "<div class=\"exp-q\"><div class=\"exp-h\">6. 把拼音和对应的词语连起来。</div><div class=\"exp-n\">逐词拼读对照连线：tiān shàng 连 天上，bái yún 连 白云，xiǎo niǎo 连 小鸟。</div></div>",
+        "cls": "",
+        "group": "q_ma",
+        "role": "exp",
+        "keepNext": false,
+        "splittable": false,
+        "label": ""
+      }
+    ],
+    "warnings": []
+  }
+}
