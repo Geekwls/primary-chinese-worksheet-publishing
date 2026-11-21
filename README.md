@@ -1,6 +1,6 @@
-# primary-chinese-worksheet-publishing
+# primary-school-worksheet-publishing
 
-> 小学低段（一至二年级）语文试卷与复习卷出版级排版与验收引擎（零运行时依赖 Node.js 实现）。
+> 小学（一至六年级）语文 / 数学 / 英语试卷与练习卷出版级排版与验收引擎（零运行时依赖 Node.js 实现）。语文为基准学科（v2.2.0 规范），数学已接入全链路，英语为契约预留。
 
 本项目遵循 [《小学低段语文试卷与复习卷出版级排版设计规范手册 (v2.2.0)》](docs/DESIGN_SPECIFICATION.md)，将出版行业对儿童阅读、书写人体工学、几何尺寸、双轨排版与印刷安全的标准，沉淀为一套**确定性、可验证、自动化**的排版与验收流水线。
 
@@ -25,12 +25,12 @@
 ## 架构与工程目录
 
 ```text
-primary-chinese-worksheet-publishing/
+primary-school-worksheet-publishing/
 ├── docs/
 │   └── DESIGN_SPECIFICATION.md   # v2.2.0 设计规范总则与参数基线
 ├── assets/
 │   ├── design-system/           # L1/L2 设计系统 (page, grid, typography, spacing, colors, borders, hierarchy)
-│   ├── profiles/                # 年级配置 (grade-1, grade-2)
+│   ├── profiles/                # 年级配置 (grade-1..6) + 学科/文档类型覆盖层 (subjects/, documents/)
 │   │   ├── scenarios/           # 卷型场景配置 (special-practice, unit-review, comprehensive-test)
 │   │   └── printers/            # 打印机硬件补偿 (default, inkjet-desktop, laser-compact, binding-left)
 │   ├── tokens/                  # 历史兼容令牌映射
@@ -69,7 +69,7 @@ npm run check
 # 2. 编译并产出试卷、布局清单与 QA 验收报告
 npm run build
 
-# 3. 运行全套单元测试与端到端渲染回归（44项测试全部通过）
+# 3. 运行全套单元测试与端到端渲染回归（74项测试全部通过）
 npm test
 
 # 4. 构建标准样卷交付包 (Section 13.3 规范包)

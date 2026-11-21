@@ -1,7 +1,7 @@
 ---
-name: primary-chinese-worksheet-publishing
+name: primary-school-worksheet-publishing
 description: >-
-  小学低段（一至二年级）语文试卷与复习卷的出版级排版与验收系统。当用户要求生成语文试卷、单元复习卷、专项练习卷（看拼音写词语、田字格、形近字组词、成语补充、古诗填空、句子改写、阅读理解、看图写话）、配套教师解析卷，或要求检查试卷 PDF 的字号、格子尺寸、分页、字体嵌入与打印安全区时使用。产出学生卷 PDF、教师解析卷 PDF、布局清单与验收报告。不负责命题内容创作、非语文试卷排版、非印刷用途的普通网页。
+  小学（一至六年级）试卷与练习卷的出版级排版与验收系统，覆盖语文、数学、英语三科（语文为基准学科：看拼音写词语、田字格、形近字组词、多音字、成语补充、古诗填空、句子改写、阅读理解、看图写话；数学：计算题、填空题、解决问题；另有选择、判断、连线、笔顺、表格、流程图等通用题型）。当用户要求生成试卷、单元复习卷、专项练习卷、配套教师解析卷，或要求检查试卷 PDF 的字号、格子尺寸、分页、字体嵌入与打印安全区时使用。产出学生卷 PDF、教师解析卷 PDF、布局清单与验收报告。不负责命题内容创作、非小学学段的试卷排版、非印刷用途的普通网页。
 metadata:
   version: 1.2.0
   spec_version: 2.2.0
@@ -15,7 +15,7 @@ metadata:
 agent_created: true
 ---
 
-# 小学语文试卷出版级排版系统
+# 小学试卷出版级排版系统
 
 > 定位：不是"让 AI 随手排出好看的卷子"，而是把"出版质量目标"变成可执行、可复现、可追溯的工程流水线。
 > 本项目遵循 [《小学低段语文试卷与复习卷出版级排版设计规范手册 (v2.2.0)》](docs/DESIGN_SPECIFICATION.md)。
@@ -28,9 +28,9 @@ agent_created: true
 - 出卷：`出一份二年级上册第五、六单元复习卷`、`做一年级拼音专项练习`、`生成看拼音写词语的田字格卷`。
 - 改卷：`这道题写不下，答题区太小`、`把解析加长`、`压成两页`、`改成一年级字号`。
 - 验卷：`检查这份试卷 PDF 有没有排版问题`、`字体嵌入没有`、`打印会不会被裁掉`。
-- 扩展：`加三年级`、`加数学卷`（前者改 Profile，后者需新建学科组件库，见 `references/09-versioning-and-extension.md`）。
+- 扩展：`加英语卷`（需补英语学科组件库）、`加新题型`（见 `references/09-versioning-and-extension.md`）。
 
-不适用：命题内容创作（本 skill 只负责呈现）、非语文试卷的学科排版、屏幕阅读用途的普通网页。
+不适用：命题内容创作（本 skill 只负责呈现）、非小学学段的试卷排版、屏幕阅读用途的普通网页。
 
 ## 四层门槛：不得跳级
 
@@ -49,7 +49,7 @@ L4 质量验收层  ── 位图墨迹 + 字体 + 文本 + 双轨一致性（sr
 ## 快速开始
 
 ```bash
-S=~/workspace/primary-chinese-worksheet-publishing
+S=~/workspace/primary-school-worksheet-publishing
 N=node   # 需要 node >= 20.11；引擎零依赖，不必 npm install
 
 # 1) 只校验题目数据结构（不渲染，最快发现字段问题）
@@ -64,14 +64,14 @@ $N $S/src/cli.mjs 卷.json --grade 1 --doc-type practice --out ./build-g1
 # 4) 只出学生卷（教师相关验收项标记为人工）
 $N $S/src/cli.mjs 卷.json --no-teacher
 
-# 5) 回归测试（格式/契约/组件/分页/位图/端到端，共 35 项）
+# 5) 回归测试（格式/契约/组件/分页/位图/端到端，共 74 项）
 cd $S && $N --test test/*.test.mjs
 ```
 
 也可以当库用（批量出卷、CI 断言、二次开发）：
 
 ```js
-import { runBuild } from "~/workspace/primary-chinese-worksheet-publishing/src/index.mjs";
+import { runBuild } from "~/workspace/primary-school-worksheet-publishing/src/index.mjs";
 
 const { report, manifestStudent } = runBuild({ document: "卷.json", out: "./build" });
 if (report.blocked) throw new Error("验收阻断，查看 qa-report.md");
@@ -104,8 +104,8 @@ src/
 ├── layout/             实测、确定性分页、Layout Manifest
 ├── render/             Chrome 适配、页面 HTML、PDF 输出
 └── qa/                 poppler、位图墨迹、报告、验收规则、预览
-test/                   35 项回归（node:test，无第三方测试框架）
-assets/                 令牌 / 年级与卷型 Profile / CSS / JSON Schema
+test/                   74 项回归（node:test，无第三方测试框架）
+assets/                 令牌 / 年级·学科·卷型·打印机 Profile / CSS / JSON Schema
 examples/               两份标准回归样卷
 ```
 
@@ -159,6 +159,8 @@ examples/               两份标准回归样卷
 | `generic` 通用作答题 | `generic_answer_block` | 题干 + N 行横线 | 整块 |
 
 判定顺序：**看作答方式，不看题型名字**。同一个知识考查点若作答方式不同（如单字注音 vs 语段注音），必须落到不同组件。
+
+数学与通用题型：`calculation` 计算题 / `fill_blank`·`blank` 填空题 / `word_problem` 解决问题 / `choice` 选择题 / `judge` 判断题 / `stroke_order` 笔顺笔画 / `pinyin_match` 连线 / `polyphonic` 多音字辨析 / `table_task` 表格任务 / `flow_diagram` 流程图填空；完整契约见 `references/authoring-reference.md`。
 
 ## 年级基线（首期）
 
