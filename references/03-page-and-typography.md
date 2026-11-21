@@ -1,6 +1,6 @@
 # 03 · 页面物理尺寸、字体与视觉层级
 
-> 原则：**页面几何只有一个来源（`assets/tokens/global.json` 的 `paper`），其余全部推导。**
+> 原则：**页面几何只有一个来源（`assets/design-system/page.json` 的 `paper`），其余全部推导。**
 > 三个容易混淆的量必须分清：浏览器 `@page` 边距、HTML 容器宽度、PDF 页面边界。本系统统一为 `@page margin:0` + 容器 210×297mm + 引擎绝对定位。
 
 ## 1. A4 页面模型

@@ -1302,7 +1302,7 @@ publishing-design-system/
 ## 13.3 必须交付的验收资产
 
 ```text
-standard-sample/
+build/standard-sample/
 │
 ├── student-paper.pdf
 ├── teacher-paper.pdf

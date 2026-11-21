@@ -30,14 +30,14 @@ function getArg(flag, defaultValue) {
   return defaultValue;
 }
 
-const defaultBaseline = existsSync(join(ROOT, "standard-sample/goldens"))
-  ? join(ROOT, "standard-sample/goldens")
-  : join(ROOT, "standard-sample/screenshots");
+const defaultBaseline = existsSync(join(ROOT, "build/standard-sample/goldens"))
+  ? join(ROOT, "build/standard-sample/goldens")
+  : join(ROOT, "build/standard-sample/screenshots");
 
 const baselineDir = getArg("--baseline", defaultBaseline);
-const currentDir = getArg("--current", join(ROOT, "standard-sample/preview"));
-const diffDir = getArg("--diffs", join(ROOT, "standard-sample/diffs"));
-const reportPath = getArg("--report", join(ROOT, "standard-sample/reports/visual-diff-report.html"));
+const currentDir = getArg("--current", join(ROOT, "build/standard-sample/preview"));
+const diffDir = getArg("--diffs", join(ROOT, "build/standard-sample/diffs"));
+const reportPath = getArg("--report", join(ROOT, "build/standard-sample/reports/visual-diff-report.html"));
 const tolerance = Number(getArg("--tolerance", "10"));
 const maxAllowedDiffRatio = Number(getArg("--threshold", "0.001"));
 const isApprove = argv.includes("--approve");

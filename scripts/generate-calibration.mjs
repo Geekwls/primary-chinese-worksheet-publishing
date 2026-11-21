@@ -23,8 +23,8 @@ import { htmlToPdf } from "../src/render/pdf.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
-const OUT_PDF = join(ROOT, "standard-sample/print-review/print-calibration.pdf");
-const WORK_DIR = join(ROOT, "standard-sample/.cache");
+const OUT_PDF = join(ROOT, "build/standard-sample/print-review/print-calibration.pdf");
+const WORK_DIR = join(ROOT, "build/standard-sample/.cache");
 
 console.log("=== 开始生成打印机硬件物理校准样张 (print-calibration.pdf) ===");
 

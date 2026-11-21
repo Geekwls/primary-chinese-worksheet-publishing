@@ -27,7 +27,7 @@
 | `PRINT_VALIDATED` | 已通过实际打印验证 | 冻结前置阶段 |
 | `FROZEN` | 当前版本冻结 | 未经变更审查不得修改 |
 
-当前状态：`assets/tokens/*` 与 `assets/profiles/*` 全部为 `DRAFT`，因为尚未完成实物打样与教师试写。
+当前状态：`assets/design-system/*` 与 `assets/profiles/*` 全部为 `DRAFT`，因为尚未完成实物打样与教师试写。
 
 **铁律：未经实物打印验证的参数，不得标记为"出版级已验证"。** 写 `VALIDATED` 必须附：打样日期、打印机型号、样本量、量测记录。
 

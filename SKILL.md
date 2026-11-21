@@ -37,7 +37,7 @@ agent_created: true
 ```text
 L1 出版设计层  ── 什么算好的试卷（儿童阅读、书写、视觉层级、教辅规范）
       ↓ 约束
-L2 设计系统层  ── 令牌 / 年级 Profile / 组件契约（assets/tokens、profiles、css）
+L2 设计系统层  ── 令牌 / 年级 Profile / 组件契约（assets/design-system、profiles、css）
       ↓ 驱动
 L3 排版工程层  ── 实测 → 空间预算 → 分页 → Layout Manifest → PDF（src/layout、src/render）
       ↓ 产出

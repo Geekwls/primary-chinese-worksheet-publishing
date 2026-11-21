@@ -84,9 +84,9 @@ npm run diff
 
 ### 输出目录约定
 - **出卷产物统一输出到 `build/<卷名>/`**（如 `build/g2-review-u12/`），`build/` 整体不入库（.gitignore）。
-- 自拟试卷的题目 JSON 放 `papers/`（源文件，入库）；`standard-sample/` 为受控标准样卷交付包（含 Golden 基准图，独立流程）。
+- 自拟试卷的题目 JSON 放 `papers/`（源文件，入库）；标准样卷交付包统一生成于 `build/standard-sample/`（含 Golden 基准图，独立流程）。
 
-### 交付资产说明 (`--out ./build` 或 `standard-sample/`)
+### 交付资产说明 (`--out ./build/<卷名>` 或 `build/standard-sample/`)
 - `student-paper.pdf` / `student.pdf`：学生作答卷（矢量 PDF，字体全嵌入）
 - `teacher-paper.pdf` / `teacher.pdf`：教师解析卷（红字标答覆盖 + 独立解析附页）
 - `layout-manifest.json`：学生卷物理坐标清单（单位：mm）

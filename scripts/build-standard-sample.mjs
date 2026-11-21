@@ -31,7 +31,7 @@ import { pdfFonts, pdfInfo } from "../src/qa/poppler.mjs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const SAMPLE_JSON = join(ROOT, "examples/g2-review-unit56.json");
-const OUT_DIR = join(ROOT, "standard-sample");
+const OUT_DIR = join(ROOT, "build/standard-sample");
 
 console.log("=== 开始构建首期标准样卷交付包 (v2.1.0) ===");
 
@@ -118,7 +118,7 @@ if (existsSync(previewDir)) {
     }
   });
   if (isApprove) {
-    console.log("📢 [--approve] 已将本次生成的预览位图更新为受控 Golden 基准图 (standard-sample/goldens/)");
+    console.log("📢 [--approve] 已将本次生成的预览位图更新为受控 Golden 基准图 (build/standard-sample/goldens/)");
   }
 }
 
@@ -171,7 +171,7 @@ const printRecordMd = `# 出版级验收签署表（标准样卷）
 `;
 writeText(join(printReviewDir, "print-review-record.md"), printRecordMd);
 
-console.log("\n✅ 标准样卷交付包已完整输出于：standard-sample/");
+console.log("\n✅ 标准样卷交付包已完整输出于：build/standard-sample/");
 console.log("   ├─ student-paper.pdf / teacher-paper.pdf");
 console.log("   ├─ layout-manifest.json");
 console.log("   ├─ reports/ (geometry / font / pdf / visual-diff)");

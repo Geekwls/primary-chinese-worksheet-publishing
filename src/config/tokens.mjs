@@ -16,10 +16,7 @@ import {
   PRINTER_PROFILES_DIR,
   PROFILES_DIR,
   SCENARIOS_DIR,
-  TOKENS_DIR,
 } from "../core/paths.mjs";
-
-const TOKEN_FILES = ["global", "typography", "colors", "spacing"];
 
 function loadConfigJson(path, kind) {
   if (!existsSync(path)) throw new ConfigError(`${kind}不存在：${path}`);
