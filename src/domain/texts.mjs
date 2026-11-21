@@ -82,7 +82,7 @@ export function teacherAnswers(doc) {
 
   for (const sec of doc.sections ?? []) {
     for (const q of sec.questions ?? []) {
-      if (q.answer_text) splitAnswer(q.answer_text);
+      pushAnswer(q.answer_text);
       if (q.explain) out.push(plain(q.explain));
       pushAnswer(q.answer);
       for (const it of q.items ?? []) {
