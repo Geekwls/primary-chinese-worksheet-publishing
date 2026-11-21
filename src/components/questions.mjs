@@ -209,7 +209,9 @@ export function compPoemFill(q, ctx, pid) {
 export function compSentenceRewrite(q, ctx, pid) {
   const parts = [head(pid, q, ctx)];
   ctx.resetSub();
-  for (const it of q.items ?? []) {
+  const items = q.items ?? [];
+  for (let idx = 0; idx < items.length; idx++) {
+    const it = items[idx];
     const no = ctx.nextSub();
     const lines = it.lines === null || it.lines === undefined ? 2 : Math.max(0, Math.trunc(Number(it.lines)));
     const answers = it.answer ? [it.answer] : [];
@@ -234,6 +236,8 @@ export function compSentenceRewrite(q, ctx, pid) {
       linesNode = { count: lines, answers, label: `${pid} 第${no}小题` };
     }
 
+    const keepWhole = q.keep === "whole" && no < items.length;
+
     parts.push(
       astPart(
         `${pid}-s${no}`,
@@ -246,7 +250,7 @@ export function compSentenceRewrite(q, ctx, pid) {
           lines: linesNode,
           score: it.score ?? null,
         }),
-        { group: pid, splittable: true, label: `sub${no}` },
+        { group: pid, splittable: true, keepNext: keepWhole, label: `sub${no}` },
         ctx,
       ),
     );
@@ -521,22 +525,49 @@ export function compCalculation(q, ctx, pid) {
  *  每行一个 fill_grid 分部，行间可跨页 —— 适合量词题等"多空并列"的规整布局。 */
 export function compFillBlank(q, ctx, pid) {
   const rawStem = String(q.stem ?? "");
+  let stem = rawStem;
+  let items = q.items;
+  let numbered = q.numbered === true;
+  let cols = q.cols;
 
-  // 矩阵模式：条目级 {} 答案，按 cols 装箱成行；行间 keepNext 整链绑定
-  // （矩阵被拆行会让"一（）军舰"式题目失去规整感；超长矩阵由分页器回退逐行放）
-  // numbered（v1.4）：条目前缀圈号 ①②…，跨行连续编号
-  if (Array.isArray(q.items) && q.items.length) {
-    const parts = [head(pid, q, ctx)];
-    const cols = Math.max(1, Math.trunc(Number(q.cols ?? 2)));
-    const items = q.items.map((it) => ({ children: parseInline(String(it ?? ""), "paren") }));
-    const rows = chunks(items, cols);
+  // 自动解构：若未提供 items，但 stem 内嵌了圈号小题（如 "指导语...①小题...②小题..."）
+  // 则自动将指导语与小题分离，避免题干与各小题作答句挤在同一行
+  if ((!Array.isArray(items) || !items.length) && /[①-⑳]/.test(rawStem)) {
+    const m = rawStem.match(/^([^①-⑳]+)([①-⑳].*)$/s);
+    if (m) {
+      stem = m[1].trim();
+      const rest = m[2];
+      const parts = rest.split(/[①-⑳]/).map((s) => s.trim()).filter(Boolean);
+      if (parts.length > 0) {
+        items = parts;
+        numbered = true;
+        cols = cols ?? 1;
+      }
+    }
+  }
+
+  // 矩阵模式 / 条目模式：条目级 {} 答案，按 cols 装箱成行
+  if (Array.isArray(items) && items.length) {
+    const parts = [
+      astPart(
+        `${pid}-h`,
+        ast.q_head({ number: ctx.nextNo(), children: [ast.text(stem)], score: q.score }),
+        { cls: "stem", group: pid, role: "q_head", keepNext: true },
+        ctx,
+      ),
+    ];
+    const finalCols = Math.max(1, Math.trunc(Number(cols ?? 2)));
+    const defaultForm = /横线/.test(stem) ? "line" : (finalCols === 1 && !/（|括号/.test(stem) ? "line" : "paren");
+    const form = q.form ?? (cols !== undefined && finalCols === 1 && !q.form ? defaultForm : (q.form ?? "paren"));
+    const parsedItems = items.map((it) => ({ children: parseInline(String(it ?? ""), form) }));
+    const rows = chunks(parsedItems, finalCols);
     rows.forEach((group, r) => {
       parts.push(
-        astPart(`${pid}-g${r}`, ast.fill_grid(group, cols, { numbered: q.numbered === true, start: r * cols }), {
-          cls: `cols cols${cols}`,
+        astPart(`${pid}-g${r}`, ast.fill_grid(group, finalCols, { numbered, start: r * finalCols }), {
+          cls: `cols cols${finalCols}`,
           group: pid,
           splittable: true,
-          keepNext: r < rows.length - 1,
+          keepNext: finalCols > 1 && r < rows.length - 1,
           label: `fillrow${r}`,
         }, ctx),
       );

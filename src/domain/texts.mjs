@@ -86,8 +86,13 @@ export function teacherAnswers(doc) {
       if (q.explain) out.push(plain(q.explain));
       pushAnswer(q.answer);
       for (const it of q.items ?? []) {
-        for (const a of it.answers ?? []) out.push(plain(a));
-        if (it.answer) out.push(plain(it.answer));
+        if (typeof it === "string") {
+          const matches = it.match(/\{([^{}]+)\}/g);
+          if (matches) matches.forEach((m) => out.push(plain(m.slice(1, -1))));
+        } else {
+          for (const a of it.answers ?? []) out.push(plain(a));
+          if (it.answer) out.push(plain(it.answer));
+        }
       }
       for (const sub of q.subs ?? []) {
         if (sub.answer) splitAnswer(sub.answer);

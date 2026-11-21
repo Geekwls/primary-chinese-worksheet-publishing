@@ -355,9 +355,9 @@ export function astToHtml(node, ctx) {
       for (const it of node.items ?? []) {
         const label = esc(it.label ?? "");
         const samples = (it.samples ?? []).map((s) => esc(s)).join("、");
-        const headHtml = label || samples
-          ? `<span class="wp-label">${label}</span><span class="wp-sample">示例：${samples}</span>`
-          : "";
+        const labelHtml = label ? `<span class="wp-label">${label}</span>` : "";
+        const sampleHtml = samples ? `<span class="wp-sample">示例：${samples}</span>` : "";
+        const headHtml = `${labelHtml}${sampleHtml}`;
         const slots = (it.answers ?? [])
           .map((a, i) =>
             `<span class="wp-no">${circled(i)}</span>` +
