@@ -299,7 +299,7 @@ export function compGeneric(q, ctx, pid) {
   const answers = q.answer ? [q.answer] : [];
   return [
     head(pid, q, ctx),
-    new Part(`${pid}-g`, `<div class="wlines">${wlines(lines, answers, ctx, pid)}</div>`, { group: pid }),
+    astPart(`${pid}-g`, ast.writing_lines({ count: lines, answers, label: pid }), { group: pid }, ctx),
     tail(pid),
   ];
 }
@@ -309,38 +309,33 @@ export function compChoice(q, ctx, pid) {
   const parts = [head(pid, q, ctx)];
   const isGroup = Array.isArray(q.items) && q.items.length > 0;
 
-  function renderOptions(options) {
-    if (!options?.length) return "";
-    const maxLen = Math.max(...options.map((o) => [...String(o)].length));
-    const cols = maxLen <= 8 ? 4 : maxLen <= 18 ? 2 : 1;
-    const optsHtml = options.map((opt) => `<span class="opt">${esc(opt)}</span>`).join("");
-    return `<div class="choice-options cols cols${cols}">${optsHtml}</div>`;
-  }
-
-  function choiceBracket(answer) {
-    return (
-      `<span class="choice-bracket">（<i class="slot i"></i>` +
-      (ctx.isTeacher && answer ? ans(answer) : "") +
-      `）</span>`
-    );
-  }
-
   if (isGroup) {
     ctx.resetSub();
     for (const it of q.items) {
       const no = ctx.nextSub();
-      const stem = inlineText(String(it.stem ?? ""), ctx, "line");
-      const bracket = it.stem?.includes("{") ? "" : choiceBracket(it.answer);
-      const body =
-        `<div class="sub choice-sub"><div class="subh"><span class="no">（${no}）</span>` +
-        `${stem}${bracket}</div>` +
-        `${renderOptions(it.options)}</div>`;
-      parts.push(new Part(`${pid}-s${no}`, body, { group: pid, splittable: true, label: `sub${no}` }));
+      parts.push(
+        astPart(
+          `${pid}-s${no}`,
+          ast.sub_choice({
+            number: no,
+            children: parseInline(String(it.stem ?? ""), "line"),
+            bracket: it.stem?.includes("{") ? null : { answer: it.answer },
+            options: it.options ?? null,
+          }),
+          { group: pid, splittable: true, label: `sub${no}` },
+          ctx,
+        ),
+      );
     }
   } else {
-    const bracket = q.stem?.includes("{") ? "" : choiceBracket(q.answer);
-    const body = `<div class="choice-sub choice-standalone">${bracket}${renderOptions(q.options)}</div>`;
-    parts.push(new Part(`${pid}-opt`, body, { group: pid, splittable: false }));
+    parts.push(
+      astPart(
+        `${pid}-opt`,
+        ast.choice_standalone({ bracket: q.stem?.includes("{") ? null : { answer: q.answer }, options: q.options ?? null }),
+        { group: pid, splittable: false },
+        ctx,
+      ),
+    );
   }
 
   parts.push(tail(pid));
@@ -352,28 +347,23 @@ export function compJudge(q, ctx, pid) {
   const parts = [head(pid, q, ctx)];
   const isGroup = Array.isArray(q.items) && q.items.length > 0;
 
-  function judgeBracket(answer) {
-    return (
-      `<span class="judge-bracket">（<i class="slot i"></i>` +
-      (ctx.isTeacher && answer ? ans(answer) : "") +
-      `）</span>`
-    );
-  }
-
   if (isGroup) {
     ctx.resetSub();
     for (const it of q.items) {
       const no = ctx.nextSub();
-      const stem = inlineText(String(it.stem ?? ""), ctx, "line");
-      const body =
-        `<div class="sub judge-sub"><div class="judge-row"><span class="no">（${no}）</span>` +
-        `<span class="judge-stem">${stem}</span>` +
-        `${judgeBracket(it.answer)}</div></div>`;
-      parts.push(new Part(`${pid}-s${no}`, body, { group: pid, splittable: true, label: `sub${no}` }));
+      parts.push(
+        astPart(
+          `${pid}-s${no}`,
+          ast.sub_judge({ number: no, children: parseInline(String(it.stem ?? ""), "line"), answer: it.answer }),
+          { group: pid, splittable: true, label: `sub${no}` },
+          ctx,
+        ),
+      );
     }
   } else {
-    const body = `<div class="judge-standalone">${judgeBracket(q.answer)}</div>`;
-    parts.push(new Part(`${pid}-j`, body, { group: pid, splittable: false }));
+    parts.push(
+      astPart(`${pid}-j`, ast.judge_standalone(q.answer), { group: pid, splittable: false }, ctx),
+    );
   }
 
   parts.push(tail(pid));

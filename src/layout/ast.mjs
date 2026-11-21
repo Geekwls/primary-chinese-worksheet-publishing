@@ -95,6 +95,16 @@ export const sub_judge = ({ number, children, answer = null }) => ({
   answer,
 });
 
+/** 独立选择题（无题号小题行）：<div class="choice-sub choice-standalone">。bracket=null 表示题干自带槽。 */
+export const choice_standalone = ({ bracket = null, options = null }) => ({
+  kind: "choice_standalone",
+  bracket,
+  options,
+});
+
+/** 独立判断题（无题号行）：<div class="judge-standalone">。 */
+export const judge_standalone = (answer) => ({ kind: "judge_standalone", answer });
+
 /** 小题行（stroke 变体）：<div class="sub stroke-sub"><div class="stroke-row">…。detail.wrap: "text"|"details"。 */
 export const sub_stroke = ({ number, word = "", detail = null }) => ({
   kind: "sub_stroke",

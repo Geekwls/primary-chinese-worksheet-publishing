@@ -139,7 +139,7 @@ export function astToHtml(node, ctx) {
       const reqHtml = req ? ` <span class="pt">${req}</span>` : "";
       const bracketHtml = node.bracket ? blankSlotHtml({ kind: "blank_slot", form: "choice", answer: node.bracket.answer }, ctx) : "";
       const cueHtml = node.cue ? '<div class="cue">仿写：</div>' : "";
-      const optionsHtml = node.options ? astToHtml(sub_options(node.options), ctx) : "";
+      const optionsHtml = node.options ? astToHtml({ kind: "sub_options", options: node.options }, ctx) : "";
       const linesHtml = node.lines ? `<div class="wlines">${wlineRows(node.lines.count, node.lines.answers, ctx, node.lines.label)}</div>` : "";
       return (
         `<div class="sub"><div class="subh"><span class="no">（${node.number}）</span>` +
@@ -150,7 +150,7 @@ export function astToHtml(node, ctx) {
 
     case "sub_choice": {
       const bracketHtml = node.bracket ? blankSlotHtml({ kind: "blank_slot", form: "choice", answer: node.bracket.answer }, ctx) : "";
-      const optionsHtml = node.options ? astToHtml(choice_options(node.options), ctx) : "";
+      const optionsHtml = node.options ? astToHtml({ kind: "choice_options", options: node.options }, ctx) : "";
       return (
         `<div class="sub choice-sub"><div class="subh"><span class="no">（${node.number}）</span>` +
         `${inlineToHtml(node.children, ctx)}${bracketHtml}</div>` +
@@ -165,6 +165,17 @@ export function astToHtml(node, ctx) {
         `<span class="judge-stem">${inlineToHtml(node.children, ctx)}</span>` +
         `${bracketHtml}</div></div>`
       );
+    }
+
+    case "choice_standalone": {
+      const bracketHtml = node.bracket ? blankSlotHtml({ kind: "blank_slot", form: "choice", answer: node.bracket.answer }, ctx) : "";
+      const optionsHtml = node.options ? astToHtml({ kind: "choice_options", options: node.options }, ctx) : "";
+      return `<div class="choice-sub choice-standalone">${bracketHtml}${optionsHtml}</div>`;
+    }
+
+    case "judge_standalone": {
+      const bracketHtml = blankSlotHtml({ kind: "blank_slot", form: "judge", answer: node.answer }, ctx);
+      return `<div class="judge-standalone">${bracketHtml}</div>`;
     }
 
     case "sub_stroke": {
