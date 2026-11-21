@@ -104,6 +104,9 @@ export function astToHtml(node, ctx) {
     case "text":
       return esc(node.value);
 
+    case "example":
+      return `<span class="eg">${esc(node.value)}</span>`;
+
     case "blank_slot":
       return blankSlotHtml(node, ctx);
 

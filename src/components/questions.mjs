@@ -8,8 +8,9 @@
  *   4. 只有真正能独立成行的部分才标 splittable —— 拆错位置比不拆更糟。
  */
 import { Part } from "../domain/part.mjs";
+import { ComponentError } from "../core/errors.mjs";
 import * as ast from "../layout/ast.mjs";
-import { ans, answerLines, chunks, esc, inlineText, parseInline, pinyinWordItem, stemInner, wlines } from "./atoms.mjs";
+import { ans, answerLines, chunks, esc, inlineText, parseInline, stemInner, wlines } from "./atoms.mjs";
 import { astPart } from "./ast-part.mjs";
 
 /** 题干 Part：编号由上下文自增，题干与分值进 q_head 节点（渲染在解释器）。 */
@@ -25,17 +26,22 @@ const tail = (pid) => new Part(`${pid}-t`, "", { cls: "qtail", group: pid, role:
 
 /** 看拼音写词语：拼音行 + 田字格，按年级"每行词数"切行。 */
 export function compPinyinWriteWord(q, ctx, pid) {
+  const items = q.items ?? [];
+  for (const it of items) {
+    if (!String(it.answer ?? "")) {
+      throw new ComponentError(`看拼音写词语缺少 answer 字段：${JSON.stringify(it)}`);
+    }
+  }
   const parts = [head(pid, q, ctx)];
   const per = Math.trunc(ctx.profile.layout.pinyin_items_per_row ?? 3);
-  chunks(q.items ?? [], per).forEach((group, r) => {
-    const cells = group.map((it) => pinyinWordItem(it, ctx)).join("");
+  chunks(items, per).forEach((group, r) => {
     parts.push(
-      new Part(`${pid}-r${r}`, cells, {
+      astPart(`${pid}-r${r}`, ast.pinyin_row(group), {
         cls: "prow",
         group: pid,
         splittable: true,
         label: `row${r}`,
-      }),
+      }, ctx),
     );
   });
   parts.push(tail(pid));
@@ -47,24 +53,13 @@ export function compSimilarCharacter(q, ctx, pid) {
   const parts = [head(pid, q, ctx)];
   const cols = Math.max(1, Math.trunc(ctx.profile.layout.similar_cols ?? 2));
   chunks(q.items ?? [], cols).forEach((group, r) => {
-    let cells = "";
-    for (const it of group) {
-      const chars = it.chars ?? [];
-      const answers = it.answers ?? [];
-      chars.forEach((ch, i) => {
-        const a = i < answers.length ? answers[i] : "";
-        cells +=
-          `<span class="gc"><span class="ch">${esc(ch)}</span>` +
-          `<span class="brk">（<i class="slot w"></i>）${ctx.isTeacher ? ans(a) : ""}</span></span>`;
-      });
-    }
     parts.push(
-      new Part(`${pid}-r${r}`, cells, {
+      astPart(`${pid}-r${r}`, ast.similar_cells(group), {
         cls: cols === 1 ? "wrow" : `cols cols${cols}`,
         group: pid,
         splittable: true,
         label: `row${r}`,
-      }),
+      }, ctx),
     );
   });
   parts.push(tail(pid));
@@ -76,33 +71,13 @@ export function compPolyphonic(q, ctx, pid) {
   const parts = [head(pid, q, ctx)];
   const cols = Math.max(1, Math.trunc(ctx.profile.layout.similar_cols ?? 2));
   chunks(q.items ?? [], cols).forEach((group, r) => {
-    let cells = "";
-    for (const it of group) {
-      const word = String(it.word ?? "");
-      const options = it.options ?? [];
-      const answer = String(it.answer ?? "");
-      const optStr = options.length ? `（${options.join(" / ")}）` : "";
-      // 共享几何结构：学生卷与教师卷共享完全一致的 slot-w 槽宽与内边距；
-      // 教师答案受槽容器限制，禁止任意坐标漂移或覆盖相邻选项。
-      const slotHtml =
-        `<span class="poly-slot">` +
-        `<i class="slot w"></i>` +
-        (ctx.isTeacher ? ans(answer, "ans ans-slot") : "") +
-        `</span>`;
-      cells +=
-        `<span class="poly-card">` +
-        `<span class="poly-word">${esc(word)}</span>` +
-        (options.length ? `<span class="poly-options">${esc(optStr)}</span>` : "") +
-        slotHtml +
-        `</span>`;
-    }
     parts.push(
-      new Part(`${pid}-r${r}`, cells, {
+      astPart(`${pid}-r${r}`, ast.poly_cells(group), {
         cls: `poly-group cols cols${cols}`,
         group: pid,
         splittable: false, // 严格不可跨栏或跨页拆分：整行选项与词语绑定
         label: `poly-row${r}`,
-      }),
+      }, ctx),
     );
   });
   parts.push(tail(pid));
@@ -111,71 +86,43 @@ export function compPolyphonic(q, ctx, pid) {
 
 /** 给加点字注音：目标字上方留注音槽，字下方加点。 */
 export function compAddPinyin(q, ctx, pid) {
-  const cols = [];
-  for (const it of q.items ?? []) {
-    const word = String(it.word ?? "");
-    const target = Math.trunc(Number(it.target ?? 0));
-    const answer = String(it.answer ?? "");
-    let body = "";
-    [...word].forEach((ch, i) => {
-      if (i === target) {
-        body +=
-          `<span class="pin-col"><span class="pin-slot">${ctx.isTeacher ? ans(answer) : ""}</span>` +
-          `<span class="pin-c tgt">${esc(ch)}</span></span>`;
-      } else {
-        body += `<span class="pin-col"><span class="pin-top"></span><span class="pin-c">${esc(ch)}</span></span>`;
-      }
-    });
-    cols.push(`<span class="pin-item">${body}</span>`);
-  }
   return [
     head(pid, q, ctx),
-    new Part(`${pid}-g`, cols.join(""), { cls: "pin-grp", group: pid, splittable: true }),
+    astPart(`${pid}-g`, ast.pin_annotation(q.items ?? []), { cls: "pin-grp", group: pid, splittable: true }, ctx),
     tail(pid),
   ];
 }
 
 /** 成语补充：括号空槽横排。 */
 export function compIdiomFill(q, ctx, pid) {
-  const items = (q.items ?? [])
-    .map((it) => `<span class="witem">${inlineText(String(it.text ?? ""), ctx, "paren")}</span>`)
-    .join("");
+  const items = (q.items ?? []).map((it) => ({ children: parseInline(String(it.text ?? ""), "paren") }));
   return [
     head(pid, q, ctx),
-    new Part(`${pid}-g`, items, { cls: "wrow", group: pid, splittable: true }),
+    astPart(`${pid}-g`, ast.witem_row(items), { cls: "wrow", group: pid, splittable: true }, ctx),
     tail(pid),
   ];
 }
 
 /** 词语仿写：例词 + 若干词槽。 */
 export function compWordPattern(q, ctx, pid) {
-  let rows = "";
-  for (const it of q.items ?? []) {
-    const label = esc(it.label ?? "");
-    const samples = (it.samples ?? []).map((s) => esc(s)).join("、");
-    const headHtml = label || samples ? `<span class="witem">${label}${samples}</span>` : "";
-    let blanks = "";
-    for (const a of it.answers ?? []) {
-      blanks +=
-        `<span class="brk" style="width:var(--slot-w)"><i class="slot" style="width:100%"></i>` +
-        `${ctx.isTeacher ? ans(a) : ""}</span>`;
-    }
-    rows += `<div class="wrow">${headHtml}${blanks}</div>`;
-  }
-  return [head(pid, q, ctx), new Part(`${pid}-g`, rows, { group: pid }), tail(pid)];
+  return [
+    head(pid, q, ctx),
+    astPart(`${pid}-g`, ast.word_pattern(q.items ?? []), { group: pid }, ctx),
+    tail(pid),
+  ];
 }
 
 /** 古诗填空：按答案字数定宽的横线槽。 */
 export function compPoemFill(q, ctx, pid) {
-  let blocks = "";
-  for (const it of q.items ?? []) {
-    const title = it.title ? `<div class="poem-t">${esc(it.title)}</div>` : "";
-    const lines = (it.lines ?? [])
-      .map((line) => `<div class="poem-l">${inlineText(String(line), ctx, "line")}</div>`)
-      .join("");
-    blocks += `<div class="poem">${title}${lines}</div>`;
-  }
-  return [head(pid, q, ctx), new Part(`${pid}-g`, blocks, { group: pid }), tail(pid)];
+  const items = (q.items ?? []).map((it) => ({
+    title: it.title ?? "",
+    lines: (it.lines ?? []).map((line) => parseInline(String(line), "line")),
+  }));
+  return [
+    head(pid, q, ctx),
+    astPart(`${pid}-g`, ast.poem(items), { group: pid }, ctx),
+    tail(pid),
+  ];
 }
 
 /** 句子改写/仿写：单栏，小题之间可拆，整行书写线。 */
@@ -184,8 +131,6 @@ export function compSentenceRewrite(q, ctx, pid) {
   ctx.resetSub();
   for (const it of q.items ?? []) {
     const no = ctx.nextSub();
-    const req = esc(it.require ?? "");
-    const reqHtml = req ? ` <span class="pt">${req}</span>` : "";
     const lines = it.lines === null || it.lines === undefined ? 2 : Math.max(0, Math.trunc(Number(it.lines)));
     const answers = it.answer ? [it.answer] : [];
 
@@ -193,14 +138,20 @@ export function compSentenceRewrite(q, ctx, pid) {
     // 两者若用同一套视觉，学生会把例句当成待改写对象，所以仿写单独给"例句"样式与"仿写："引导。
     const sentence = String(it.sentence ?? "");
     const imitate = it.kind === "imitate" || /^例\s*[：:]/.test(sentence);
-    const sentenceHtml = imitate ? `<span class="eg">${esc(sentence)}</span>` : esc(sentence);
-    const cueHtml = imitate ? '<div class="cue">仿写：</div>' : "";
-
-    const body =
-      `<div class="sub"><div class="subh"><span class="no">（${no}）</span>${sentenceHtml}${reqHtml}</div>` +
-      cueHtml +
-      `<div class="wlines">${wlines(lines, answers, ctx, `${pid} 第${no}小题`)}</div></div>`;
-    parts.push(new Part(`${pid}-s${no}`, body, { group: pid, splittable: true, label: `sub${no}` }));
+    parts.push(
+      astPart(
+        `${pid}-s${no}`,
+        ast.sub_plain({
+          number: no,
+          children: imitate ? [ast.example(sentence)] : [ast.text(sentence)],
+          require: it.require ?? "",
+          cue: imitate,
+          lines: { count: lines, answers, label: `${pid} 第${no}小题` },
+        }),
+        { group: pid, splittable: true, label: `sub${no}` },
+        ctx,
+      ),
+    );
   }
   parts.push(tail(pid));
   return parts;

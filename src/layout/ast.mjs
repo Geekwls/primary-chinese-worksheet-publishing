@@ -40,6 +40,9 @@ export const text = (value) => ({ kind: "text", value: String(value ?? "") });
  */
 export const blank_slot = (form, answer) => ({ kind: "blank_slot", form, answer });
 
+/** 仿写例句：<span class="eg">（与普通文本区分的"例："样式）。 */
+export const example = (value) => ({ kind: "example", value: String(value ?? "") });
+
 /* ============================================================
  * 块级原语（每个 Part 的 html 由一或多个块级节点渲染拼接）
  * ============================================================ */
