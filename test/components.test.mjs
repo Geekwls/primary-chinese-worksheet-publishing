@@ -21,8 +21,8 @@ function contextFor(grade, variant) {
   return new Ctx(loadGradeProfile(grade), loadDocProfile("review"), variant, 40);
 }
 
-test("注册表覆盖 21 类题型且组件 ID 唯一", () => {
-  assert.equal(SUPPORTED_TYPES.length, 21);
+test("注册表覆盖 23 类题型且组件 ID 唯一", () => {
+  assert.equal(SUPPORTED_TYPES.length, 23);
   const ids = SUPPORTED_TYPES.map((t) => REGISTRY[t].componentId);
   assert.equal(new Set(ids).size, ids.length);
 });
@@ -367,4 +367,236 @@ test("连线题组件：学生卷留白供画线，教师卷以 SVG 矢量红线
   // 教师卷包含精确连线 SVG
   assert.ok(partsT[1].html.includes("<svg class=\"match-svg\""));
   assert.ok(partsT[1].html.includes("<line"));
+});
+
+test("填空矩阵组件：括号槽矩阵布局，答案只在教师卷", () => {
+  const q = {
+    question_id: "q_fg",
+    type: "fill_blank",
+    stem: "在括号里填上合适的量词。",
+    cols: 2,
+    items: ["一{艘}军舰", "一{孔}石桥", "一{方}鱼塘", "一{丛}翠竹"],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.fill_blank.build(q, ctxS, "q_fg");
+  const partsT = REGISTRY.fill_blank.build(q, ctxT, "q_fg");
+
+  // 题干 + 2 行矩阵（每行 2 条）+ 尾部；行间整链绑定
+  assert.equal(partsS.length, 4);
+  assert.equal(partsS[1].keepNext, true, "非末行应绑定 keepNext");
+  assert.equal(partsS[2].keepNext, false, "末行不绑定");
+  assert.ok(partsS[1].html.includes("fill-grid cols cols2"));
+  assert.ok(partsS[1].html.includes("（<i class=\"gap\""));
+  assert.ok(!partsS[1].html.includes("艘"));
+  assert.ok(partsT[1].html.includes("艘"), "教师卷括号内应显示答案");
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+});
+
+test("阅读小题分值与 keep:whole 整链绑定", () => {
+  const q = {
+    question_id: "q_rd",
+    type: "reading",
+    stem: "读短文，完成练习。",
+    keep: "whole",
+    passage: { title: "短文", paragraphs: ["第一段。"] },
+    subs: [
+      { stem: "短文共有{2}个自然段。", answer: "2", lines: 0, score: 3 },
+      { stem: "“我”是什么？", answer: "水", lines: 1, score: 4 },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const parts = REGISTRY.reading.build(q, ctxS, "q_rd");
+
+  // passage(keepNext) + sub1(keepNext, 整链) + sub2(末位不绑) + tail
+  const subParts = parts.filter((p) => p.label?.startsWith("sub"));
+  assert.equal(subParts[0].keepNext, true, "非末位小题应绑定 keepNext");
+  assert.equal(subParts[1].keepNext, false, "末位小题不绑定");
+  assert.ok(subParts[0].html.includes("（3分）"), "小题分值应渲染");
+  assert.ok(!subParts[0].html.includes("（4分）"));
+
+  // 不设 keep 时保持原行为（可逐小题拆页）
+  const partsFree = REGISTRY.reading.build({ ...q, keep: undefined }, contextFor(2, "student"), "q_rd2");
+  assert.equal(partsFree.filter((p) => p.label?.startsWith("sub"))[0].keepNext, false);
+});
+
+test("连词成句组件：词语间距排版 + 单行书写线", () => {
+  const q = {
+    question_id: "q_so",
+    type: "sentence_order",
+    stem: "连词成句，并加上标点。",
+    items: [{ words: ["树叶", "一片片", "落下来"], answer: "一片片树叶落下来。", score: 2 }],
+  };
+  const ctxS = contextFor(2, "student");
+  const parts = REGISTRY.sentence_order.build(q, ctxS, "q_so");
+  const html = parts[1].html;
+  assert.ok(html.includes("树叶"), "词语应渲染");
+  assert.ok(html.includes("（2分）"), "小题分值应渲染");
+  assert.ok(html.includes("wline"), "应有书写线");
+});
+
+test("标点运用组件：定宽标点槽，可带槽后文本", () => {
+  const q = {
+    question_id: "q_pt",
+    type: "punctuation",
+    stem: "给句子加上合适的标点。",
+    items: [
+      { before: "我会变", answer: "。" },
+      { before: "太阳一晒", answer: "，", after: "我就变成汽。" },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const parts = REGISTRY.punctuation.build(q, ctxS, "q_pt");
+  assert.equal(parts.filter((p) => p.label?.startsWith("sub")).length, 2);
+  assert.ok(parts[1].html.includes("我会变"));
+  assert.ok(parts[1].html.includes("slot\" style=\"width:100%\""), "标点槽应为定宽槽");
+  assert.ok(parts[2].html.includes("我就变成汽。"), "槽后文本应渲染");
+});
+
+test("多音字圈选模式：读音并列无作答槽，教师卷正确读音带黑圈且高度不变", () => {
+  const q = {
+    question_id: "q_pc",
+    type: "polyphonic",
+    stem: "给下列多音字选择正确的读音，并圈出来。",
+    mode: "circle",
+    items: [
+      { word: "教书", options: ["jiāo", "jiào"], answer: "jiāo" },
+      { word: "因为", options: ["wéi", "wèi"], answer: "wèi" },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.polyphonic.build(q, ctxS, "q_pc");
+  const partsT = REGISTRY.polyphonic.build(q, ctxT, "q_pc");
+
+  assert.ok(partsS[1].html.includes("poly-reading"), "学生卷读音应并列显示");
+  assert.ok(!partsS[1].html.includes("ring"), "学生卷不得出现圈标记");
+  assert.ok(!partsS[1].html.includes("poly-slot"), "圈选式不应有作答槽");
+  assert.equal(partsT[1].html.match(/poly-reading ring/g)?.length, 2, "教师卷正确读音各带一个黑圈");
+  assert.equal(partsT[1].html.match(/poly-reading"/g)?.length, 2, "错误读音无标记");
+  // 双轨同构：Part 字段（含 keepNext/splittable）一致
+  assert.deepEqual(partsS.map((p) => [p.pid, p.keepNext, p.splittable]), partsT.map((p) => [p.pid, p.keepNext, p.splittable]));
+});
+
+test("古诗分层：author 可选字段渲染作者行，缺省不渲染", () => {
+  const withAuthor = {
+    question_id: "q_pa", type: "poem_fill", stem: "把古诗补充完整。",
+    items: [{ title: "《梅花》", author: "宋 · 王安石", lines: ["墙角数枝梅，{凌寒}独自开。"] }],
+  };
+  const withoutAuthor = { ...withAuthor, items: [{ title: "《梅花》", lines: ["墙角数枝梅，{凌寒}独自开。"] }] };
+  const htmlWith = REGISTRY.poem_fill.build(withAuthor, contextFor(2, "student"), "q_pa")[1].html;
+  const htmlWithout = REGISTRY.poem_fill.build(withoutAuthor, contextFor(2, "student"), "q_pb")[1].html;
+  assert.ok(htmlWith.includes("poem-a"), "author 应渲染为作者行");
+  assert.ok(htmlWith.includes("宋 · 王安石"));
+  assert.ok(!htmlWithout.includes("poem-a"), "缺省 author 不得渲染作者行");
+});
+
+test("填空矩阵编号：圈号跨行连续", () => {
+  const q = {
+    question_id: "q_fn",
+    type: "fill_blank",
+    stem: "在括号里填上合适的量词。",
+    cols: 3,
+    numbered: true,
+    items: ["一{艘}军舰", "一{孔}石桥", "一{方}鱼塘", "一{丛}翠竹", "一{把}铜号", "一{面}队旗"],
+  };
+  const parts = REGISTRY.fill_blank.build(q, contextFor(2, "student"), "q_fn");
+  const all = parts.map((p) => p.html).join("");
+  const nos = all.match(/class="fg-no">(.)(?=<\/span>)/gu).map((m) => m.slice(-1));
+  assert.deepEqual(nos, ["①", "②", "③", "④", "⑤", "⑥"], "圈号应跨行连续");
+  // 不编号时无前缀（回归保护）
+  const partsPlain = REGISTRY.fill_blank.build({ ...q, numbered: false }, contextFor(2, "student"), "q_fn2");
+  assert.ok(!partsPlain.map((p) => p.html).join("").includes("fg-no"));
+});
+
+test("词语仿写分类式块：标签+示例+编号槽，答案只在教师卷", () => {
+  const q = {
+    question_id: "q_wpb",
+    type: "word_pattern",
+    stem: "照样子，写出同结构的词语。",
+    style: "block",
+    items: [
+      { label: "ABB式：", samples: ["喜洋洋"], answers: ["笑盈盈"] },
+      { label: "AABB式：", samples: ["开开心心"], answers: ["快快乐乐", "高高兴兴"] },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.word_pattern.build(q, ctxS, "q_wpb");
+  const partsT = REGISTRY.word_pattern.build(q, ctxT, "q_wpb");
+
+  // 题干 + 1 个分栏容器（结构块并排）+ 尾部
+  assert.equal(partsS.length, 3);
+  assert.equal(partsS[1].cls, "wp-group", "分类式块全宽单行");
+  assert.equal((partsS[1].html.match(/wp-label/g) ?? []).length, 2);
+  assert.ok(partsS[1].html.includes("示例：喜洋洋"));
+  assert.ok(partsS[1].html.includes("wp-no"));
+  assert.ok(!partsS[1].html.includes("wp-slots"), "分类式块应为单行（标签+示例+槽同行）");
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 3);
+  // 默认行式输出不受影响
+  const partsRow = REGISTRY.word_pattern.build({ ...q, style: undefined }, contextFor(2, "student"), "q_wpc");
+  assert.ok(!partsRow.map((p) => p.html).join("").includes("wp-block"));
+});
+
+test("成语四字方格：实字格+空白格，教师卷空白格红字答案", () => {
+  const q = {
+    question_id: "q_ig",
+    type: "idiom_fill",
+    stem: "把下面的成语补充完整。",
+    slot: "grid",
+    items: [
+      { text: "{五}颜{六}色" },
+      { text: "{百}发{百}中" },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.idiom_fill.build(q, ctxS, "q_ig");
+  const partsT = REGISTRY.idiom_fill.build(q, ctxT, "q_ig");
+
+  assert.equal(partsS.length, 4, "题干 + 2 个成语行 + 尾部");
+  const allS = partsS.map((p) => p.html).join("");
+  assert.equal((allS.match(/idiom-cell filled/g) ?? []).length, 4, "实字格数");
+  assert.equal((allS.match(/idiom-cell blank/g) ?? []).length, 4, "空白格数");
+  assert.ok(!allS.includes("五颜"), "学生卷空白格不得出现答案");
+  const allT = partsT.map((p) => p.html).join("");
+  assert.equal((allT.match(/class="ans">/g) ?? []).length, 4, "教师卷每个空白格一个红字答案");
+  // 默认括号形态不受影响
+  const partsParen = REGISTRY.idiom_fill.build({ ...q, slot: undefined }, contextFor(2, "student"), "q_ig2");
+  assert.ok(!partsParen.map((p) => p.html).join("").includes("idiom-cell"));
+});
+
+test("仿写填空支架：句框槽替代书写线，答案只在教师卷", () => {
+  const q = {
+    question_id: "q_sc",
+    type: "sentence_rewrite",
+    stem: "照样子，写句子。",
+    items: [
+      {
+        kind: "imitate",
+        sentence: "例：梧桐树叶像手掌。",
+        require: "（用“……像……”写一个比喻句）",
+        scaffold: "{弯弯的月亮}像{小船}。",
+        score: 4,
+      },
+      { require: "（把句子补充完整）", scaffold: "放学了，我先{把作业写完}，再{出去玩}。", score: 3 },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.sentence_rewrite.build(q, ctxS, "q_sc");
+  const partsT = REGISTRY.sentence_rewrite.build(q, ctxT, "q_sc");
+
+  const sub1 = partsS[1].html;
+  assert.ok(sub1.includes("例：梧桐树叶像手掌。"), "例句块保留");
+  assert.ok(sub1.includes("像"), "句框含连接词");
+  assert.ok(!sub1.includes("wline"), "有支架时不留书写横线");
+  assert.ok(!sub1.includes("cue"), "支架题不挂「仿写：」引导（句框即作答区）");
+  assert.ok(sub1.includes("（4分）"), "小题分值渲染");
+  const sub2 = partsS[2].html;
+  assert.ok(sub2.includes("放学了，我先"), "无例句的补充句子支架直接渲染");
+  assert.ok(!sub2.includes("cue"), "无例句不出「仿写：」引导");
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 4, "教师卷槽内红字答案");
 });

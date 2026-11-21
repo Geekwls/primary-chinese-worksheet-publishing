@@ -63,6 +63,11 @@ function blankSlotHtml(node, ctx) {
   }
 }
 
+/** 圈号序数（①-⑳），超出 20 个时钳制到 ⑳ —— 填空/仿写条目不会这么多。 */
+function circled(i) {
+  return String.fromCodePoint(0x2460 + Math.min(Math.max(Math.trunc(i), 0), 19));
+}
+
 /** 书写横线的裸行序列（不含外层容器），教师卷切行 + 行数不足告警与历史行为一致。 */
 function wlineRows(count, answers, ctx, label) {
   const total = Math.max(0, Math.trunc(count));
@@ -144,9 +149,13 @@ export function astToHtml(node, ctx) {
       const cueHtml = node.cue ? '<div class="cue">仿写：</div>' : "";
       const optionsHtml = node.options ? astToHtml({ kind: "sub_options", options: node.options }, ctx) : "";
       const linesHtml = node.lines ? `<div class="wlines">${wlineRows(node.lines.count, node.lines.answers, ctx, node.lines.label)}</div>` : "";
+      const scoreHtml =
+        (ctx.docProfile.section_score_visible ?? true) && node.score !== null && node.score !== undefined
+          ? ` <span class="pt">（${esc(node.score)}分）</span>`
+          : "";
       return (
         `<div class="sub"><div class="subh"><span class="no">（${node.number}）</span>` +
-        `${inlineToHtml(node.children, ctx)}${bracketHtml}${reqHtml}</div>` +
+        `${inlineToHtml(node.children, ctx)}${bracketHtml}${reqHtml}${scoreHtml}</div>` +
         `${cueHtml}${optionsHtml}${linesHtml}</div>`
       );
     }
@@ -260,6 +269,27 @@ export function astToHtml(node, ctx) {
       return cells;
     }
 
+    case "poly_circle_cells": {
+      // 多音字圈选：读音并列，学生在正确读音上画圈；教师卷正确读音带 ring 黑圈。
+      let cells = "";
+      for (const it of node.items ?? []) {
+        const word = String(it.word ?? "");
+        const answer = String(it.answer ?? "");
+        const readings = (it.options ?? [])
+          .map((o) => String(o))
+          .map((r) =>
+            ctx.isTeacher && r === answer
+              ? `<span class="poly-reading ring">${esc(r)}</span>`
+              : `<span class="poly-reading">${esc(r)}</span>`,
+          )
+          .join("");
+        cells +=
+          `<span class="poly-card"><span class="poly-word">${esc(word)}</span>` +
+          `<span class="poly-choices">${readings}</span></span>`;
+      }
+      return cells;
+    }
+
     case "pin_annotation": {
       let cols = "";
       for (const it of node.items ?? []) {
@@ -286,6 +316,21 @@ export function astToHtml(node, ctx) {
         .map((it) => `<span class="witem">${inlineToHtml(it.children, ctx)}</span>`)
         .join("");
 
+    case "fill_grid": {
+      // 填空矩阵：一行 cols 个条目（如"一（艘）军舰"），条目内的括号槽由 children 携带。
+      // numbered 时条目前缀圈号（start 保证跨行连续编号）。
+      const cols = Math.max(1, Math.trunc(Number(node.cols ?? 2)));
+      const cells = (node.items ?? [])
+        .map((it, i) => {
+          const no = node.numbered
+            ? `<span class="fg-no">${circled(node.start + i)}</span>`
+            : "";
+          return `<span class="witem">${no}${inlineToHtml(it.children, ctx)}</span>`;
+        })
+        .join("");
+      return `<div class="fill-grid cols cols${cols}">${cells}</div>`;
+    }
+
     case "word_pattern": {
       let rows = "";
       for (const it of node.items ?? []) {
@@ -303,14 +348,56 @@ export function astToHtml(node, ctx) {
       return rows;
     }
 
+    case "word_pattern_group": {
+      // 词语仿写分类式块：标签加粗 + 示例 + ①② 编号槽同行 —— 单行保证 pdftotext
+      // 线性抽取时块内文本连续（P0-03），也让两种词语结构的区别一眼可辨。
+      let blocks = "";
+      for (const it of node.items ?? []) {
+        const label = esc(it.label ?? "");
+        const samples = (it.samples ?? []).map((s) => esc(s)).join("、");
+        const headHtml = label || samples
+          ? `<span class="wp-label">${label}</span><span class="wp-sample">示例：${samples}</span>`
+          : "";
+        const slots = (it.answers ?? [])
+          .map((a, i) =>
+            `<span class="wp-no">${circled(i)}</span>` +
+            `<span class="brk" style="width:var(--slot-w)"><i class="slot" style="width:100%"></i>` +
+            `${ctx.isTeacher ? ans(a) : ""}</span>`,
+          )
+          .join("");
+        blocks += `<div class="wp-block">${headHtml}${slots}</div>`;
+      }
+      return blocks;
+    }
+
+    case "idiom_grid_cells": {
+      // 成语四字方格：每个字一个方格（实字格 + 空白格），明确"每格一字"；no 存在时前缀圈号。
+      let rows = "";
+      for (const it of node.items ?? []) {
+        const no = it.no !== undefined && it.no !== null
+          ? `<span class="fg-no">${circled(it.no)}</span>`
+          : "";
+        const cells = (it.cells ?? [])
+          .map((c) =>
+            c.type === "blank"
+              ? `<span class="idiom-cell blank">${ctx.isTeacher ? `<span class="ans">${esc(c.answer)}</span>` : ""}</span>`
+              : `<span class="idiom-cell filled">${esc(c.value)}</span>`,
+          )
+          .join("");
+        rows += `${no}<span class="idiom-grid">${cells}</span>`;
+      }
+      return rows;
+    }
+
     case "poem": {
       let blocks = "";
       for (const it of node.items ?? []) {
         const title = it.title ? `<div class="poem-t">${esc(it.title)}</div>` : "";
+        const author = it.author ? `<div class="poem-a">${esc(it.author)}</div>` : "";
         const lines = (it.lines ?? [])
           .map((children) => `<div class="poem-l">${inlineToHtml(children, ctx)}</div>`)
           .join("");
-        blocks += `<div class="poem">${title}${lines}</div>`;
+        blocks += `<div class="poem">${title}${author}${lines}</div>`;
       }
       return blocks;
     }

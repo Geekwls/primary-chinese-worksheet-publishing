@@ -56,10 +56,10 @@ N=node   # 需要 node >= 20.11；引擎零依赖，不必 npm install
 $N $S/src/cli.mjs 卷.json --check-only
 
 # 2) 正式出卷：学生卷 + 教师解析卷 + 布局清单 + 验收报告
-$N $S/src/cli.mjs 卷.json --out ./build
+$N $S/src/cli.mjs 卷.json --out ./build/卷名
 
 # 3) 切换年级/文档类型做对比试验（不改题目文件）
-$N $S/src/cli.mjs 卷.json --grade 1 --doc-type practice --out ./build-g1
+$N $S/src/cli.mjs 卷.json --grade 1 --doc-type practice --out ./build/卷名-g1
 
 # 4) 只出学生卷（教师相关验收项标记为人工）
 $N $S/src/cli.mjs 卷.json --no-teacher
@@ -118,7 +118,7 @@ examples/               两份标准回归样卷
 2. **选 Profile**：年级 Profile 决定字号/格子/行距/栏数；文档 Profile 决定卷头字段与分值显示。
    未收录的年级必须新建 Profile 并用样卷校验，禁止临时改字号糊过去。
 3. **写题目 JSON**：按 `assets/schemas/document.schema.json` 与 `references/authoring-reference.md`。
-   题型必须落在已收录清单内；语义题型不得用 `generic` 顶替。
+   自拟试卷的题目 JSON 统一放 `papers/`（源文件入库）；题型必须落在已收录清单内；语义题型不得用 `generic` 顶替。
 4. **契约校验**：`--check-only`，先消灭字段缺失、题号重复、答案缺失、总分不一致。
 5. **渲染**：引擎用 Chrome 实测每个排版原子的毫米高度，再确定性装箱，最后绝对定位输出。
    放不下就换页或报错，**绝不压缩内容**。
@@ -160,7 +160,7 @@ examples/               两份标准回归样卷
 
 判定顺序：**看作答方式，不看题型名字**。同一个知识考查点若作答方式不同（如单字注音 vs 语段注音），必须落到不同组件。
 
-数学与通用题型：`calculation` 计算题 / `fill_blank`·`blank` 填空题 / `word_problem` 解决问题 / `choice` 选择题 / `judge` 判断题 / `stroke_order` 笔顺笔画 / `pinyin_match` 连线 / `polyphonic` 多音字辨析 / `table_task` 表格任务 / `flow_diagram` 流程图填空；完整契约见 `references/authoring-reference.md`。
+数学与通用题型：`calculation` 计算题 / `fill_blank`·`blank` 填空题（stem 内嵌槽或 items 矩阵模式）/ `word_problem` 解决问题 / `choice` 选择题 / `judge` 判断题 / `stroke_order` 笔顺笔画 / `pinyin_match` 连线 / `polyphonic` 多音字辨析 / `table_task` 表格任务 / `flow_diagram` 流程图填空 / `sentence_order` 连词成句 / `punctuation` 标点运用；完整契约见 `references/authoring-reference.md`。阅读小题支持独立 `score` 分值与 `"keep": "whole"` 材料-小题整链分页。
 
 ## 年级基线（首期）
 
@@ -212,6 +212,8 @@ examples/               两份标准回归样卷
 | `references/08-qa-rules.md` | P0/P1 规则表、五层验收、证据包 |
 | `references/09-versioning-and-extension.md` | 版本管理、三年级扩展、对旧规范的处理原则 |
 | `references/authoring-reference.md` | 题型 JSON 字段速查与可复制示例 |
+| `docs/QUALITY_ACCEPTANCE_SPEC.md` | 试卷质量三层验收规范（内容 A / 结构 B / 视觉 C） |
+| `docs/QUESTION_TYPE_VISUAL_SPEC.md` | 题型视觉组件规范（P01–P12、作答行为→答题区域、三原则、分批路线） |
 | `assets/schemas/document.schema.json` | 题目数据契约 |
 
 ## 示例

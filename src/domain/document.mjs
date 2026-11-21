@@ -159,9 +159,40 @@ export function validate(doc) {
       }
 
       if (q.type === "fill_blank" || q.type === "blank") {
+        // items 矩阵模式：答案内嵌在条目 {} 中，不要求 q.answer；stem 模式必须有按序 answer。
+        const hasItems = Array.isArray(q.items) && q.items.length > 0;
         const hasAnswer = Boolean(q.answer) && (Array.isArray(q.answer) ? q.answer.some(Boolean) : true);
-        if (!hasAnswer) {
-          throw new ContractError(`题目 ${q.question_id} 是填空题，但缺少 answer（单个答案或按括号顺序的数组）。`);
+        if (!hasItems && !hasAnswer) {
+          throw new ContractError(`题目 ${q.question_id} 是填空题，但缺少 answer（单个答案或按括号顺序的数组）或 items（{} 内含答案）。`);
+        }
+        if (hasItems) {
+          for (const it of q.items) {
+            if (!/\{[^{}]+\}/.test(String(it ?? ""))) {
+              throw new ContractError(`题目 ${q.question_id} 的填空矩阵条目缺少 {} 答案：${JSON.stringify(it)}`);
+            }
+          }
+        }
+      }
+
+      if (q.type === "sentence_order") {
+        if (!Array.isArray(q.items) || q.items.length === 0) {
+          throw new ContractError(`题目 ${q.question_id} 是连词成句题，但缺少 items。`);
+        }
+        for (const it of q.items) {
+          if (!it.words?.length || !it.answer) {
+            throw new ContractError(`题目 ${q.question_id} 的连词成句条目缺少 words/answer：${JSON.stringify(it)}`);
+          }
+        }
+      }
+
+      if (q.type === "punctuation") {
+        if (!Array.isArray(q.items) || q.items.length === 0) {
+          throw new ContractError(`题目 ${q.question_id} 是标点运用题，但缺少 items。`);
+        }
+        for (const it of q.items) {
+          if (!it.answer || !(it.text || it.before)) {
+            throw new ContractError(`题目 ${q.question_id} 的标点条目缺少 text/before 或 answer：${JSON.stringify(it)}`);
+          }
         }
       }
 

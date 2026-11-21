@@ -267,6 +267,60 @@ body {
 }
 .witem { white-space: nowrap; }
 
+/* ---------- 填空矩阵（fill_grid）：一行 cols 个条目，条目内括号槽 ---------- */
+.fill-grid { padding-bottom: var(--gap-row); }
+.fill-grid .witem { white-space: nowrap; }
+.fg-no {
+  font-size: var(--fs-q);
+  color: var(--ink-2);
+  margin-right: 0.8mm;
+}
+
+/* ---------- 结构仿写分类式块（word_pattern_group）：单行 = 标签 + 示例 + 编号槽 ---------- */
+.wp-group { padding-bottom: var(--gap-xs); }
+.wp-block {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+  padding-bottom: var(--gap-row);
+  font-size: var(--fs-q);
+  line-height: var(--lh-q);
+}
+.wp-label { font-weight: 700; }
+.wp-sample { color: var(--ink-3); }
+.wp-no { font-size: var(--fs-q); margin-right: 0.6mm; }
+
+/* ---------- 成语四字方格（idiom_grid_cells）：实字格 + 空白格，明确每格一字 ---------- */
+.idiom-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding-bottom: var(--gap-row);
+}
+.idiom-grid { display: inline-flex; gap: 1mm; }
+.idiom-cell {
+  position: relative;
+  width: 1.7em;
+  height: 1.7em;
+  border: var(--lw-thin) solid var(--line-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-q);
+  font-weight: 500;
+}
+.idiom-cell.blank { border-style: solid; }
+.idiom-cell .ans {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--answer);
+  font-weight: 600;
+}
+
 /* ---------- 多音字辨析组件 ---------- */
 
 .poly-group {
@@ -292,6 +346,20 @@ body {
   position: relative;
   display: inline-block;
   white-space: nowrap;
+}
+/* ---------- 多音字圈选（poly_circle_cells）：读音并列，学生画圈选读音 ---------- */
+.poly-choices { display: inline-flex; gap: var(--spacing-3); }
+.poly-reading {
+  display: inline-block;
+  padding: 0.2mm 1.4mm;
+  font-size: var(--fs-py);
+  white-space: nowrap;
+}
+.poly-reading.ring {
+  /* 用 outline 画圈：outline 不占布局空间，教师卷高度与学生卷严格一致（铁律 3） */
+  outline: var(--lw-normal) solid var(--ink-1);
+  outline-offset: 0.3mm;
+  border-radius: 50%;
 }
 .poly-slot .ans-slot {
   position: absolute;
@@ -360,6 +428,7 @@ body {
 
 .poem { padding-bottom: var(--gap-s); }
 .poem-t { font-weight: 700; padding-bottom: var(--gap-xs); }
+.poem-a { font-size: var(--fs-hint); color: var(--ink-3); padding-bottom: var(--gap-xs); }
 .poem-l { line-height: var(--lh-q); letter-spacing: 0.02em; }
 
 /* ---------- 书写横线 ---------- */
@@ -432,11 +501,14 @@ body {
   white-space: nowrap;
   margin-left: 2mm;
 }
-/* 仿写题的例句必须与待答区在视觉上分开：学生看到"例"旁边就是横线，会去改写例句 */
+/* 仿写题的例句必须与待答区在视觉上分开：学生看到"例"旁边就是横线，会去改写例句。
+   浅色底（theme-soft）+ 左竖线双重区分；底色为装饰层浅暖灰，灰度打印下不干扰墨迹检测 */
 .sub .subh .eg {
   border-left: 0.8mm solid var(--line-2);
-  padding-left: 1.4mm;
+  padding: 0.3mm 1.2mm 0.3mm 1.4mm;
   margin-right: 1.2mm;
+  background: var(--theme-soft);
+  border-radius: 0.8mm;
 }
 .cue {
   font-size: var(--fs-hint);

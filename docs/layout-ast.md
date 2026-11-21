@@ -1,4 +1,12 @@
-# 布局 AST 契约（AST_VERSION 1.0.0）
+# 布局 AST 契约（AST_VERSION 1.4.0）
+
+> 版本沿革：1.0.0 初始词汇表（2026-11-21 重构）→ 1.1.0 增补 table / flow_diagram /
+> dialogue / frame_sequence（排版组件补齐）→ 1.2.0 sub_plain 增 score 字段、
+> 新增 fill_grid 填空矩阵节点（阅读小题分值 + 量词类规整填空布局）→
+> 1.3.0 新增 poly_circle_cells 多音字圈选节点、poem 支持 author 作者行
+> （题型视觉语言第一批，见 docs/QUESTION_TYPE_VISUAL_SPEC.md）→
+> 1.4.0 新增 word_pattern_group 分类式单行块、idiom_grid_cells 成语四字方格、
+> fill_grid 支持 numbered 圈号（第二批：表达题型）。
 
 > 2026-11-21 起，题型组件层（`src/components/questions.mjs`）不再拼接 HTML。
 > 组件是**策略层**：解析数据、消耗编号、组合本文档定义的版式模式节点；
@@ -48,14 +56,18 @@ L5 渲染       render/pages.mjs + pdf.mjs                （HTML → Chrome →
 | `work_box` | 数学作答 | calc-work-box 包裸横线行 |
 | `choice_options` | 独立选择题 | cols 自适应 ≤8→4 / ≤18→2 / 1 |
 | `sub_options` | 阅读理解小题 | 无分栏选项行 |
-| `sub_plain` | 阅读理解小题 / 句子改写 | bracket/require/cue/options/lines 组合 |
+| `sub_plain` | 阅读理解小题 / 句子改写 | bracket/require/cue/options/lines 组合；1.2.0 起支持 score（行末（N分），受 docProfile.section_score_visible） |
 | `sub_choice` / `sub_judge` | 独立选择 / 独立判断 | 小题组形态 |
 | `choice_standalone` / `judge_standalone` | 独立选择 / 独立判断 | 单题形态 |
 | `sub_stroke` | 笔顺笔画题 | word 田字格 + detail(wrap: text/details) |
 | `passage` | 阅读文章 | 整块不可拆（keepNext 由 Part 层声明） |
 | `pinyin_row` | 拼音+田字格 | 对齐/居中双分支 + calc(var(--tz)*N) |
 | `similar_cells` / `poly_cells` / `pin_annotation` | 组词词语栏 / 多音字 / 注音 | poly 教师答案 ans ans-slot 双类 |
+| `poly_circle_cells`（1.3.0） | 多音字圈选 | 读音并列，学生画圈；教师卷正确读音 ring（outline 实现，不改块高） |
+| `word_pattern_group` / `idiom_grid_cells`（1.4.0） | 词语仿写分类式单行块 / 成语四字方格 | 单行块保 pdftotext 线性序；方格 = 实字格+空白格，教师卷 .ans 覆盖 |
 | `witem_row` / `word_pattern` / `poem` | 组词词语栏 / 古诗填空 | 行内槽由 children 携带 |
+| `fill_grid`（1.2.0） | 填空矩阵（量词类规整填空） | items[].children 行内序列 + cols 分栏，`.fill-grid.cols` |
+| `table` / `flow_diagram` / `dialogue` / `frame_sequence`（1.1.0） | 表格任务 / 流程图 / 对话气泡 / 多格图 | 见 src/layout/ast.mjs v1.1 节 |
 | `composition_grid` / `prompt` / `image` | 作文方格 | 三节点拼装进题干 Part |
 | `match_board` | 连线题 | 教师卷 SVG 矢量层（38%/62% 锚点、行高 12mm） |
 

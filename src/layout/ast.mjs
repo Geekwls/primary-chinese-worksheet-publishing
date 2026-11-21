@@ -16,7 +16,7 @@
  * 契约版本：AST_VERSION 随词汇表变更递增，并写入 layout-manifest.ast_version。
  */
 
-export const AST_VERSION = "1.1.0";
+export const AST_VERSION = "1.4.0";
 
 /* ============================================================
  * 行内原语（题干/小题文本流内部）
@@ -71,8 +71,9 @@ export const choice_options = (options) => ({ kind: "choice_options", options })
 /** 阅读小题选项行：<div class="sub-options">（无分栏）。 */
 export const sub_options = (options) => ({ kind: "sub_options", options });
 
-/** 小题行（plain 变体）：题干 + 可选答题括号/要求 + 可选"仿写："引导 + 可选选项行与书写线（阅读/句子改写共用）。 */
-export const sub_plain = ({ number, children, bracket = null, require = "", cue = false, options = null, lines = null }) => ({
+/** 小题行（plain 变体）：题干 + 可选答题括号/要求 + 可选"仿写："引导 + 可选选项行与书写线（阅读/句子改写共用）。
+ *  score 为小题分值（v1.2）：非 null 时在行末渲染（N分），受 docProfile.section_score_visible 控制。 */
+export const sub_plain = ({ number, children, bracket = null, require = "", cue = false, options = null, lines = null, score = null }) => ({
   kind: "sub_plain",
   number,
   children,
@@ -81,6 +82,7 @@ export const sub_plain = ({ number, children, bracket = null, require = "", cue 
   cue,
   options,
   lines,
+  score,
 });
 
 /** 小题行（choice 变体）：<div class="sub choice-sub">。 */
@@ -132,16 +134,39 @@ export const similar_cells = (items) => ({ kind: "similar_cells", items });
 /** 多音字卡片行：<span class="poly-card">（教师答案用 ans ans-slot 双类，槽内约束）。 */
 export const poly_cells = (items) => ({ kind: "poly_cells", items });
 
+/** 多音字圈选行（v1.3）：读音并列显示，学生在正确读音上画圈；
+ *  教师卷以黑圈（ring）标出正确读音，灰度可辨。 */
+export const poly_circle_cells = (items) => ({ kind: "poly_circle_cells", items });
+
 /** 加点字注音列：<span class="pin-item"> 逐字列，目标字上方注音槽。 */
 export const pin_annotation = (items) => ({ kind: "pin_annotation", items });
 
 /** 成语/词语行：<span class="witem"> 包行内内容（括号槽由 children 携带）。 */
 export const witem_row = (items) => ({ kind: "witem_row", items });
 
+/** 填空矩阵（v1.2）：一行 N 个填空条目（如量词题"一（艘）军舰"），cols 决定分栏。
+ *  items[].children 为行内序列（通常由 parseInline(text,"paren") 产出括号槽）。
+ *  opts.numbered（v1.4）：条目前缀圈号 ①②…，start 为本行起始序号（跨行连续编号）。 */
+export const fill_grid = (items, cols = 2, opts = {}) => ({
+  kind: "fill_grid",
+  items,
+  cols,
+  numbered: opts.numbered ?? false,
+  start: opts.start ?? 0,
+});
+
 /** 词语仿写行组：<div class="wrow"> 例词头 + 定宽词槽（var(--slot-w)）。 */
 export const word_pattern = (items) => ({ kind: "word_pattern", items });
 
-/** 古诗填空块：<div class="poem"> 标题 + 逐行（行内线槽）。 */
+/** 词语仿写分类式块（v1.4）：每个结构一个块（标签 + 示例行 + ①② 编号槽），
+ *  让学生一眼看出不同词语结构的区别。 */
+export const word_pattern_group = (items) => ({ kind: "word_pattern_group", items });
+
+/** 成语四字方格行（v1.4）：每个字一个方格（实字格 + 空白格），明确"每格一字"。
+ *  items[].cells 为 {type:"char",value} 或 {type:"blank",answer} 序列。 */
+export const idiom_grid_cells = (items) => ({ kind: "idiom_grid_cells", items });
+
+/** 古诗填空块：<div class="poem"> 标题（+可选作者行）+ 逐行（行内线槽）。 */
 export const poem = (items) => ({ kind: "poem", items });
 
 /** 写话方格纸：<div class="zwg"> rows×cols 空格。 */

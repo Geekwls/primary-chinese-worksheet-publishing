@@ -101,13 +101,15 @@ export function compSimilarCharacter(q, ctx, pid) {
   return parts;
 }
 
-/** 多音字辨析：双栏或单栏，多音字词语 + 读音选项 + 结构化约束答题槽。 */
+/** 多音字辨析：双栏或单栏，多音字词语 + 读音选项 + 结构化约束答题槽。
+ *  mode: "circle"（v1.3）——读音并列圈选式，降低书写负担，考查重点落在语境辨析。 */
 export function compPolyphonic(q, ctx, pid) {
   const parts = [head(pid, q, ctx)];
   const cols = Math.max(1, Math.trunc(ctx.profile.layout.similar_cols ?? 2));
+  const node = q.mode === "circle" ? ast.poly_circle_cells : ast.poly_cells;
   chunks(q.items ?? [], cols).forEach((group, r) => {
     parts.push(
-      astPart(`${pid}-r${r}`, ast.poly_cells(group), {
+      astPart(`${pid}-r${r}`, node(group), {
         cls: `poly-group cols cols${cols}`,
         group: pid,
         splittable: false, // 严格不可跨栏或跨页拆分：整行选项与词语绑定
@@ -128,18 +130,58 @@ export function compAddPinyin(q, ctx, pid) {
   ];
 }
 
-/** 成语补充：括号空槽横排。 */
+/** 成语补充：括号空槽横排。
+ *  slot: "grid"（v1.4）——四字方格形态：每个字一个方格（实字格 + 空白格），明确"每格一字"。 */
 export function compIdiomFill(q, ctx, pid) {
+  const parts = [head(pid, q, ctx)];
+
+  if (q.slot === "grid") {
+    const items = (q.items ?? []).map((it, i) => ({
+      no: i,
+      cells: parseInline(String(it.text ?? ""), "paren").flatMap((n) =>
+        n.kind === "blank_slot"
+          ? [{ type: "blank", answer: String(n.answer ?? "") }]
+          : [...String(n.value ?? "")].filter((ch) => ch.trim()).map((ch) => ({ type: "char", value: ch })),
+      ),
+    }));
+    items.forEach((it) => {
+      parts.push(
+        astPart(`${pid}-g${it.no}`, ast.idiom_grid_cells([it]), {
+          cls: "idiom-row",
+          group: pid,
+          splittable: true,
+          label: `idiom${it.no}`,
+        }, ctx),
+      );
+    });
+    parts.push(tail(pid));
+    return parts;
+  }
+
   const items = (q.items ?? []).map((it) => ({ children: parseInline(String(it.text ?? ""), "paren") }));
-  return [
-    head(pid, q, ctx),
+  parts.push(
     astPart(`${pid}-g`, ast.witem_row(items), { cls: "wrow", group: pid, splittable: true }, ctx),
-    tail(pid),
-  ];
+  );
+  parts.push(tail(pid));
+  return parts;
 }
 
-/** 词语仿写：例词 + 若干词槽。 */
+/** 词语仿写：例词 + 若干词槽。
+ *  style: "block"（v1.4）——分类式块布局：标签 + 示例行 + ①② 编号槽，
+ *  让学生一眼看出不同词语结构的区别。 */
 export function compWordPattern(q, ctx, pid) {
+  if (q.style === "block") {
+    // 分类式块逐块全宽单行：加粗标签 + 示例 + ①②槽同行（圈号与槽不可分离）
+    return [
+      head(pid, q, ctx),
+      astPart(`${pid}-b`, ast.word_pattern_group(q.items ?? []), {
+        cls: "wp-group",
+        group: pid,
+        splittable: false,
+      }, ctx),
+      tail(pid),
+    ];
+  }
   return [
     head(pid, q, ctx),
     astPart(`${pid}-g`, ast.word_pattern(q.items ?? []), { group: pid }, ctx),
@@ -147,10 +189,11 @@ export function compWordPattern(q, ctx, pid) {
   ];
 }
 
-/** 古诗填空：按答案字数定宽的横线槽。 */
+/** 古诗填空：按答案字数定宽的横线槽；title 与 author 分层（author 可省略）。 */
 export function compPoemFill(q, ctx, pid) {
   const items = (q.items ?? []).map((it) => ({
     title: it.title ?? "",
+    author: it.author ?? "",
     lines: (it.lines ?? []).map((line) => parseInline(String(line), "line")),
   }));
   return [
@@ -160,7 +203,9 @@ export function compPoemFill(q, ctx, pid) {
   ];
 }
 
-/** 句子改写/仿写：单栏，小题之间可拆，整行书写线。 */
+/** 句子改写/仿写：单栏，小题之间可拆，整行书写线。
+ *  scaffold（v1.6）：填空式支架（{} 内为教师卷答案，如 "{弯弯的月亮}像{小船}。"）——
+ *  低年级仿写给半成品句框，降低起步难度；有 scaffold 时不再留书写横线。 */
 export function compSentenceRewrite(q, ctx, pid) {
   const parts = [head(pid, q, ctx)];
   ctx.resetSub();
@@ -173,15 +218,33 @@ export function compSentenceRewrite(q, ctx, pid) {
     // 两者若用同一套视觉，学生会把例句当成待改写对象，所以仿写单独给"例句"样式与"仿写："引导。
     const sentence = String(it.sentence ?? "");
     const imitate = it.kind === "imitate" || /^例\s*[：:]/.test(sentence);
+    const hasScaffold = /\{[^{}]+\}/.test(String(it.scaffold ?? ""));
+
+    let children;
+    let linesNode;
+    if (hasScaffold) {
+      // 支架形态：例句块（若有）+ 填空句框，答案进槽
+      children = [
+        ...(sentence && imitate ? [ast.example(sentence)] : sentence ? [ast.text(sentence)] : []),
+        ...parseInline(String(it.scaffold), "line"),
+      ];
+      linesNode = null;
+    } else {
+      children = imitate ? [ast.example(sentence)] : [ast.text(sentence)];
+      linesNode = { count: lines, answers, label: `${pid} 第${no}小题` };
+    }
+
     parts.push(
       astPart(
         `${pid}-s${no}`,
         ast.sub_plain({
           number: no,
-          children: imitate ? [ast.example(sentence)] : [ast.text(sentence)],
+          children,
           require: it.require ?? "",
-          cue: imitate,
-          lines: { count: lines, answers, label: `${pid} 第${no}小题` },
+          // 支架形态下句框即作答区，不再挂「仿写：」引导（避免标签悬空）
+          cue: imitate && !hasScaffold,
+          lines: linesNode,
+          score: it.score ?? null,
         }),
         { group: pid, splittable: true, label: `sub${no}` },
         ctx,
@@ -216,7 +279,8 @@ export function compReading(q, ctx, pid) {
   }
 
   ctx.resetSub();
-  for (const sub of q.subs ?? []) {
+  const subs = q.subs ?? [];
+  for (const sub of subs) {
     const no = ctx.nextSub();
     const hasOptions = Array.isArray(sub.options) && sub.options.length > 0;
     const isChoice = sub.sub_type === "choice" || hasOptions;
@@ -228,6 +292,9 @@ export function compReading(q, ctx, pid) {
     const lines = sub.lines === null || sub.lines === undefined ? defaultLines : Math.max(0, Math.trunc(Number(sub.lines)));
     const answers = sub.answer ? [sub.answer] : [];
 
+    // keep: "whole" —— 材料与小题整链绑定（keepNext 传递），整块放不下才回退逐小题分页
+    const keepWhole = q.keep === "whole" && no < subs.length;
+
     parts.push(
       astPart(
         `${pid}-s${no}`,
@@ -237,8 +304,9 @@ export function compReading(q, ctx, pid) {
           bracket,
           options: hasOptions ? sub.options : null,
           lines: lines > 0 ? { count: lines, answers, label: `${pid} 第${no}小题` } : null,
+          score: sub.score ?? null,
         }),
-        { group: pid, splittable: true, label: `sub${no}` },
+        { group: pid, splittable: true, keepNext: keepWhole, label: `sub${no}` },
         ctx,
       ),
     );
@@ -448,9 +516,35 @@ export function compCalculation(q, ctx, pid) {
   ];
 }
 
-/** 填空题：题干内嵌横线作答槽或括号槽。 */
+/** 填空题：题干内嵌横线作答槽或括号槽。
+ *  items 矩阵模式（v1.2）：q.items 为条目字符串数组（{} 内为答案），q.cols 决定每行条目数，
+ *  每行一个 fill_grid 分部，行间可跨页 —— 适合量词题等"多空并列"的规整布局。 */
 export function compFillBlank(q, ctx, pid) {
   const rawStem = String(q.stem ?? "");
+
+  // 矩阵模式：条目级 {} 答案，按 cols 装箱成行；行间 keepNext 整链绑定
+  // （矩阵被拆行会让"一（）军舰"式题目失去规整感；超长矩阵由分页器回退逐行放）
+  // numbered（v1.4）：条目前缀圈号 ①②…，跨行连续编号
+  if (Array.isArray(q.items) && q.items.length) {
+    const parts = [head(pid, q, ctx)];
+    const cols = Math.max(1, Math.trunc(Number(q.cols ?? 2)));
+    const items = q.items.map((it) => ({ children: parseInline(String(it ?? ""), "paren") }));
+    const rows = chunks(items, cols);
+    rows.forEach((group, r) => {
+      parts.push(
+        astPart(`${pid}-g${r}`, ast.fill_grid(group, cols, { numbered: q.numbered === true, start: r * cols }), {
+          cls: `cols cols${cols}`,
+          group: pid,
+          splittable: true,
+          keepNext: r < rows.length - 1,
+          label: `fillrow${r}`,
+        }, ctx),
+      );
+    });
+    parts.push(tail(pid));
+    return parts;
+  }
+
   let children;
   if (/\{[^{}]*\}/.test(rawStem)) {
     children = parseInline(rawStem, "line");
@@ -476,6 +570,67 @@ export function compFillBlank(q, ctx, pid) {
     ),
     tail(pid),
   ];
+}
+
+/** 连词成句：乱序词语 + 书写线，学生排序成句并加标点。 */
+export function compSentenceOrder(q, ctx, pid) {
+  const parts = [head(pid, q, ctx)];
+  ctx.resetSub();
+  for (const it of q.items ?? []) {
+    const no = ctx.nextSub();
+    const words = (it.words ?? []).map((w) => String(w)).filter(Boolean);
+    if (!words.length || !it.answer) {
+      throw new ComponentError(`连词成句 ${q.question_id ?? ""} 第 ${no} 小题缺少 words 或 answer`);
+    }
+    const lines = Math.max(1, Math.trunc(Number(it.lines ?? 1)));
+    parts.push(
+      astPart(
+        `${pid}-s${no}`,
+        ast.sub_plain({
+          number: no,
+          children: [ast.text(words.join("　　"))],
+          lines: { count: lines, answers: [String(it.answer)], label: `${pid} 第${no}小题` },
+          score: it.score ?? null,
+        }),
+        { group: pid, splittable: true, label: `sub${no}` },
+        ctx,
+      ),
+    );
+  }
+  parts.push(tail(pid));
+  return parts;
+}
+
+/** 标点运用：句中/句末留标点槽（定宽槽），after 为槽后剩余文本（可省略）。 */
+export function compPunctuation(q, ctx, pid) {
+  const parts = [head(pid, q, ctx)];
+  ctx.resetSub();
+  for (const it of q.items ?? []) {
+    const no = ctx.nextSub();
+    const before = String(it.before ?? it.text ?? "");
+    if (!before || (it.answer === undefined || it.answer === null || it.answer === "")) {
+      throw new ComponentError(`标点运用 ${q.question_id ?? ""} 第 ${no} 小题缺少 text/before 或 answer`);
+    }
+    const children = [ast.text(before), ast.blank_slot("fixed", String(it.answer))];
+    if (it.after !== undefined && it.after !== null && String(it.after) !== "") {
+      children.push(ast.text(String(it.after)));
+    }
+    parts.push(
+      astPart(
+        `${pid}-s${no}`,
+        ast.sub_plain({
+          number: no,
+          children,
+          lines: null,
+          score: it.score ?? null,
+        }),
+        { group: pid, splittable: true, label: `sub${no}` },
+        ctx,
+      ),
+    );
+  }
+  parts.push(tail(pid));
+  return parts;
 }
 
 /** 解决问题 / 应用题：题干 + 4 行作答书写线。 */

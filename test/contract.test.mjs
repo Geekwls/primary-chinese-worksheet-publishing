@@ -119,6 +119,55 @@ test("新引入题型完整契约校验：选择/判断/笔顺/连线不合规�
   assert.throws(() => loadDocument(pMatch), /缺少 items 或 pairs/);
 });
 
+test("填空矩阵模式：items 内嵌 {} 答案可免 q.answer，缺 {} 被拦截", () => {
+  // 合法：items 模式，无 q.answer
+  const docOk = {
+    document_id: "fb-items-ok",
+    grade: 2,
+    title: "测试卷",
+    sections: [{
+      title: "一、填空",
+      questions: [{
+        question_id: "q_fb1", type: "fill_blank", stem: "在括号里填上合适的量词。",
+        items: ["一{艘}军舰", "一{孔}石桥"], cols: 2,
+      }],
+    }],
+  };
+  const { warnings } = validate(docOk);
+  assert.deepEqual(warnings, []);
+
+  // 不合法：items 条目缺少 {} 答案
+  const docBad = JSON.parse(JSON.stringify(docOk));
+  docBad.sections[0].questions[0].items = ["一（）军舰", "一{孔}石桥"];
+  assert.throws(() => validate(docBad), /缺少 \{\} 答案/);
+});
+
+test("连词成句/标点运用：缺 items 或条目字段被拦截", () => {
+  // 连词成句缺 items
+  const pOrder = mutate("g2-review-unit56.json", (doc) => {
+    doc.sections[0].questions.push({ question_id: "qso_bad", type: "sentence_order", stem: "连词成句" });
+  });
+  assert.throws(() => loadDocument(pOrder), /缺少 items/);
+
+  // 连词成句条目缺 answer
+  const pOrderBad = mutate("g2-review-unit56.json", (doc) => {
+    doc.sections[0].questions.push({
+      question_id: "qso_bad2", type: "sentence_order", stem: "连词成句",
+      items: [{ words: ["秋天", "来了"] }],
+    });
+  });
+  assert.throws(() => loadDocument(pOrderBad), /缺少 words\/answer/);
+
+  // 标点运用条目缺 answer
+  const pPunct = mutate("g2-review-unit56.json", (doc) => {
+    doc.sections[0].questions.push({
+      question_id: "qp_bad", type: "punctuation", stem: "加标点",
+      items: [{ text: "秋天来了" }],
+    });
+  });
+  assert.throws(() => loadDocument(pPunct), /缺少 text\/before 或 answer/);
+});
+
 test("总分不一致只告警，不阻断", () => {
   const path = mutate("g2-review-unit56.json", (doc) => {
     doc.total_score = 120;
