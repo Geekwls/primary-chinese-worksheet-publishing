@@ -18,6 +18,5 @@ node_modules/
 # 助手工作区（本地记忆与临时文件）
 .workbuddy/
 
-# 样卷构建输出（npm run sample / 手工构建，可重新生成）
-build-g1-comprehensive/
+# 标准样卷交付包（npm run sample / 手工构建，可重新生成，含受控 Golden 基准图）
 standard-sample/
