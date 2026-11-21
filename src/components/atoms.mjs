@@ -7,6 +7,7 @@
  */
 import { ComponentError } from "../core/errors.mjs";
 import { esc, splitAnswer } from "../core/text.mjs";
+import * as ast from "../layout/ast.mjs";
 
 export { esc, splitAnswer };
 
@@ -49,6 +50,25 @@ export function pinyinWordItem(item, ctx) {
 }
 
 const BLANK_RE = /\{([^{}]*)\}/g;
+
+/**
+ * 把 {答案} 文本解析为行内 AST 节点序列（策略层用；HTML 渲染在解释器）。
+ * form: "line" 横线槽（古诗/填空/阅读）；"paren" 括号槽（成语/字词/笔顺）。
+ */
+export function parseInline(src, form) {
+  const s = String(src ?? "");
+  const out = [];
+  let pos = 0;
+  BLANK_RE.lastIndex = 0;
+  let m;
+  while ((m = BLANK_RE.exec(s)) !== null) {
+    out.push(ast.text(s.slice(pos, m.index)));
+    out.push(ast.blank_slot(form, m[1]));
+    pos = m.index + m[0].length;
+  }
+  out.push(ast.text(s.slice(pos)));
+  return out;
+}
 
 /**
  * 把题干里的 {答案} 渲染成作答槽。

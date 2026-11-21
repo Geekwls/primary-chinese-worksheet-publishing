@@ -8,10 +8,18 @@
  *   4. 只有真正能独立成行的部分才标 splittable —— 拆错位置比不拆更糟。
  */
 import { Part } from "../domain/part.mjs";
-import { ans, answerLines, chunks, esc, inlineText, pinyinWordItem, stemInner, wlines } from "./atoms.mjs";
+import * as ast from "../layout/ast.mjs";
+import { ans, answerLines, chunks, esc, inlineText, parseInline, pinyinWordItem, stemInner, wlines } from "./atoms.mjs";
+import { astPart } from "./ast-part.mjs";
 
+/** 题干 Part：编号由上下文自增，题干与分值进 q_head 节点（渲染在解释器）。 */
 const head = (pid, q, ctx) =>
-  new Part(`${pid}-h`, stemInner(q, ctx), { cls: "stem", group: pid, role: "q_head", keepNext: true });
+  astPart(
+    `${pid}-h`,
+    ast.q_head({ number: ctx.nextNo(), children: [ast.text(q.stem ?? "")], score: q.score }),
+    { cls: "stem", group: pid, role: "q_head", keepNext: true },
+    ctx,
+  );
 
 const tail = (pid) => new Part(`${pid}-t`, "", { cls: "qtail", group: pid, role: "q_tail" });
 
@@ -489,63 +497,55 @@ export function compCalculation(q, ctx, pid) {
   const stem = String(q.stem ?? "");
   const isVertical = /竖式|脱式|递等式/.test(stem);
   if (isVertical) {
-    const lines = 3;
     const answers = q.answer ? [String(q.answer)] : [];
     return [
       head(pid, q, ctx),
-      new Part(`${pid}-work`, `<div class="calc-work-box">${wlines(lines, answers, ctx, pid)}</div>`, {
-        group: pid,
-        splittable: false,
-      }),
+      astPart(`${pid}-work`, ast.work_box({ count: 3, answers, label: pid }), { group: pid, splittable: false }, ctx),
       tail(pid),
     ];
   }
 
-  const score = q.score;
-  const showScore = (ctx.docProfile.section_score_visible ?? true) && score !== null && score !== undefined;
-  const hint = showScore ? `<span class="pt">（${esc(score)}分）</span>` : "";
-  const number = ctx.nextNo();
-  const ansStr = String(q.answer ?? "");
-  const ansWidth = Math.max(3.8, [...ansStr].length * 1.3 + 1.2);
-  const slot = `<span class="calc-oral-slot"><span class="brk" style="width:${ansWidth.toFixed(2)}em;display:inline-block"><i class="slot" style="width:100%"></i>${ctx.isTeacher ? ans(ansStr) : ""}</span></span>`;
-  const headHtml = `<span class="no">${number}.</span> ${esc(stem)} ${slot}${hint}`;
   return [
-    new Part(`${pid}-h`, headHtml, { cls: "stem", group: pid, role: "q_head" }),
+    astPart(
+      `${pid}-h`,
+      ast.q_head({
+        number: ctx.nextNo(),
+        children: [ast.text(stem), ast.text(" "), ast.blank_slot("oral", String(q.answer ?? ""))],
+        score: q.score,
+      }),
+      { cls: "stem", group: pid, role: "q_head" },
+      ctx,
+    ),
     tail(pid),
   ];
 }
 
 /** 填空题：题干内嵌横线作答槽或括号槽。 */
 export function compFillBlank(q, ctx, pid) {
-  const score = q.score;
-  const showScore = (ctx.docProfile.section_score_visible ?? true) && score !== null && score !== undefined;
-  const hint = showScore ? `<span class="pt">（${esc(score)}分）</span>` : "";
-  const number = ctx.nextNo();
   const rawStem = String(q.stem ?? "");
-
-  let bodyHtml = "";
+  let children;
   if (/\{[^{}]*\}/.test(rawStem)) {
-    bodyHtml = inlineText(rawStem, ctx, "line");
+    children = parseInline(rawStem, "line");
   } else if (/（\s*）|\(\s*\)/.test(rawStem)) {
     const answers = Array.isArray(q.answer)
       ? q.answer.map(String)
       : String(q.answer ?? "").split(/[、,，]/).map((s) => s.trim());
-    let ansIdx = 0;
-    bodyHtml = esc(rawStem).replace(/(?:（\s*）|\(\s*\))/g, () => {
-      const a = ansIdx < answers.length ? answers[ansIdx++] : "";
-      const width = Math.max(2.2, [...a].length * 1.18 + 0.5);
-      return `<span class="brk"><i class="slot" style="width:${width.toFixed(2)}em"></i>${ctx.isTeacher ? ans(a) : ""}</span>`;
+    children = [];
+    rawStem.split(/(?:（\s*）|\(\s*\))/g).forEach((seg, i) => {
+      if (i > 0) children.push(ast.blank_slot("line", answers[i - 1] ?? ""));
+      if (seg) children.push(ast.text(seg));
     });
   } else {
-    bodyHtml = esc(rawStem);
+    children = [ast.text(rawStem)];
   }
 
   return [
-    new Part(`${pid}-h`, `<span class="no">${number}.</span> ${bodyHtml}${hint}`, {
-      cls: "stem",
-      group: pid,
-      role: "q_head",
-    }),
+    astPart(
+      `${pid}-h`,
+      ast.q_head({ number: ctx.nextNo(), children, score: q.score }),
+      { cls: "stem", group: pid, role: "q_head" },
+      ctx,
+    ),
     tail(pid),
   ];
 }
@@ -556,7 +556,7 @@ export function compWordProblem(q, ctx, pid) {
   const answers = q.answer ? [String(q.answer)] : [];
   return [
     head(pid, q, ctx),
-    new Part(`${pid}-lines`, `<div class="wlines">${wlines(lines, answers, ctx, pid)}</div>`, { group: pid }),
+    astPart(`${pid}-lines`, ast.writing_lines({ count: lines, answers, label: pid }), { group: pid }, ctx),
     tail(pid),
   ];
 }
