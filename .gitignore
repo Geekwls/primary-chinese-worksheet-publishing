@@ -15,3 +15,6 @@ node_modules/
 
 # 助手工作区（本地记忆与临时文件）
 .workbuddy/
+
+# 参考扫描件与大文件
+docs/*.pdf

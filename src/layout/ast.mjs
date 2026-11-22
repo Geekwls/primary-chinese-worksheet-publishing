@@ -25,6 +25,12 @@ export const AST_VERSION = "1.4.0";
 /** 纯文本（解释器负责 esc 转义）。 */
 export const text = (value) => ({ kind: "text", value: String(value ?? "") });
 
+/** 加点字 / 着重号（text-emphasis dot）。 */
+export const dot = (value) => ({ kind: "dot", value: String(value ?? "") });
+
+/** 语境行内拼音字词槽。 */
+export const inline_pinyin = ({ pinyin, answer, form = "paren" }) => ({ kind: "inline_pinyin", pinyin, answer, form });
+
 /**
  * 行内作答槽。form 决定视觉形态（与 CSS 分节一一对应）：
  *   line        线槽 <span class="brk"><i class="slot" style="width:Wem">，W = max(2.2, 字数×1.18+0.5)
@@ -47,8 +53,11 @@ export const example = (value) => ({ kind: "example", value: String(value ?? "")
  * 块级原语（每个 Part 的 html 由一或多个块级节点渲染拼接）
  * ============================================================ */
 
-/** 题干行：<span class="no">N.</span> + 行内内容 + 分值提示（受 docProfile.section_score_visible 控制）。 */
-export const q_head = ({ number, children, score = null }) => ({ kind: "q_head", number, children, score });
+/** 语境看拼音写词语语段容器。 */
+export const pinyin_passage = (children) => ({ kind: "pinyin_passage", children });
+
+/** 题干行：<span class="no">N.</span> + 标签 + 行内内容 + 分值提示（受 docProfile.section_score_visible 控制）。 */
+export const q_head = ({ number, children, score = null, tags = null }) => ({ kind: "q_head", number, children, score, tags });
 
 /**
  * 书写横线组（<div class="wline">… 序列）。boxed=false 时不包 <div class="wlines"> 外壳
@@ -65,15 +74,15 @@ export const writing_lines = ({ count, answers = [], label = "", boxed = true })
 /** 竖式/脱式作答区：<div class="calc-work-box"> 包书写横线（固定语义，见 compCalculation）。 */
 export const work_box = ({ count, answers = [], label = "" }) => ({ kind: "work_box", count, answers, label });
 
-/** 独立选择题选项栏：<div class="choice-options cols colsN">，列数按最长选项自适应（≤8→4 / ≤18→2 / 1）。 */
-export const choice_options = (options) => ({ kind: "choice_options", options });
+/** 独立选择题选项栏：<div class="choice-options cols colsN">，列数按最长选项自适应（≤12→4 / ≤26→2 / 1）或由 cols 指定。 */
+export const choice_options = (options, cols = null) => ({ kind: "choice_options", options, cols });
 
 /** 阅读小题选项行：<div class="sub-options">（无分栏）。 */
 export const sub_options = (options) => ({ kind: "sub_options", options });
 
 /** 小题行（plain 变体）：题干 + 可选答题括号/要求 + 可选"仿写："引导 + 可选选项行与书写线（阅读/句子改写共用）。
  *  score 为小题分值（v1.2）：非 null 时在行末渲染（N分），受 docProfile.section_score_visible 控制。 */
-export const sub_plain = ({ number, children, bracket = null, require = "", cue = false, options = null, lines = null, score = null }) => ({
+export const sub_plain = ({ number, children, bracket = null, require = "", cue = false, options = null, cols = null, lines = null, score = null, tags = null }) => ({
   kind: "sub_plain",
   number,
   children,
@@ -81,17 +90,20 @@ export const sub_plain = ({ number, children, bracket = null, require = "", cue 
   require,
   cue,
   options,
+  cols,
   lines,
   score,
+  tags,
 });
 
 /** 小题行（choice 变体）：<div class="sub choice-sub">。 */
-export const sub_choice = ({ number, children, bracket = null, options = null }) => ({
+export const sub_choice = ({ number, children, bracket = null, options = null, cols = null }) => ({
   kind: "sub_choice",
   number,
   children,
   bracket,
   options,
+  cols,
 });
 
 /** 小题行（judge 变体）：<div class="sub judge-sub"><div class="judge-row">…右对齐判断括号。 */
@@ -164,7 +176,7 @@ export const word_pattern_group = (items) => ({ kind: "word_pattern_group", item
 
 /** 成语四字方格行（v1.4）：每个字一个方格（实字格 + 空白格），明确"每格一字"。
  *  items[].cells 为 {type:"char",value} 或 {type:"blank",answer} 序列。 */
-export const idiom_grid_cells = (items) => ({ kind: "idiom_grid_cells", items });
+export const idiom_grid_cells = (items, cols = 3) => ({ kind: "idiom_grid_cells", items, cols });
 
 /** 古诗填空块：<div class="poem"> 标题（+可选作者行）+ 逐行（行内线槽）。 */
 export const poem = (items) => ({ kind: "poem", items });

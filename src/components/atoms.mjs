@@ -16,24 +16,37 @@ export function chunks(seq, size) {
   return out;
 }
 
-const BLANK_RE = /\{([^{}]*)\}/g;
+const INLINE_TOKEN_RE = /(?:\[([a-zA-Zāáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜü\s]+)\]\{([^{}]+)\})|(?:\{([^{}]*)\})|(?:~([^\n~]+)~)|(?:\[([^\]]+)\]\{\.dot\})/g;
 
 /**
- * 把 {答案} 文本解析为行内 AST 节点序列（策略层解析，渲染在解释器）。
- * form: "line" 横线槽（古诗/填空/阅读）；"paren" 括号槽（成语/字词/笔顺）。
+ * 把行内文本解析为 AST 节点序列（策略层解析，渲染在解释器）。
+ * 支持：
+ *   - {答案}：作答槽（form 决定 line 或 paren）
+ *   - [拼音]{答案}：语境拼音汉字方框槽
+ *   - ~加点字~ 或 [加点字]{.dot}：着重号
  */
 export function parseInline(src, form) {
   const s = String(src ?? "");
   const out = [];
   let pos = 0;
-  BLANK_RE.lastIndex = 0;
+  INLINE_TOKEN_RE.lastIndex = 0;
   let m;
-  while ((m = BLANK_RE.exec(s)) !== null) {
-    out.push(ast.text(s.slice(pos, m.index)));
-    out.push(ast.blank_slot(form, m[1]));
+  while ((m = INLINE_TOKEN_RE.exec(s)) !== null) {
+    if (m.index > pos) {
+      out.push(ast.text(s.slice(pos, m.index)));
+    }
+    if (m[1] !== undefined && m[2] !== undefined) {
+      out.push(ast.inline_pinyin({ pinyin: m[1].trim(), answer: m[2] }));
+    } else if (m[3] !== undefined) {
+      out.push(ast.blank_slot(form, m[3]));
+    } else if (m[4] !== undefined || m[5] !== undefined) {
+      out.push(ast.dot(m[4] || m[5]));
+    }
     pos = m.index + m[0].length;
   }
-  out.push(ast.text(s.slice(pos)));
+  if (pos < s.length) {
+    out.push(ast.text(s.slice(pos)));
+  }
   return out;
 }
 

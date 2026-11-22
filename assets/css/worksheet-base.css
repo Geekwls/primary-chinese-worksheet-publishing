@@ -64,6 +64,9 @@ body {
 .ftr.ftr-right {
   justify-content: flex-end;
 }
+.ftr.ftr-center {
+  justify-content: center;
+}
 
 /* ---------- 卷头 ---------- */
 
@@ -256,6 +259,60 @@ body {
   margin: 0 0.5mm;
 }
 
+/* 方格与语境拼音 */
+.tzg.square::before,
+.tzg.square::after {
+  display: none !important;
+}
+.sqrow { display: inline-flex; }
+.sqg {
+  position: relative;
+  width: var(--sq-size, 7.8mm);
+  height: var(--sq-size, 7.8mm);
+  flex: 0 0 auto;
+  border: var(--lw-normal) solid var(--line-1);
+  background: #ffffff;
+}
+.sqg + .sqg { margin-left: calc(-1 * var(--lw-normal)); }
+.sqg .ans {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--sq-size, 7.8mm) * 0.65);
+  line-height: 1;
+  font-weight: 600;
+  color: var(--answer);
+}
+.pinline-wrap {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.5mm;
+  text-indent: 0;
+  vertical-align: baseline;
+  margin: 0 0.8mm;
+}
+.pinline-py {
+  font-family: var(--f-py);
+  font-size: var(--fs-py);
+  line-height: 1;
+  color: var(--ink-1);
+  padding-right: 0.5mm;
+}
+.pinline-paren {
+  font-size: var(--fs-q);
+  line-height: 1;
+}
+.pinyin-passage {
+  font-size: var(--fs-q);
+  line-height: 2.2;
+  text-indent: 2em;
+  text-align: justify;
+  padding: 1mm 0 2mm 0;
+}
+
 /* ---------- 组词 / 词语栏 ---------- */
 
 .cols {
@@ -332,6 +389,24 @@ body {
   align-items: center;
   gap: var(--spacing-2);
   padding-bottom: var(--gap-row);
+}
+.idiom-grid-row {
+  width: 100%;
+  padding-bottom: var(--gap-row);
+}
+.idiom-grid-wrap {
+  width: 100%;
+}
+.idiom-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+.idiom-item .fg-no {
+  font-size: var(--fs-q);
+  font-family: var(--f-cn);
+  line-height: 1;
+  color: var(--ink-1);
 }
 .idiom-grid { display: inline-flex; gap: 1mm; }
 .idiom-cell {
@@ -468,11 +543,15 @@ body {
 
 /* ---------- 书写横线 ---------- */
 
-.wlines { padding-top: 0.2mm; }
-/* 书写线不收满版心：通栏 186mm 会让低年级越写越散，且与题干无层级差 */
+.wlines {
+  padding-top: 0.2mm;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+/* 书写线对齐题干版心宽度 */
 .wline {
   position: relative;
-  max-width: var(--wline-w);
+  width: 100%;
   height: var(--wgap);
   border-bottom: var(--lw-normal) solid var(--line-1);
 }
@@ -490,6 +569,7 @@ body {
 /* ---------- 阅读文章 ---------- */
 
 .passage {
+  font-family: var(--f-kaiti, "KaiTi", "STKaiti", "楷体", "Source Han Serif CN", "Noto Serif CJK SC", serif);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   text-align: justify;
@@ -512,6 +592,29 @@ body {
   margin-right: auto;
 }
 
+/* ---------- 着重号 (Text Emphasis Dot) ---------- */
+.dot {
+  text-emphasis: dot;
+  text-emphasis-position: under;
+  -webkit-text-emphasis: dot;
+  -webkit-text-emphasis-position: under;
+}
+
+/* ---------- 题干微标签 (Pill Tag) ---------- */
+.q-tag {
+  display: inline-block;
+  font-size: 0.82em;
+  font-weight: 500;
+  line-height: 1.25;
+  padding: 0.1em 0.45em;
+  margin-right: 0.35em;
+  border-radius: 3px;
+  background-color: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  vertical-align: 0.08em;
+}
+
 /* ---------- 阅读理解小题 ---------- */
 
 .sub { padding-bottom: var(--gap-m); }
@@ -531,10 +634,27 @@ body {
 .sub-options .opt {
   display: inline-block;
 }
-.choice-bracket {
+.choice-bracket,
+.judge-bracket {
   position: relative;
   white-space: nowrap;
-  margin-left: 2mm;
+  margin-left: 1.5mm;
+}
+.choice-bracket .slot,
+.judge-bracket .slot {
+  border-bottom: none !important;
+}
+.choice-bracket .ans,
+.judge-bracket .ans {
+  position: absolute;
+  left: 0.5mm;
+  right: 0.5mm;
+  bottom: 0.5mm;
+  text-align: center;
+  font-size: var(--fs-q);
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--answer);
 }
 /* 仿写题的例句必须与待答区在视觉上分开：学生看到"例"旁边就是横线，会去改写例句。
    浅色底（theme-soft）+ 左竖线双重区分；底色为装饰层浅暖灰，灰度打印下不干扰墨迹检测 */

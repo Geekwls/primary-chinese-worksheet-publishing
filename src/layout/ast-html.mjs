@@ -11,6 +11,15 @@
  */
 import { esc, splitAnswer } from "../core/text.mjs";
 
+/** 渲染行内标记（如 ~加点字~ 或 [加点字]{.dot}），无标记时直接 esc。 */
+function formatInlineMarkers(str) {
+  const s = String(str ?? "");
+  if (!s.includes("~") && !s.includes("{.dot}")) return esc(s);
+  return s
+    .replace(/~([^\n~]+)~/g, (_, m) => `<span class="dot">${esc(m)}</span>`)
+    .replace(/\[([^\]]+)\]\{\.dot\}/g, (_, m) => `<span class="dot">${esc(m)}</span>`);
+}
+
 /** 教师卷答案覆盖层；学生卷出口不调用。 */
 function ans(value, cls = "ans") {
   return value ? `<span class="${cls}">${esc(value)}</span>` : "";
@@ -96,9 +105,11 @@ function pinyinItemHtml(item, ctx) {
   } else {
     py = `<span class="pyc" style="width:calc(var(--tz)*${Math.max(1, chars.length)})">${esc(syllables.join(" "))}</span>`;
   }
+  const useSquare = item.box === "square" || ctx.docProfile.pinyin_box === "square";
+  const cellCls = useSquare ? "tzg square" : "tzg";
   let cells = "";
   for (const ch of chars) {
-    cells += `<span class="tzg">${ctx.isTeacher ? ans(ch) : ""}</span>`;
+    cells += `<span class="${cellCls}">${ctx.isTeacher ? ans(ch) : ""}</span>`;
   }
   return `<div class="pitem"><div class="pyrow">${py}</div><div class="tzrow">${cells}</div></div>`;
 }
@@ -109,6 +120,29 @@ export function astToHtml(node, ctx) {
     case "text":
       return esc(node.value);
 
+    case "dot":
+      return `<span class="dot">${esc(node.value)}</span>`;
+
+    case "inline_pinyin": {
+      const pinyin = esc(node.pinyin);
+      const chars = [...String(node.answer ?? "")];
+      const form = node.form ?? "paren";
+      if (form === "square") {
+        let cells = "";
+        for (const ch of chars) {
+          cells += `<span class="sqg">${ctx.isTeacher ? ans(ch) : ""}</span>`;
+        }
+        return `<span class="pinline-wrap"><span class="pinline-py">${pinyin}</span><span class="sqrow">${cells}</span></span>`;
+      }
+      const charCount = Math.max(1, chars.length);
+      const slotWidth = (charCount * 1.5 + 0.6).toFixed(2);
+      const overlay = ctx.isTeacher ? ans(node.answer) : "";
+      return `<span class="pinline-wrap"><span class="pinline-py">${pinyin}</span><span class="brk pinline-paren">（<i class="slot" style="width:${slotWidth}em;border-bottom:none;margin:0"></i>${overlay}）</span></span>`;
+    }
+
+    case "pinyin_passage":
+      return `<div class="pinyin-passage">${inlineToHtml(node.children, ctx)}</div>`;
+
     case "example":
       return `<span class="eg">${esc(node.value)}</span>`;
 
@@ -118,7 +152,8 @@ export function astToHtml(node, ctx) {
     case "q_head": {
       const showScore = (ctx.docProfile.section_score_visible ?? true) && node.score !== null && node.score !== undefined;
       const hint = showScore ? `<span class="pt">（${esc(node.score)}分）</span>` : "";
-      return `<span class="no">${node.number}.</span> ${inlineToHtml(node.children, ctx)}${hint}`;
+      const tagsHtml = (node.tags ?? []).map((t) => `<span class="q-tag">${esc(t)}</span>`).join("");
+      return `<span class="no">${node.number}.</span> ${tagsHtml}${inlineToHtml(node.children, ctx)}${hint}`;
     }
 
     case "writing_lines": {
@@ -131,14 +166,14 @@ export function astToHtml(node, ctx) {
 
     case "choice_options": {
       if (!node.options?.length) return "";
-      const maxLen = Math.max(...node.options.map((o) => [...String(o)].length));
-      const cols = maxLen <= 8 ? 4 : maxLen <= 18 ? 2 : 1;
-      const optsHtml = node.options.map((opt) => `<span class="opt">${esc(opt)}</span>`).join("");
+      const maxLen = Math.max(...node.options.map((o) => [...String(o).replace(/~([^\n~]+)~/g, "$1").replace(/\[([^\]]+)\]\{\.dot\}/g, "$1")].length));
+      const cols = node.cols ?? (maxLen <= 12 ? 4 : maxLen <= 26 ? 2 : 1);
+      const optsHtml = node.options.map((opt) => `<span class="opt">${formatInlineMarkers(opt)}</span>`).join("");
       return `<div class="choice-options cols cols${cols}">${optsHtml}</div>`;
     }
 
     case "sub_options": {
-      const opts = (node.options ?? []).map((opt) => `<span class="opt">${esc(opt)}</span>`).join("");
+      const opts = (node.options ?? []).map((opt) => `<span class="opt">${formatInlineMarkers(opt)}</span>`).join("");
       return `<div class="sub-options">${opts}</div>`;
     }
 
@@ -153,16 +188,17 @@ export function astToHtml(node, ctx) {
         (ctx.docProfile.section_score_visible ?? true) && node.score !== null && node.score !== undefined
           ? ` <span class="pt">（${esc(node.score)}分）</span>`
           : "";
+      const tagsHtml = (node.tags ?? []).map((t) => `<span class="q-tag">${esc(t)}</span>`).join("");
       return (
         `<div class="sub"><div class="subh"><span class="no">（${node.number}）</span>` +
-        `${inlineToHtml(node.children, ctx)}${bracketHtml}${reqHtml}${scoreHtml}</div>` +
+        `${tagsHtml}${inlineToHtml(node.children, ctx)}${bracketHtml}${reqHtml}${scoreHtml}</div>` +
         `${cueHtml}${optionsHtml}${linesHtml}</div>`
       );
     }
 
     case "sub_choice": {
       const bracketHtml = node.bracket ? blankSlotHtml({ kind: "blank_slot", form: "choice", answer: node.bracket.answer }, ctx) : "";
-      const optionsHtml = node.options ? astToHtml({ kind: "choice_options", options: node.options }, ctx) : "";
+      const optionsHtml = node.options ? astToHtml({ kind: "choice_options", options: node.options, cols: node.cols }, ctx) : "";
       return (
         `<div class="sub choice-sub"><div class="subh"><span class="no">（${node.number}）</span>` +
         `${inlineToHtml(node.children, ctx)}${bracketHtml}</div>` +
@@ -219,12 +255,12 @@ export function astToHtml(node, ctx) {
         for (const line of node.dialogue) {
           html +=
             `<div class="dialogue-line"><span class="dialogue-speaker">${esc(line.speaker)}</span>` +
-            `<div class="dialogue-bubble">${esc(line.text)}</div></div>`;
+            `<div class="dialogue-bubble">${formatInlineMarkers(line.text)}</div></div>`;
         }
         return html;
       }
       for (const para of node.paragraphs ?? []) {
-        html += `<p class="passage">${esc(para)}</p>`;
+        html += `<p class="passage">${formatInlineMarkers(para)}</p>`;
       }
       return html;
     }
@@ -372,21 +408,23 @@ export function astToHtml(node, ctx) {
 
     case "idiom_grid_cells": {
       // 成语四字方格：每个字一个方格（实字格 + 空白格），明确"每格一字"；no 存在时前缀圈号。
-      let rows = "";
-      for (const it of node.items ?? []) {
-        const no = it.no !== undefined && it.no !== null
-          ? `<span class="fg-no">${circled(it.no)}</span>`
-          : "";
-        const cells = (it.cells ?? [])
-          .map((c) =>
-            c.type === "blank"
-              ? `<span class="idiom-cell blank">${ctx.isTeacher ? `<span class="ans">${esc(c.answer)}</span>` : ""}</span>`
-              : `<span class="idiom-cell filled">${esc(c.value)}</span>`,
-          )
-          .join("");
-        rows += `${no}<span class="idiom-grid">${cells}</span>`;
-      }
-      return rows;
+      const cols = node.cols ?? 3;
+      const itemsHtml = (node.items ?? [])
+        .map((it) => {
+          const no = it.no !== undefined && it.no !== null
+            ? `<span class="fg-no">${circled(it.no)}</span>`
+            : "";
+          const cells = (it.cells ?? [])
+            .map((c) =>
+              c.type === "blank"
+                ? `<span class="idiom-cell blank">${ctx.isTeacher ? `<span class="ans">${esc(c.answer)}</span>` : ""}</span>`
+                : `<span class="idiom-cell filled">${esc(c.value)}</span>`,
+            )
+            .join("");
+          return `<div class="idiom-item">${no}<span class="idiom-grid">${cells}</span></div>`;
+        })
+        .join("");
+      return `<div class="idiom-grid-wrap cols cols${cols}">${itemsHtml}</div>`;
     }
 
     case "poem": {

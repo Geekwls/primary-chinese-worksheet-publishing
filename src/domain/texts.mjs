@@ -7,11 +7,18 @@
 import { norm, stripTags, unescapeHtml } from "../core/text.mjs";
 
 const BLANK_RE = /\{[^{}]*\}/g;
+const DOT_RE = /~([^\n~]+)~|\[([^\]]+)\]\{\.dot\}/g;
+const PY_INLINE_RE = /\[[^\]]+\]\{([^{}]+)\}/g;
 const ANS_RE = /<span class="ans(?:\s+[^"]*)?">([\s\S]*?)<\/span>/g;
 
-/** 去掉填空占位与标签后的纯文本。 */
+/** 去掉填空占位、加点标记与标签后的纯文本。 */
 export function plain(text) {
-  return stripTags(String(text ?? "").replace(BLANK_RE, "")).trim();
+  return stripTags(
+    String(text ?? "")
+      .replace(PY_INLINE_RE, "$1")
+      .replace(BLANK_RE, "")
+      .replace(DOT_RE, (m, g1, g2) => g1 || g2 || ""),
+  ).trim();
 }
 
 /** 组件 HTML 中"学生可见"的文本（剔除教师答案覆盖层）。 */
@@ -30,7 +37,7 @@ export function structureSegments(doc) {
   const out = [];
   const pushSegments = (text) => {
     String(text ?? "")
-      .split(/（[^（）]*）|\([^()]*\)|\{[^{}]*\}/g)
+      .split(/（[^（）]*）|\([^()]*\)|\{[^{}]*\}|\[[^\]]+\]\{[^{}]+\}/g)
       .forEach((seg) => out.push(plain(seg)));
   };
   out.push(plain(doc.title ?? ""));
@@ -38,6 +45,9 @@ export function structureSegments(doc) {
     out.push(plain(sec.title ?? ""));
     for (const q of sec.questions ?? []) {
       pushSegments(q.stem ?? "");
+      if (typeof q.passage === "string") {
+        pushSegments(q.passage);
+      }
       for (const para of q.passage?.paragraphs ?? []) out.push(plain(para).slice(0, 30));
     }
   }
@@ -85,6 +95,10 @@ export function teacherAnswers(doc) {
       pushAnswer(q.answer_text);
       if (q.explain) out.push(plain(q.explain));
       pushAnswer(q.answer);
+      if (typeof q.passage === "string") {
+        const matches = [...q.passage.matchAll(/\[[^\]]+\]\{([^{}]+)\}/g)];
+        matches.forEach((m) => out.push(plain(m[1])));
+      }
       for (const it of q.items ?? []) {
         if (typeof it === "string") {
           const matches = it.match(/\{([^{}]+)\}/g);

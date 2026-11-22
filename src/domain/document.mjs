@@ -63,6 +63,12 @@ export function validate(doc) {
       if (q.score !== null && q.score !== undefined) scoreSum += Number(q.score);
 
       if (q.type === "pinyin_write_word") {
+        if (!q.passage && !q.items?.length) {
+          throw new ContractError(`题目 ${q.question_id} 的看拼音写词语缺少 passage 或 items`);
+        }
+        if (q.passage && !/\[[^\]]+\]\{[^{}]+\}/.test(q.passage)) {
+          throw new ContractError(`题目 ${q.question_id} 的看拼音写词语 passage 缺少 [pinyin]{answer} 标记`);
+        }
         for (const it of q.items ?? []) {
           if (!it.pinyin) {
             throw new ContractError(`题目 ${q.question_id} 的看拼音写词语条目缺少 pinyin：${JSON.stringify(it)}`);

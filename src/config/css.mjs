@@ -41,6 +41,7 @@ function buildVariables(tokens, profile, pageGeo = null) {
     "--color-answer": col.answer.teacher,
     "--color-note": col.ink.muted,
     "--f-cjk": `"${g.font.family_cjk}", sans-serif`,
+    "--f-kaiti": '"KaiTi", "STKaiti", "楷体", "Source Han Serif CN", "Noto Serif CJK SC", serif',
     "--f-py": `${g.font.family_pinyin}, sans-serif`,
     "--fs-title": `${trimNum(fp.title)}pt`,
     "--fs-section": `${trimNum(fp.section)}pt`,

@@ -13,6 +13,20 @@ import * as ast from "../layout/ast.mjs";
 import { answerLines, chunks, parseInline } from "./atoms.mjs";
 import { astPart } from "./ast-part.mjs";
 
+/** 题干 Part：编号由上下文自增，题干与分值进 q_head 节点（渲染在解释器）。 */
+const head = (pid, q, ctx) => {
+  const tags = q.tags ?? (q.tag ? [q.tag] : null);
+  const children = q.stem ? parseInline(q.stem, "line") : [ast.text("")];
+  return astPart(
+    `${pid}-h`,
+    ast.q_head({ number: ctx.nextNo(), children, score: q.score, tags }),
+    { cls: "stem", group: pid, role: "q_head", keepNext: true },
+    ctx,
+  );
+};
+
+const tail = (pid) => new Part(`${pid}-t`, "", { cls: "qtail", group: pid, role: "q_tail" });
+
 /** 表格任务：查字典填表/信息卡/积累卡——单元格留空作答，教师卷覆盖答案。 */
 export function compTableTask(q, ctx, pid) {
   const table = q.table ?? {};
@@ -20,12 +34,7 @@ export function compTableTask(q, ctx, pid) {
     throw new ComponentError(`表格任务 ${q.question_id ?? ""} 缺少 table.headers 或 table.rows`);
   }
   return [
-    astPart(
-      `${pid}-h`,
-      ast.q_head({ number: ctx.nextNo(), children: [ast.text(q.stem ?? "")], score: q.score }),
-      { cls: "stem", group: pid, role: "q_head", keepNext: true },
-      ctx,
-    ),
+    head(pid, q, ctx),
     astPart(`${pid}-t`, ast.table({ headers: table.headers, rows: table.rows }), { group: pid, splittable: false }, ctx),
     tail(pid),
   ];
@@ -37,37 +46,39 @@ export function compFlowDiagram(q, ctx, pid) {
     throw new ComponentError(`流程图任务 ${q.question_id ?? ""} 缺少 nodes`);
   }
   return [
-    astPart(
-      `${pid}-h`,
-      ast.q_head({ number: ctx.nextNo(), children: [ast.text(q.stem ?? "")], score: q.score }),
-      { cls: "stem", group: pid, role: "q_head", keepNext: true },
-      ctx,
-    ),
+    head(pid, q, ctx),
     astPart(`${pid}-d`, ast.flow_diagram({ nodes: q.nodes, arrow: q.arrow ?? "→" }), { group: pid, splittable: false }, ctx),
     tail(pid),
   ];
 }
 
-/** 题干 Part：编号由上下文自增，题干与分值进 q_head 节点（渲染在解释器）。 */
-const head = (pid, q, ctx) =>
-  astPart(
-    `${pid}-h`,
-    ast.q_head({ number: ctx.nextNo(), children: [ast.text(q.stem ?? "")], score: q.score }),
-    { cls: "stem", group: pid, role: "q_head", keepNext: true },
-    ctx,
-  );
-
-const tail = (pid) => new Part(`${pid}-t`, "", { cls: "qtail", group: pid, role: "q_tail" });
-
-/** 看拼音写词语：拼音行 + 田字格，按年级"每行词数"切行。 */
+/** 看拼音写词语：拼音行 + 田字格/方格，或语境段落模式。 */
 export function compPinyinWriteWord(q, ctx, pid) {
+  const parts = [head(pid, q, ctx)];
+  if (q.passage) {
+    const children = parseInline(String(q.passage), "line");
+    if (q.form) {
+      children.forEach((c) => {
+        if (c.kind === "inline_pinyin") c.form = q.form;
+      });
+    }
+    parts.push(
+      astPart(`${pid}-p`, ast.pinyin_passage(children), {
+        cls: "pinyin-passage-wrap",
+        group: pid,
+        splittable: true,
+        label: "passage",
+      }, ctx),
+    );
+    parts.push(tail(pid));
+    return parts;
+  }
   const items = q.items ?? [];
   for (const it of items) {
     if (!String(it.answer ?? "")) {
       throw new ComponentError(`看拼音写词语缺少 answer 字段：${JSON.stringify(it)}`);
     }
   }
-  const parts = [head(pid, q, ctx)];
   const per = Math.trunc(ctx.profile.layout.pinyin_items_per_row ?? 3);
   chunks(items, per).forEach((group, r) => {
     parts.push(
@@ -136,6 +147,7 @@ export function compIdiomFill(q, ctx, pid) {
   const parts = [head(pid, q, ctx)];
 
   if (q.slot === "grid") {
+    const cols = q.cols ?? (q.items?.length <= 2 ? 1 : 3);
     const items = (q.items ?? []).map((it, i) => ({
       no: i,
       cells: parseInline(String(it.text ?? ""), "paren").flatMap((n) =>
@@ -144,24 +156,53 @@ export function compIdiomFill(q, ctx, pid) {
           : [...String(n.value ?? "")].filter((ch) => ch.trim()).map((ch) => ({ type: "char", value: ch })),
       ),
     }));
-    items.forEach((it) => {
+    for (let i = 0; i < items.length; i += cols) {
+      const chunk = items.slice(i, i + cols);
+      const rowIdx = Math.floor(i / cols);
       parts.push(
-        astPart(`${pid}-g${it.no}`, ast.idiom_grid_cells([it]), {
-          cls: "idiom-row",
-          group: pid,
-          splittable: true,
-          label: `idiom${it.no}`,
-        }, ctx),
+        astPart(
+          `${pid}-g${rowIdx}`,
+          ast.idiom_grid_cells(chunk, cols),
+          {
+            cls: "idiom-grid-row",
+            group: pid,
+            splittable: true,
+            label: `idiom_row_${rowIdx}`,
+          },
+          ctx,
+        ),
       );
-    });
-    parts.push(tail(pid));
-    return parts;
+    }
+  } else {
+    const items = (q.items ?? []).map((it) => ({ children: parseInline(String(it.text ?? ""), "paren") }));
+    parts.push(
+      astPart(`${pid}-g`, ast.witem_row(items), { cls: "wrow", group: pid, splittable: true }, ctx),
+    );
   }
 
-  const items = (q.items ?? []).map((it) => ({ children: parseInline(String(it.text ?? ""), "paren") }));
-  parts.push(
-    astPart(`${pid}-g`, ast.witem_row(items), { cls: "wrow", group: pid, splittable: true }, ctx),
-  );
+  if (Array.isArray(q.subs) && q.subs.length > 0) {
+    ctx.resetSub();
+    for (const sub of q.subs) {
+      const no = ctx.nextSub();
+      const children = parseInline(String(sub.stem ?? ""), "line");
+      const lines = sub.lines ? { count: sub.lines, answers: sub.answer ? [sub.answer] : [] } : null;
+      parts.push(
+        astPart(
+          `${pid}-sub${no}`,
+          ast.sub_plain({
+            number: no,
+            children,
+            lines,
+            score: sub.score ?? null,
+            tags: sub.tags ?? (sub.tag ? [sub.tag] : null),
+          }),
+          { group: pid, splittable: true, label: `sub${no}` },
+          ctx,
+        ),
+      );
+    }
+  }
+
   parts.push(tail(pid));
   return parts;
 }
@@ -309,6 +350,7 @@ export function compReading(q, ctx, pid) {
           options: hasOptions ? sub.options : null,
           lines: lines > 0 ? { count: lines, answers, label: `${pid} 第${no}小题` } : null,
           score: sub.score ?? null,
+          tags: sub.tags ?? (sub.tag ? [sub.tag] : null),
         }),
         { group: pid, splittable: true, keepNext: keepWhole, label: `sub${no}` },
         ctx,
@@ -324,7 +366,15 @@ export function compComposition(q, ctx, pid) {
   const rows = Math.trunc(Number(q.rows ?? 6));
   const cols = Math.trunc(ctx.profile.geometry.composition_cols ?? 16);
 
-  const headNodes = [ast.q_head({ number: ctx.nextNo(), children: [ast.text(q.stem ?? "")], score: q.score })];
+  const tags = q.tags ?? (q.tag ? [q.tag] : null);
+  const headNodes = [
+    ast.q_head({
+      number: ctx.nextNo(),
+      children: q.stem ? parseInline(q.stem, "line") : [ast.text("")],
+      score: q.score,
+      tags,
+    }),
+  ];
   if (q.prompt) headNodes.push(ast.prompt(q.prompt));
   if (q.frames?.length) headNodes.push(ast.frame_sequence(q.frames));
   if (q.image) {
@@ -369,6 +419,7 @@ export function compChoice(q, ctx, pid) {
             children: parseInline(String(it.stem ?? ""), "line"),
             bracket: it.stem?.includes("{") ? null : { answer: it.answer },
             options: it.options ?? null,
+            cols: it.cols ?? null,
           }),
           { group: pid, splittable: true, label: `sub${no}` },
           ctx,

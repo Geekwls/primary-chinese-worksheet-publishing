@@ -28,9 +28,9 @@ export function stripTags(value) {
   return String(value ?? "").replace(TAG_RE, "");
 }
 
-/** 归一化用于文本比对：NFC + 去掉所有空白。 */
+/** 归一化用于文本比对：NFC + 去掉所有空白与着重号/中圆点字符。 */
 export function norm(value) {
-  return String(value ?? "").normalize("NFC").replace(/\s+/g, "");
+  return String(value ?? "").normalize("NFC").replace(/[\s·•]/g, "");
 }
 
 /**

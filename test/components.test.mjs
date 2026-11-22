@@ -600,3 +600,86 @@ test("仿写填空支架：句框槽替代书写线，答案只在教师卷", ()
   assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
   assert.equal(partsT.flatMap((p) => answerStrings(p.html)).length, 4, "教师卷槽内红字答案");
 });
+
+test("着重号与题干微标签：题干/选项/短文支持加点，标签正常渲染", () => {
+  const qChoice = {
+    question_id: "q_ch_dot",
+    type: "choice",
+    stem: "下列加点字的读音~有误~的一项是（ ）",
+    tags: ["名校真题", "基础巩固"],
+    options: ["A. ~挨~打(ái)", "B. [假]{.dot}期(jià)", "C. 处[罚]{.dot}(fá)"],
+    answer: "A",
+  };
+  const ctxS = contextFor(3, "student");
+  const ctxT = contextFor(3, "teacher");
+  const partsS = REGISTRY.choice.build(qChoice, ctxS, "q_ch_dot");
+  const partsT = REGISTRY.choice.build(qChoice, ctxT, "q_ch_dot");
+
+  const headHtml = partsS[0].html;
+  assert.ok(headHtml.includes('<span class="q-tag">名校真题</span>'), "题干微标签渲染");
+  assert.ok(headHtml.includes('<span class="q-tag">基础巩固</span>'), "多标签并列");
+  assert.ok(headHtml.includes('<span class="dot">有误</span>'), "题干着重号加点渲染");
+
+  const optHtml = partsS[1].html;
+  assert.ok(optHtml.includes('<span class="dot">挨</span>'), "选项 ~挨~ 加点渲染");
+  assert.ok(optHtml.includes('<span class="dot">假</span>'), "选项 [假]{.dot} 加点渲染");
+  assert.ok(optHtml.includes('<span class="dot">罚</span>'), "选项 处[罚]{.dot} 加点渲染");
+});
+
+test("看拼音写字词：语境语段括号模式与方格模式，双轨同构且答案只在教师卷", () => {
+  const qPyPassage = {
+    question_id: "q_py_ctx",
+    type: "pinyin_write_word",
+    stem: "根据语境，看拼音写字词。",
+    tags: ["生活情境"],
+    passage: "清晨，同学们在认真地做[gōng kè]{功课}，下课后在操场上[kuáng huān]{狂欢}。",
+  };
+  const ctxS = contextFor(3, "student");
+  const ctxT = contextFor(3, "teacher");
+  const partsS = REGISTRY.pinyin_write_word.build(qPyPassage, ctxS, "q_py_ctx");
+  const partsT = REGISTRY.pinyin_write_word.build(qPyPassage, ctxT, "q_py_ctx");
+
+  assert.equal(partsS.length, 3, "题干 + 语段 + 尾部");
+  const pHtmlS = partsS[1].html;
+  const pHtmlT = partsT[1].html;
+
+  assert.ok(pHtmlS.includes('<div class="pinyin-passage">'), "语段容器包裹");
+  assert.ok(pHtmlS.includes('<span class="pinline-py">gōng kè</span>'), "拼音渲染");
+  assert.ok(pHtmlS.includes('pinline-paren'), "学生卷标准括号作答槽");
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0, "学生卷无答案泄露");
+
+  assert.ok(pHtmlT.includes('<span class="ans">功课</span>'), "教师卷括号内红字答案功课");
+  assert.ok(pHtmlT.includes('<span class="ans">狂欢</span>'), "教师卷括号内红字答案狂欢");
+
+  // 方格形态支持
+  const partsSq = REGISTRY.pinyin_write_word.build({ ...qPyPassage, form: "square" }, ctxS, "q_py_sq");
+  assert.equal((partsSq[1].html.match(/class="sqg"/g) ?? []).length, 4, "方格形态 4 个方格作答槽");
+});
+
+test("成语多步联动：补充四字词语 + 关联设问小题", () => {
+  const qIdiomMulti = {
+    question_id: "q_im",
+    type: "idiom_fill",
+    stem: "将下列成语补充完整，并完成练习。",
+    items: [
+      { text: "张{口}舞爪" },
+      { text: "手忙{脚}{乱}" },
+    ],
+    subs: [
+      { stem: "上述词语都含有身体器官，再写一个：{面红耳赤}。", score: 2 },
+      { stem: "选词填空：早上起床要抓紧，不要{手忙脚乱}。", score: 2, tags: ["思维提升"] },
+    ],
+  };
+  const ctxS = contextFor(3, "student");
+  const ctxT = contextFor(3, "teacher");
+  const partsS = REGISTRY.idiom_fill.build(qIdiomMulti, ctxS, "q_im");
+  const partsT = REGISTRY.idiom_fill.build(qIdiomMulti, ctxT, "q_im");
+
+  assert.equal(partsS.length, 5, "题干 + 成语行 + 小题1 + 小题2 + 尾部");
+  const sub2Html = partsS[3].html;
+  assert.ok(sub2Html.includes('<span class="q-tag">思维提升</span>'), "小题支持微标签");
+  assert.ok(sub2Html.includes('（2分）'), "小题分值显示");
+  assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
+  assert.ok(partsT[2].html.includes('class="ans">面红耳赤</span>'), "小题1教师卷答案");
+  assert.ok(partsT[3].html.includes('class="ans">手忙脚乱</span>'), "小题2教师卷答案");
+});

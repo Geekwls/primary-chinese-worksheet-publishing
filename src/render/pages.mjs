@@ -22,7 +22,8 @@ export function buildPagesHtml(pages, partsHtml, css, doc, variant) {
       // 首页 vs 续页模板：续页渲染统一页眉 (Running Header)
       const isFirstPage = index === 0;
       let headerHtml = "";
-      const showHeader = doc.show_header !== false && (doc.header ?? true);
+      const isExam = doc.doc_type === "examination";
+      const showHeader = doc.show_header ?? (isExam ? false : (doc.header ?? true));
       if (showHeader && !isFirstPage && total > 1) {
         const headerLeft = subtitle ? `${docTitle} · ${subtitle}` : docTitle;
         const gradeTag = doc.grade ? `${doc.grade}年级${subjectLabel}` : `小学${subjectLabel}`;
@@ -41,9 +42,9 @@ export function buildPagesHtml(pages, partsHtml, css, doc, variant) {
       let footer = "";
       const showFooter = doc.show_footer !== false && (doc.footer ?? true);
       if (showFooter) {
-        const showFooterTitle = doc.show_footer_title ?? true;
+        const showFooterTitle = doc.show_footer_title ?? (isExam ? false : true);
         const leftHtml = showFooterTitle ? `<span>${footerLeft}</span>` : "";
-        const ftrCls = showFooterTitle ? "ftr" : "ftr ftr-right";
+        const ftrCls = showFooterTitle ? "ftr" : "ftr ftr-center";
         footer = `<div class="${ftrCls}">${leftHtml}<span>第 ${index + 1} 页 / 共 ${total} 页</span></div>`;
       }
       return `<div class="page" data-page="${index + 1}">${headerHtml}${footer}${inner}</div>`;
