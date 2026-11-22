@@ -271,23 +271,29 @@ const html = `<!doctype html>
     }
     .panel-title span { font-weight: normal; font-size: 7pt; color: #64748b; }
 
-    /* 田字格测试组件样式 */
+    /* 田字格测试组件样式：纵向堆叠，防止 72mm 右栏内横向溢出 */
     .tianzi-row {
       display: flex;
-      align-items: center;
-      gap: 2.5mm;
+      flex-direction: column;
+      gap: 1.2mm;
       margin-bottom: 1.8mm;
     }
     .tianzi-label {
-      width: 20mm;
       font-size: 7pt;
       font-weight: 600;
       color: #334155;
       line-height: 1.2;
     }
+    .tianzi-label span { font-weight: normal; color: #64748b; }
+    .tianzi-notes {
+      font-size: 6.5pt;
+      color: #64748b;
+      line-height: 1.3;
+    }
     .tianzi-group {
       display: inline-flex;
       border: 0.22mm solid #94a3b8;
+      align-self: flex-start;
     }
     .tianzi-cell {
       position: relative;
@@ -377,7 +383,7 @@ const html = `<!doctype html>
       color: #64748b;
       flex-shrink: 0;
     }
-    .type-text { color: #0f172a; white-space: nowrap; overflow: hidden; }
+    .type-text { color: #0f172a; }
 
     /* 下半区：打样实测记录表 (附录 B) */
     .bottom-section {
@@ -427,7 +433,7 @@ const html = `<!doctype html>
       <div class="header-title-row">
         <div>
           <h1 class="main-title">小学语文出版级排版 · 打印机硬件物理校准样张</h1>
-          <p class="sub-title">Printer Hardware Calibration & Scale Verification Sheet · Design Spec v2.1.0</p>
+          <p class="sub-title">Printer Hardware Calibration & Scale Verification Sheet · Design Spec v2.2.0</p>
         </div>
         <div style="text-align: right;">
           <div style="font-size: 9pt; font-weight: bold; color: #0284c7;">A4 (210.0 × 297.0 mm)</div>
@@ -437,7 +443,7 @@ const html = `<!doctype html>
       <div class="badge-bar">
         <span class="badge warn">⚠️ 打印要求：必须在打印驱动中选择「实际大小 / 100% 缩放」，严禁选择「适应纸张」</span>
         <span class="badge">标定基准：10.0mm 页面边距</span>
-        <span class="badge">验证状态：VALIDATED</span>
+        <span class="badge">校准状态：待现场实测签署（Profile：DRAFT）</span>
       </div>
     </div>
 
@@ -479,31 +485,25 @@ const html = `<!doctype html>
           </div>
           <!-- 一年级 14mm -->
           <div class="tianzi-row">
-            <div class="tianzi-label">一年级标准<br><span style="font-weight:normal;color:#64748b;">14.0 mm</span></div>
+            <div class="tianzi-label">一年级标准 <span>14.0 mm</span></div>
             <div class="tianzi-group">
               <div class="tianzi-cell g1-cell"><span>语</span></div>
               <div class="tianzi-cell g1-cell"><span>文</span></div>
               <div class="tianzi-cell g1-cell"><span>规</span></div>
               <div class="tianzi-cell g1-cell"><span>范</span></div>
             </div>
-            <div style="font-size: 6.5pt; color: #64748b; line-height: 1.2;">
-              4联总宽：<b>56.0 mm</b><br>
-              格高：<b>14.0 mm</b>
-            </div>
+            <div class="tianzi-notes">4联总宽 <b>56.0 mm</b> ｜ 格高 <b>14.0 mm</b>（钢尺量外框）</div>
           </div>
           <!-- 二年级 12mm -->
           <div class="tianzi-row" style="margin-bottom: 0;">
-            <div class="tianzi-label">二年级标准<br><span style="font-weight:normal;color:#64748b;">12.0 mm</span></div>
+            <div class="tianzi-label">二年级标准 <span>12.0 mm</span></div>
             <div class="tianzi-group">
               <div class="tianzi-cell g2-cell"><span>出</span></div>
               <div class="tianzi-cell g2-cell"><span>版</span></div>
               <div class="tianzi-cell g2-cell"><span>校</span></div>
               <div class="tianzi-cell g2-cell"><span>准</span></div>
             </div>
-            <div style="font-size: 6.5pt; color: #64748b; line-height: 1.2;">
-              4联总宽：<b>48.0 mm</b><br>
-              格高：<b>12.0 mm</b>
-            </div>
+            <div class="tianzi-notes">4联总宽 <b>48.0 mm</b> ｜ 格高 <b>12.0 mm</b>（长宽比应为 1:1）</div>
           </div>
         </div>
 
@@ -554,28 +554,28 @@ const html = `<!doctype html>
       </div>
       <div class="type-ladder">
         <div class="type-item">
-          <div class="type-tag">20pt (试卷主标题)</div>
-          <div class="type-text" style="font-size: 20pt; font-weight: bold; line-height: 1.1;">二年级语文期末复习卷</div>
+          <div class="type-tag">21pt (试卷主标题)</div>
+          <div class="type-text" style="font-size: 21pt; font-weight: bold; line-height: 1.1;">二年级语文期末复习卷</div>
         </div>
         <div class="type-item">
-          <div class="type-tag">16pt (一级题型标题)</div>
-          <div class="type-text" style="font-size: 16pt; font-weight: bold; line-height: 1.1;">一、看拼音，写词语 (10分)</div>
+          <div class="type-tag">15pt (一级题型标题)</div>
+          <div class="type-text" style="font-size: 15pt; font-weight: bold; line-height: 1.1;">一、看拼音，写词语 (10分)</div>
         </div>
         <div class="type-item">
-          <div class="type-tag">13pt (一年级正文基准)</div>
-          <div class="type-text" style="font-size: 13pt;">小鸟在枝头唱着动听的歌曲。1 2 3 4 5</div>
+          <div class="type-tag">14pt (一年级正文基准)</div>
+          <div class="type-text" style="font-size: 14pt;">小鸟在枝头唱着动听的歌。</div>
         </div>
         <div class="type-item">
-          <div class="type-tag">12pt (二年级正文基准)</div>
-          <div class="type-text" style="font-size: 12pt;">春风吹绿了大地，桃花绽开了笑脸。</div>
+          <div class="type-tag">12.5pt (二年级正文基准)</div>
+          <div class="type-text" style="font-size: 12.5pt;">春风吹绿了大地，桃花绽开了笑脸。</div>
         </div>
         <div class="type-item">
-          <div class="type-tag">11pt (拼音与辅助说明)</div>
-          <div class="type-text" style="font-size: 11pt; font-family: sans-serif;">chūn fēng chuī lǜ le dà dì (共 4 小题)</div>
+          <div class="type-tag">12pt (拼音行)</div>
+          <div class="type-text" style="font-size: 12pt; font-family: sans-serif;">chūn fēng chuī lǜ le dà dì (共 4 小题)</div>
         </div>
         <div class="type-item">
-          <div class="type-tag">10.5pt (教师答案/解析)</div>
-          <div class="type-text" style="font-size: 10.5pt; color: #b3261e; font-weight: bold;">【解析】本题考查形近字辨析与拼读。</div>
+          <div class="type-tag">10.5pt (注音/教师答案)</div>
+          <div class="type-text" style="font-size: 10.5pt; color: #b3261e; font-weight: bold;">【解析】考查形近字辨析。</div>
         </div>
       </div>
     </div>
@@ -633,7 +633,7 @@ const html = `<!doctype html>
 
     <!-- 底部操作提示 -->
     <div class="footer-notes">
-      <span>小学低段语文试卷排版引擎 · 确定性渲染内核 (ENGINE v1.1.0 · SPEC v2.1.0)</span>
+      <span>小学低段语文试卷排版引擎 · 确定性渲染内核 (ENGINE v1.6.0 · SPEC v2.2.0)</span>
       <span>检验依据：GB/T 18358-2009 中小学教科书印刷质量标准 ｜ 物理输出测量工具：高精度毫米钢直尺 / 游标卡尺</span>
     </div>
   </div>
