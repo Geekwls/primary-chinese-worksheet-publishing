@@ -55,10 +55,10 @@ A/B 层不通过的卷子**不得进入渲染**——排版引擎修不了内容
 
 ## 4. 路线图（自动化升级，按优先级）
 
-1. **B-02 小题分值完整性进契约校验**：reading subs / sentence_rewrite items 缺 `score` 且 stem 无（N分）→ P1 警告。前置：给 `examples/g2-review-unit56.json` 回填小题分值（否则回归断言 warnings 为空会失败）。
-2. **C-01 指令-槽一致性启发式检测**：stem 含"括号"且 fill_blank stem 模式渲染为线槽 → P1 警告。
-3. **B-01 大题内分值和值校验**：section.score ≠ Σquestion.score → 警告。
-4. **A-04 辅助查重**：同一 reading 的 subs 两两 stem 相似度提示（仅提示，判定留人工）。
+1. ✅ **B-02 小题分值完整性进契约校验**（v1.7.0）：reading subs / sentence_rewrite items 缺 `score` 且 stem 无（N分）→ P1 警告；标准样卷已回填小题分值并重录 doc-g2 黄金基线（理由：内容回填，节点词汇未动）。
+2. ✅ **C-01 指令-槽一致性启发式检测**（v1.7.0）：stem 含"括号"且 stem 模式渲染为线槽 → 警告；items 矩阵 + 题干写"横线" → 反向警告。
+3. ✅ **B-01 大题内分值和值校验**（v1.7.0）：section.score ≠ Σquestion.score → 警告（含未标分值题数提示）。
+4. [ ] **A-04 辅助查重**：同一 reading 的 subs 两两 stem 相似度提示（仅提示，判定留人工）。
 
 > 明确**不做**自动化：A-02 课文核对（需要教材语料库，误报成本高于人工）、A-05/B-04/B-05（教学判断）。
 

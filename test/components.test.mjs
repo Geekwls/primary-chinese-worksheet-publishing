@@ -21,8 +21,8 @@ function contextFor(grade, variant) {
   return new Ctx(loadGradeProfile(grade), loadDocProfile("review"), variant, 40);
 }
 
-test("注册表覆盖 23 类题型且组件 ID 唯一", () => {
-  assert.equal(SUPPORTED_TYPES.length, 23);
+test("注册表覆盖 24 类题型且组件 ID 唯一", () => {
+  assert.equal(SUPPORTED_TYPES.length, 24);
   const ids = SUPPORTED_TYPES.map((t) => REGISTRY[t].componentId);
   assert.equal(new Set(ids).size, ids.length);
 });
@@ -682,4 +682,61 @@ test("成语多步联动：补充四字词语 + 关联设问小题", () => {
   assert.equal(partsS.flatMap((p) => answerStrings(p.html)).length, 0);
   assert.ok(partsT[2].html.includes('class="ans">面红耳赤</span>'), "小题1教师卷答案");
   assert.ok(partsT[3].html.includes('class="ans">手忙脚乱</span>'), "小题2教师卷答案");
+});
+
+test("诗句居中选项：align center 渲染居中样式，默认左对齐", () => {
+  const q = {
+    question_id: "q_pc2",
+    type: "poem_fill",
+    stem: "把古诗补充完整。",
+    align: "center",
+    items: [{ title: "《梅花》", lines: ["墙角{数枝梅}，凌寒{独自开}。"] }],
+  };
+  const parts = REGISTRY.poem_fill.build(q, contextFor(2, "student"), "q_pc2");
+  assert.equal(parts[1].cls, "poem-center");
+  const partsLeft = REGISTRY.poem_fill.build({ ...q, align: undefined }, contextFor(2, "student"), "q_pc3");
+  assert.equal(partsLeft[1].cls, "");
+});
+
+test("阅读材料配图：passage.image 渲染插图块并与首小题整链绑定", () => {
+  const q = {
+    question_id: "q_ri",
+    type: "reading",
+    stem: "读短文，完成练习。",
+    passage: {
+      title: "短文",
+      paragraphs: ["一段话。"],
+      image: { src: "assets/fig.png", height_mm: 30, caption: "水的变化" },
+    },
+    subs: [{ stem: "短文说了什么？", answer: "水", lines: 0, score: 2 }],
+  };
+  const parts = REGISTRY.reading.build(q, contextFor(2, "student"), "q_ri");
+  const img = parts.find((p) => p.label === "passage-image");
+  assert.ok(img, "应渲染插图 Part");
+  assert.ok(img.html.includes("assets/fig.png") && img.html.includes("水的变化"));
+  assert.equal(img.keepNext, true, "插图与首小题整链同页");
+  // 无 image 时零渲染（回归保护）
+  const partsPlain = REGISTRY.reading.build({ ...q, passage: { ...q.passage, image: undefined } }, contextFor(2, "student"), "q_ri2");
+  assert.ok(!partsPlain.some((p) => p.label === "passage-image"));
+});
+
+test("词语连线（word_match）：pairs 自动错位、教师卷 SVG 连线", () => {
+  const q = {
+    question_id: "q_wm",
+    type: "word_match",
+    stem: "把词语和对应的量词连起来。",
+    pairs: [
+      { left: "军舰", right: "艘" },
+      { left: "石桥", right: "座" },
+      { left: "铜号", right: "把" },
+    ],
+  };
+  const ctxS = contextFor(2, "student");
+  const ctxT = contextFor(2, "teacher");
+  const partsS = REGISTRY.word_match.build(q, ctxS, "q_wm");
+  const partsT = REGISTRY.word_match.build(q, ctxT, "q_wm");
+  assert.ok(partsS[1].html.includes("match-dot"), "学生卷有锚点");
+  assert.ok(!partsS[1].html.includes("<line"), "学生卷无连线");
+  assert.ok(partsT[1].html.includes("<svg class=\"match-svg\""), "教师卷 SVG 连线");
+  assert.ok(partsT[1].html.includes("艘") && partsT[1].html.includes("座"), "右侧量词渲染");
 });

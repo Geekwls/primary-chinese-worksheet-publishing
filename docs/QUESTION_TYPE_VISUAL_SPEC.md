@@ -76,10 +76,13 @@
 - [ ] 古诗：诗句居中选项（`align: "center"` opt-in）
 - [ ] 对照组词对组强化：同组描边/浅底，opt-in
 
-**第三批：综合题型**
+**第三批：综合题型**（v1.7.0 部分完成）
+- ✅ 量词/词语连线：`word_match` 类型（复用 match_board 连线板，pairs 自动错位，教师卷 SVG 覆盖）
+- ✅ 插图支持：composition `q.image` 与 reading `passage.image`（src/height_mm/caption，与材料整链同页）——文档此前误记"不支持"，已修正
+- ✅ 诗句居中选项：poem_fill `align: "center"`
 - [ ] 阅读分区标签：subs 支持 `group` 字段（读一读/选一选/写一写），仅小题 ≥ 6 或多材料时建议启用
 - [ ] 写话提示：composition 支持 `hints: []`（可选提示块，年级低/题目难时启用）
-- [ ] 看图写话配图位（现不支持图片题，需扩展组件）
+- **ABB 运用题**：无需新组件——紧随词语仿写出 `sentence_rewrite` 题（require 注明选上面写的词语造句），模式已写入 authoring-reference §5
 
 **页面级组合**（持续）
 - 页眉页脚模板统一（首页卷头 + 次页 running header 为教辅惯例，保持）

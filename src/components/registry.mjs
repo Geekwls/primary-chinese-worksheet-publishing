@@ -46,6 +46,7 @@ export const REGISTRY = {
   judge: { build: compJudge, componentId: "judge_question_block", label: "判断题" },
   stroke_order: { build: compStrokeOrder, componentId: "stroke_order_block", label: "笔顺笔画题" },
   pinyin_match: { build: compPinyinMatch, componentId: "pinyin_match_block", label: "连线题" },
+  word_match: { build: compPinyinMatch, componentId: "word_match_block", label: "词语连线" },
   calculation: { build: compCalculation, componentId: "calculation_block", label: "计算题" },
   fill_blank: { build: compFillBlank, componentId: "fill_blank_block", label: "填空题" },
   blank: { build: compFillBlank, componentId: "blank_fill_block", label: "填空题" },

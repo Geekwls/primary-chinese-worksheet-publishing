@@ -539,6 +539,7 @@ body {
 .poem { padding-bottom: var(--gap-s); }
 .poem-t { font-weight: 700; padding-bottom: var(--gap-xs); }
 .poem-a { font-size: var(--fs-hint); color: var(--ink-3); padding-bottom: var(--gap-xs); }
+.poem-center .poem-t, .poem-center .poem-a, .poem-center .poem-l { text-align: center; }
 .poem-l { line-height: var(--lh-q); letter-spacing: 0.02em; }
 
 /* ---------- 书写横线 ---------- */

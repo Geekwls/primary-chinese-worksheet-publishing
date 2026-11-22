@@ -303,7 +303,7 @@
       },
       {
         "pid": "q8-s1",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>他把小鱼放回了河里。 <span class=\"pt\">（改为“被”字句）</span></div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>他把小鱼放回了河里。 <span class=\"pt\">（改为“被”字句）</span> <span class=\"pt\">（4分）</span></div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
         "cls": "",
         "group": "q8",
         "role": "q_body",
@@ -313,7 +313,7 @@
       },
       {
         "pid": "q8-s2",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span>叶子上的虫还用治？ <span class=\"pt\">（改为陈述句）</span></div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span>叶子上的虫还用治？ <span class=\"pt\">（改为陈述句）</span> <span class=\"pt\">（4分）</span></div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
         "cls": "",
         "group": "q8",
         "role": "q_body",
@@ -343,7 +343,7 @@
       },
       {
         "pid": "q9-s1",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span><span class=\"eg\">例：弯弯的月儿像小船。</span> <span class=\"pt\">（写一个比喻句）</span></div><div class=\"cue\">仿写：</div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span><span class=\"eg\">例：弯弯的月儿像小船。</span> <span class=\"pt\">（写一个比喻句）</span> <span class=\"pt\">（4分）</span></div><div class=\"cue\">仿写：</div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
         "cls": "",
         "group": "q9",
         "role": "q_body",
@@ -353,7 +353,7 @@
       },
       {
         "pid": "q9-s2",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span><span class=\"eg\">例：只要肯动脑筋，坏事往往能变成好事。</span> <span class=\"pt\">（用“只要……就……”写句子）</span></div><div class=\"cue\">仿写：</div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span><span class=\"eg\">例：只要肯动脑筋，坏事往往能变成好事。</span> <span class=\"pt\">（用“只要……就……”写句子）</span> <span class=\"pt\">（4分）</span></div><div class=\"cue\">仿写：</div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
         "cls": "",
         "group": "q9",
         "role": "q_body",
@@ -403,7 +403,7 @@
       },
       {
         "pid": "q10-s1",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>短文共有<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i></span>个自然段。</div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>短文共有<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i></span>个自然段。 <span class=\"pt\">（2分）</span></div></div>",
         "cls": "",
         "group": "q10",
         "role": "q_body",
@@ -413,7 +413,7 @@
       },
       {
         "pid": "q10-s2",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span>青蛙和小鸟在争论什么？<span class=\"choice-bracket\">（<i class=\"slot i\"></i>）</span></div><div class=\"sub-options\"><span class=\"opt\">A. 天有多大</span><span class=\"opt\">B. 谁飞得高</span><span class=\"opt\">C. 水好不好喝</span></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span>青蛙和小鸟在争论什么？<span class=\"choice-bracket\">（<i class=\"slot i\"></i>）</span> <span class=\"pt\">（3分）</span></div><div class=\"sub-options\"><span class=\"opt\">A. 天有多大</span><span class=\"opt\">B. 谁飞得高</span><span class=\"opt\">C. 水好不好喝</span></div></div>",
         "cls": "",
         "group": "q10",
         "role": "q_body",
@@ -423,7 +423,7 @@
       },
       {
         "pid": "q10-s3",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（3）</span>小鸟认为天无边无际，大得很。<span class=\"choice-bracket\">（<i class=\"slot i\"></i>）</span></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（3）</span>小鸟认为天无边无际，大得很。<span class=\"choice-bracket\">（<i class=\"slot i\"></i>）</span> <span class=\"pt\">（3分）</span></div></div>",
         "cls": "",
         "group": "q10",
         "role": "q_body",
@@ -433,7 +433,7 @@
       },
       {
         "pid": "q10-s4",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（4）</span>青蛙认为天只有<span class=\"brk\"><i class=\"slot\" style=\"width:6.40em\"></i></span>。</div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（4）</span>青蛙认为天只有<span class=\"brk\"><i class=\"slot\" style=\"width:6.40em\"></i></span>。 <span class=\"pt\">（4分）</span></div></div>",
         "cls": "",
         "group": "q10",
         "role": "q_body",
@@ -443,7 +443,7 @@
       },
       {
         "pid": "q10-s5",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（5）</span>读了这个故事，你明白了什么道理？</div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（5）</span>读了这个故事，你明白了什么道理？ <span class=\"pt\">（8分）</span></div><div class=\"wlines\"><div class=\"wline\"></div><div class=\"wline\"></div></div></div>",
         "cls": "",
         "group": "q10",
         "role": "q_body",
@@ -808,7 +808,7 @@
       },
       {
         "pid": "q8-s1",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>他把小鱼放回了河里。 <span class=\"pt\">（改为“被”字句）</span></div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">小鱼被他放回了河里。</span></div><div class=\"wline\"></div></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>他把小鱼放回了河里。 <span class=\"pt\">（改为“被”字句）</span> <span class=\"pt\">（4分）</span></div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">小鱼被他放回了河里。</span></div><div class=\"wline\"></div></div></div>",
         "cls": "",
         "group": "q8",
         "role": "q_body",
@@ -818,7 +818,7 @@
       },
       {
         "pid": "q8-s2",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span>叶子上的虫还用治？ <span class=\"pt\">（改为陈述句）</span></div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">叶子上的虫不用治。</span></div><div class=\"wline\"></div></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span>叶子上的虫还用治？ <span class=\"pt\">（改为陈述句）</span> <span class=\"pt\">（4分）</span></div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">叶子上的虫不用治。</span></div><div class=\"wline\"></div></div></div>",
         "cls": "",
         "group": "q8",
         "role": "q_body",
@@ -848,7 +848,7 @@
       },
       {
         "pid": "q9-s1",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span><span class=\"eg\">例：弯弯的月儿像小船。</span> <span class=\"pt\">（写一个比喻句）</span></div><div class=\"cue\">仿写：</div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">圆圆的太阳像火球。</span></div><div class=\"wline\"></div></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span><span class=\"eg\">例：弯弯的月儿像小船。</span> <span class=\"pt\">（写一个比喻句）</span> <span class=\"pt\">（4分）</span></div><div class=\"cue\">仿写：</div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">圆圆的太阳像火球。</span></div><div class=\"wline\"></div></div></div>",
         "cls": "",
         "group": "q9",
         "role": "q_body",
@@ -858,7 +858,7 @@
       },
       {
         "pid": "q9-s2",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span><span class=\"eg\">例：只要肯动脑筋，坏事往往能变成好事。</span> <span class=\"pt\">（用“只要……就……”写句子）</span></div><div class=\"cue\">仿写：</div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">只要认真学习，就能取得好成绩。</span></div><div class=\"wline\"></div></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span><span class=\"eg\">例：只要肯动脑筋，坏事往往能变成好事。</span> <span class=\"pt\">（用“只要……就……”写句子）</span> <span class=\"pt\">（4分）</span></div><div class=\"cue\">仿写：</div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">只要认真学习，就能取得好成绩。</span></div><div class=\"wline\"></div></div></div>",
         "cls": "",
         "group": "q9",
         "role": "q_body",
@@ -908,7 +908,7 @@
       },
       {
         "pid": "q10-s1",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>短文共有<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i><span class=\"ans\">3</span></span>个自然段。</div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（1）</span>短文共有<span class=\"brk\"><i class=\"slot\" style=\"width:2.20em\"></i><span class=\"ans\">3</span></span>个自然段。 <span class=\"pt\">（2分）</span></div></div>",
         "cls": "",
         "group": "q10",
         "role": "q_body",
@@ -918,7 +918,7 @@
       },
       {
         "pid": "q10-s2",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span>青蛙和小鸟在争论什么？<span class=\"choice-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">A</span>）</span></div><div class=\"sub-options\"><span class=\"opt\">A. 天有多大</span><span class=\"opt\">B. 谁飞得高</span><span class=\"opt\">C. 水好不好喝</span></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（2）</span>青蛙和小鸟在争论什么？<span class=\"choice-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">A</span>）</span> <span class=\"pt\">（3分）</span></div><div class=\"sub-options\"><span class=\"opt\">A. 天有多大</span><span class=\"opt\">B. 谁飞得高</span><span class=\"opt\">C. 水好不好喝</span></div></div>",
         "cls": "",
         "group": "q10",
         "role": "q_body",
@@ -928,7 +928,7 @@
       },
       {
         "pid": "q10-s3",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（3）</span>小鸟认为天无边无际，大得很。<span class=\"choice-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">√</span>）</span></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（3）</span>小鸟认为天无边无际，大得很。<span class=\"choice-bracket\">（<i class=\"slot i\"></i><span class=\"ans\">√</span>）</span> <span class=\"pt\">（3分）</span></div></div>",
         "cls": "",
         "group": "q10",
         "role": "q_body",
@@ -938,7 +938,7 @@
       },
       {
         "pid": "q10-s4",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（4）</span>青蛙认为天只有<span class=\"brk\"><i class=\"slot\" style=\"width:6.40em\"></i><span class=\"ans\">井口那么大</span></span>。</div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（4）</span>青蛙认为天只有<span class=\"brk\"><i class=\"slot\" style=\"width:6.40em\"></i><span class=\"ans\">井口那么大</span></span>。 <span class=\"pt\">（4分）</span></div></div>",
         "cls": "",
         "group": "q10",
         "role": "q_body",
@@ -948,7 +948,7 @@
       },
       {
         "pid": "q10-s5",
-        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（5）</span>读了这个故事，你明白了什么道理？</div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">看问题要全面，不能像青蛙那样目光短浅、自以为是。</span></div><div class=\"wline\"></div></div></div>",
+        "html": "<div class=\"sub\"><div class=\"subh\"><span class=\"no\">（5）</span>读了这个故事，你明白了什么道理？ <span class=\"pt\">（8分）</span></div><div class=\"wlines\"><div class=\"wline\"><span class=\"ans\">看问题要全面，不能像青蛙那样目光短浅、自以为是。</span></div><div class=\"wline\"></div></div></div>",
         "cls": "",
         "group": "q10",
         "role": "q_body",

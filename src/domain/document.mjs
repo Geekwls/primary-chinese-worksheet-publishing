@@ -110,6 +110,23 @@ export function validate(doc) {
         if (!q.subs?.length) {
           throw new ContractError(`题目 ${q.question_id} 是阅读题，但缺少 subs。`);
         }
+        // B-02 小题分值完整性：score 字段或 stem 文本（N分）二者有其一
+        q.subs.forEach((sub, i) => {
+          const hinted = (sub.score !== undefined && sub.score !== null)
+            || /（\d+(\.\d+)?分）/.test(String(sub.stem ?? ""));
+          if (!hinted) {
+            warnings.push(`题目 ${q.question_id} 阅读第 ${i + 1} 小题缺分值标注（score 字段或（N分）文本）`);
+          }
+        });
+      }
+
+      if (q.type === "sentence_rewrite") {
+        // B-02 小题分值完整性（句框/横线小题仅认 score 字段）
+        (q.items ?? []).forEach((it, i) => {
+          if (it.score === undefined || it.score === null) {
+            warnings.push(`题目 ${q.question_id} 句子小题第 ${i + 1} 题缺分值标注（items[].score）`);
+          }
+        });
       }
 
       if (q.type === "choice") {
@@ -150,7 +167,7 @@ export function validate(doc) {
         }
       }
 
-      if (q.type === "pinyin_match") {
+      if (q.type === "pinyin_match" || q.type === "word_match") {
         const hasItems = Array.isArray(q.items) && q.items.length >= 1;
         const hasPairs = Array.isArray(q.pairs) && q.pairs.length >= 1;
         if (!hasItems && !hasPairs) {
@@ -177,6 +194,17 @@ export function validate(doc) {
               throw new ContractError(`题目 ${q.question_id} 的填空矩阵条目缺少 {} 答案：${JSON.stringify(it)}`);
             }
           }
+        }
+        // C-01 指令-槽一致性：题干措辞必须与作答槽形态一致
+        const stemText = String(q.stem ?? "");
+        if (!hasItems && /括号/.test(stemText) && (/\{[^{}]*\}/.test(stemText) || /（\s*）|\(\s*\)/.test(stemText))) {
+          warnings.push(
+            `题目 ${q.question_id} 题干要求「括号里填」但渲染为横线槽：` +
+            "请改用 items 矩阵模式（括号留白）或将措辞改为「横线上」",
+          );
+        }
+        if (hasItems && /横线/.test(stemText)) {
+          warnings.push(`题目 ${q.question_id} 矩阵模式渲染为括号留白，但题干写的是「横线」：请统一措辞`);
         }
       }
 
@@ -214,6 +242,22 @@ export function validate(doc) {
         }
       }
     }
+
+      // B-01 大题分值和值：标注分值与各题合计不一致（含未标分值题目提示）
+      if (sec.score !== undefined && sec.score !== null) {
+        let sum = 0;
+        let missing = 0;
+        for (const qq of sec.questions ?? []) {
+          if (qq.score === undefined || qq.score === null) missing += 1;
+          else sum += Number(qq.score);
+        }
+        if (Math.abs(Number(sec.score) - sum) > 0.01) {
+          warnings.push(
+            `大题「${sec.title}」标注 ${sec.score} 分，各题合计 ${sum} 分` +
+            (missing ? `（${missing} 题未标分值）` : ""),
+          );
+        }
+      }
   });
 
   const total = doc.total_score;

@@ -239,7 +239,7 @@ export function compPoemFill(q, ctx, pid) {
   }));
   return [
     head(pid, q, ctx),
-    astPart(`${pid}-g`, ast.poem(items), { group: pid }, ctx),
+    astPart(`${pid}-g`, ast.poem(items), { cls: q.align === "center" ? "poem-center" : "", group: pid }, ctx),
     tail(pid),
   ];
 }
@@ -321,6 +321,19 @@ export function compReading(q, ctx, pid) {
         ctx,
       ),
     );
+    // passage.image：阅读材料插图（与文章、首小题整链同页）
+    if (passage.image) {
+      const src = typeof passage.image === "string" ? passage.image : passage.image.src ?? "";
+      const height_mm = typeof passage.image === "object" && passage.image.height_mm ? passage.image.height_mm : null;
+      const caption = typeof passage.image === "object" && passage.image.caption ? passage.image.caption : "";
+      if (src) {
+        parts.push(
+          astPart(`${pid}-img`, ast.image({ src, height_mm, caption }), {
+            group: pid, keepNext: true, splittable: false, label: "passage-image",
+          }, ctx),
+        );
+      }
+    }
   }
 
   ctx.resetSub();

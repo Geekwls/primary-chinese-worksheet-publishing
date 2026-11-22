@@ -192,3 +192,64 @@ test("空大题只告警", () => {
 test("文件不存在给出明确错误", () => {
   assert.throws(() => loadDocument(join(tmpdir(), "不存在.json")), /题目文件不存在/);
 });
+
+test("QA 规则 B-02/C-01/B-01：缺分值、指令-槽不一致、大题和值触发警告", () => {
+  const doc = {
+    document_id: "qa-rules",
+    grade: 2,
+    title: "测试卷",
+    total_score: 100,
+    sections: [
+      {
+        title: "一、阅读",
+        score: 10,
+        questions: [{
+          question_id: "qr", type: "reading", stem: "读短文，完成练习。", score: 5,
+          passage: { title: "短文", paragraphs: ["一段话。"] },
+          subs: [
+            { stem: "短文共有{2}个自然段。", answer: "2", lines: 0, score: 2 },
+            { stem: "“我”是什么？", answer: "水", lines: 0 },
+            { stem: "写了{3}句话。（3分）", answer: "3", lines: 0 },
+          ],
+        }],
+      },
+      {
+        title: "二、句子",
+        score: 9,
+        questions: [{
+          question_id: "qs", type: "sentence_rewrite", stem: "写句子。", score: 8,
+          items: [{ sentence: "例：树像伞。", require: "（写比喻句）", scaffold: "{云}像{棉花糖}。", score: 4 },
+                   { sentence: "例：我很开心。", require: "（扩句）", answer: "我非常开心。", lines: 1 }],
+        }],
+      },
+      {
+        title: "三、填空",
+        score: 2,
+        questions: [{
+          question_id: "qf", type: "fill_blank", stem: "在括号里填上合适的词。一（）军舰",
+          answer: ["艘"], score: 2,
+        }],
+      },
+    ],
+  };
+  const { warnings } = validate(doc);
+  const joined = warnings.join("\n");
+  assert.match(joined, /qr 阅读第 2 小题缺分值标注/, "无 score 且 stem 无（N分）应告警");
+  assert.ok(!/阅读第 1 小题缺分值/.test(joined), "有 score 字段不告警");
+  assert.ok(!/阅读第 3 小题缺分值/.test(joined), "stem 含（3分）不告警");
+  assert.match(joined, /qs 句子小题第 2 题缺分值标注/);
+  assert.match(joined, /qf 题干要求「括号里填」但渲染为横线槽/);
+  // B-01：一 10 分 vs 合计 2+3 = 5；二 8 分 vs 合计 4
+  assert.match(joined, /大题「一、阅读」标注 10 分，各题合计 5 分/);
+  assert.match(joined, /大题「二、句子」标注 9 分，各题合计 8 分/);
+  assert.ok(!/「三、填空」标注/.test(joined), "和值一致不告警");
+
+  // C-01 反向：矩阵模式 + 措辞「横线」也应告警
+  const doc2 = JSON.parse(JSON.stringify(doc));
+  doc2.sections[2].questions[0] = {
+    question_id: "qf2", type: "fill_blank", stem: "在横线上填上合适的量词。",
+    items: ["一{艘}军舰"], score: 2,
+  };
+  const { warnings: w2 } = validate(doc2);
+  assert.match(w2.join("\n"), /矩阵模式渲染为括号留白，但题干写的是「横线」/);
+});

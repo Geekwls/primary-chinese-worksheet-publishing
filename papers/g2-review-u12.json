@@ -22,7 +22,7 @@
         {
           "question_id": "q1",
           "type": "fill_blank",
-          "stem": "看拼音，在横线上写出词语，把句子补充完整。（每空1分）",
+          "stem": "看拼音，在括号里写出词语，把句子补充完整。（每空1分）",
           "score": 8,
           "cols": 1,
           "numbered": true,

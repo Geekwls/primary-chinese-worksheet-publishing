@@ -1,6 +1,6 @@
 {
   "name": "primary-school-worksheet-publishing",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "private": true,
   "type": "module",
   "description": "小学（一至六年级）语文/数学/英语试卷出版级排版与验收引擎（零运行时依赖 Node 实现）",

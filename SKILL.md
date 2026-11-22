@@ -160,7 +160,7 @@ examples/               两份标准回归样卷
 
 判定顺序：**看作答方式，不看题型名字**。同一个知识考查点若作答方式不同（如单字注音 vs 语段注音），必须落到不同组件。
 
-数学与通用题型：`calculation` 计算题 / `fill_blank`·`blank` 填空题（stem 内嵌槽或 items 矩阵模式）/ `word_problem` 解决问题 / `choice` 选择题 / `judge` 判断题 / `stroke_order` 笔顺笔画 / `pinyin_match` 连线 / `polyphonic` 多音字辨析 / `table_task` 表格任务 / `flow_diagram` 流程图填空 / `sentence_order` 连词成句 / `punctuation` 标点运用；完整契约见 `references/authoring-reference.md`。阅读小题支持独立 `score` 分值与 `"keep": "whole"` 材料-小题整链分页。
+数学与通用题型：`calculation` 计算题 / `fill_blank`·`blank` 填空题（stem 内嵌槽或 items 矩阵模式）/ `word_problem` 解决问题 / `choice` 选择题 / `judge` 判断题 / `stroke_order` 笔顺笔画 / `pinyin_match` 连线 / `polyphonic` 多音字辨析 / `table_task` 表格任务 / `flow_diagram` 流程图填空 / `sentence_order` 连词成句 / `punctuation` 标点运用 / `word_match` 词语连线；完整契约见 `references/authoring-reference.md`。阅读小题支持独立 `score` 分值与 `"keep": "whole"` 材料-小题整链分页。
 
 ## 年级基线（首期）
 

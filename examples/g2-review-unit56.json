@@ -5,7 +5,11 @@
   "title": "二年级上册语文 第五、六单元专项复习卷",
   "time_limit": "60分钟",
   "total_score": 100,
-  "meta_fields": ["姓名", "班级", "得分"],
+  "meta_fields": [
+    "姓名",
+    "班级",
+    "得分"
+  ],
   "sections": [
     {
       "section_id": "s1",
@@ -18,14 +22,38 @@
           "stem": "看拼音，写词语。",
           "score": 8,
           "items": [
-            {"pinyin": "lín jū", "answer": "邻居"},
-            {"pinyin": "qí guài", "answer": "奇怪"},
-            {"pinyin": "jǐng yán", "answer": "井沿"},
-            {"pinyin": "huí dá", "answer": "回答"},
-            {"pinyin": "kǒu kě", "answer": "口渴"},
-            {"pinyin": "hē shuǐ", "answer": "喝水"},
-            {"pinyin": "qíng lǎng", "answer": "晴朗"},
-            {"pinyin": "yí zhèn", "answer": "一阵"}
+            {
+              "pinyin": "lín jū",
+              "answer": "邻居"
+            },
+            {
+              "pinyin": "qí guài",
+              "answer": "奇怪"
+            },
+            {
+              "pinyin": "jǐng yán",
+              "answer": "井沿"
+            },
+            {
+              "pinyin": "huí dá",
+              "answer": "回答"
+            },
+            {
+              "pinyin": "kǒu kě",
+              "answer": "口渴"
+            },
+            {
+              "pinyin": "hē shuǐ",
+              "answer": "喝水"
+            },
+            {
+              "pinyin": "qíng lǎng",
+              "answer": "晴朗"
+            },
+            {
+              "pinyin": "yí zhèn",
+              "answer": "一阵"
+            }
           ],
           "answer_text": "邻居　奇怪　井沿　回答　口渴　喝水　晴朗　一阵",
           "explain": "「渴」与「喝」是形近字，注意偏旁：口渴需要水，所以是三点水；喝水要用嘴，所以是口字旁。"
@@ -36,10 +64,46 @@
           "stem": "比一比，再组词。",
           "score": 8,
           "items": [
-            {"chars": ["晴", "睛"], "answers": ["晴天", "眼睛"]},
-            {"chars": ["渴", "喝"], "answers": ["口渴", "喝水"]},
-            {"chars": ["沿", "铅"], "answers": ["井沿", "铅笔"]},
-            {"chars": ["蛙", "娃"], "answers": ["青蛙", "娃娃"]}
+            {
+              "chars": [
+                "晴",
+                "睛"
+              ],
+              "answers": [
+                "晴天",
+                "眼睛"
+              ]
+            },
+            {
+              "chars": [
+                "渴",
+                "喝"
+              ],
+              "answers": [
+                "口渴",
+                "喝水"
+              ]
+            },
+            {
+              "chars": [
+                "沿",
+                "铅"
+              ],
+              "answers": [
+                "井沿",
+                "铅笔"
+              ]
+            },
+            {
+              "chars": [
+                "蛙",
+                "娃"
+              ],
+              "answers": [
+                "青蛙",
+                "娃娃"
+              ]
+            }
           ],
           "answer_text": "晴天／眼睛　口渴／喝水　井沿／铅笔　青蛙／娃娃",
           "explain": "形近字要抓住偏旁表义的特点：日字旁与天气有关，目字旁与眼睛有关，虫字旁与动物有关。"
@@ -50,12 +114,54 @@
           "stem": "给下列多音字选择正确的读音。",
           "score": 6,
           "items": [
-            {"word": "长大", "options": ["zhǎng", "cháng"], "answer": "zhǎng"},
-            {"word": "长江", "options": ["zhǎng", "cháng"], "answer": "cháng"},
-            {"word": "音乐", "options": ["yuè", "lè"], "answer": "yuè"},
-            {"word": "快乐", "options": ["yuè", "lè"], "answer": "lè"},
-            {"word": "得到", "options": ["dé", "de"], "answer": "dé"},
-            {"word": "走得快", "options": ["dé", "de"], "answer": "de"}
+            {
+              "word": "长大",
+              "options": [
+                "zhǎng",
+                "cháng"
+              ],
+              "answer": "zhǎng"
+            },
+            {
+              "word": "长江",
+              "options": [
+                "zhǎng",
+                "cháng"
+              ],
+              "answer": "cháng"
+            },
+            {
+              "word": "音乐",
+              "options": [
+                "yuè",
+                "lè"
+              ],
+              "answer": "yuè"
+            },
+            {
+              "word": "快乐",
+              "options": [
+                "yuè",
+                "lè"
+              ],
+              "answer": "lè"
+            },
+            {
+              "word": "得到",
+              "options": [
+                "dé",
+                "de"
+              ],
+              "answer": "dé"
+            },
+            {
+              "word": "走得快",
+              "options": [
+                "dé",
+                "de"
+              ],
+              "answer": "de"
+            }
           ],
           "answer_text": "zhǎng　cháng　yuè　lè　dé　de",
           "explain": "多音字要结合语境确定读音：表示生长读 zhǎng，表示长度读 cháng；表示乐曲读 yuè，表示心情愉快读 lè。"
@@ -66,12 +172,36 @@
           "stem": "给加点字选择正确的读音，写在横线上。",
           "score": 6,
           "items": [
-            {"word": "睡觉", "target": 1, "answer": "jiào"},
-            {"word": "发现", "target": 0, "answer": "fā"},
-            {"word": "干活", "target": 0, "answer": "gàn"},
-            {"word": "教书", "target": 0, "answer": "jiāo"},
-            {"word": "重新", "target": 0, "answer": "chóng"},
-            {"word": "好奇", "target": 0, "answer": "hào"}
+            {
+              "word": "睡觉",
+              "target": 1,
+              "answer": "jiào"
+            },
+            {
+              "word": "发现",
+              "target": 0,
+              "answer": "fā"
+            },
+            {
+              "word": "干活",
+              "target": 0,
+              "answer": "gàn"
+            },
+            {
+              "word": "教书",
+              "target": 0,
+              "answer": "jiāo"
+            },
+            {
+              "word": "重新",
+              "target": 0,
+              "answer": "chóng"
+            },
+            {
+              "word": "好奇",
+              "target": 0,
+              "answer": "hào"
+            }
           ],
           "answer_text": "jiào　fā　gàn　jiāo　chóng　hào",
           "explain": "给加点字注音时注意声调符号不能漏标、位置要居中。"
@@ -89,10 +219,18 @@
           "stem": "把下面的成语补充完整。",
           "score": 8,
           "items": [
-            {"text": "{千}言{万}语"},
-            {"text": "无{影}无{踪}"},
-            {"text": "{得}意洋洋"},
-            {"text": "{五}光{十}色"}
+            {
+              "text": "{千}言{万}语"
+            },
+            {
+              "text": "无{影}无{踪}"
+            },
+            {
+              "text": "{得}意洋洋"
+            },
+            {
+              "text": "{五}光{十}色"
+            }
           ],
           "answer_text": "千言万语　无影无踪　得意洋洋　五光十色",
           "explain": "「千言万语」「五光十色」中都含有数字，可以按「数字＋事物」的结构帮助记忆。"
@@ -103,8 +241,26 @@
           "stem": "照样子，写词语。",
           "score": 6,
           "items": [
-            {"label": "AABB式：", "samples": ["高高兴兴"], "answers": ["明明白白", "干干净净"]},
-            {"label": "ABB式：", "samples": ["绿油油"], "answers": ["红彤彤", "亮晶晶"]}
+            {
+              "label": "AABB式：",
+              "samples": [
+                "高高兴兴"
+              ],
+              "answers": [
+                "明明白白",
+                "干干净净"
+              ]
+            },
+            {
+              "label": "ABB式：",
+              "samples": [
+                "绿油油"
+              ],
+              "answers": [
+                "红彤彤",
+                "亮晶晶"
+              ]
+            }
           ],
           "answer_text": "明明白白　干干净净　红彤彤　亮晶晶",
           "explain": "AABB 式由两个字各重复一次构成；ABB 式的后两个字相同，常用来描写颜色或样子。"
@@ -117,11 +273,17 @@
           "items": [
             {
               "title": "《登鹳雀楼》",
-              "lines": ["白日依山尽，{黄河}入海流。", "欲穷千里目，{更上}一层楼。"]
+              "lines": [
+                "白日依山尽，{黄河}入海流。",
+                "欲穷千里目，{更上}一层楼。"
+              ]
             },
             {
               "title": "《望庐山瀑布》",
-              "lines": ["日照香炉生紫烟，{遥看瀑布挂前川}。", "飞流直下三千尺，{疑是银河落九天}。"]
+              "lines": [
+                "日照香炉生紫烟，{遥看瀑布挂前川}。",
+                "飞流直下三千尺，{疑是银河落九天}。"
+              ]
             }
           ],
           "answer_text": "黄河　更上　遥看瀑布挂前川　疑是银河落九天",
@@ -144,13 +306,15 @@
               "sentence": "他把小鱼放回了河里。",
               "require": "（改为“被”字句）",
               "answer": "小鱼被他放回了河里。",
-              "lines": 2
+              "lines": 2,
+              "score": 4
             },
             {
               "sentence": "叶子上的虫还用治？",
               "require": "（改为陈述句）",
               "answer": "叶子上的虫不用治。",
-              "lines": 2
+              "lines": 2,
+              "score": 4
             }
           ],
           "answer_text": "1. 小鱼被他放回了河里。 2. 叶子上的虫不用治。",
@@ -166,13 +330,15 @@
               "sentence": "例：弯弯的月儿像小船。",
               "require": "（写一个比喻句）",
               "answer": "圆圆的太阳像火球。",
-              "lines": 2
+              "lines": 2,
+              "score": 4
             },
             {
               "sentence": "例：只要肯动脑筋，坏事往往能变成好事。",
               "require": "（用“只要……就……”写句子）",
               "answer": "只要认真学习，就能取得好成绩。",
-              "lines": 2
+              "lines": 2,
+              "score": 4
             }
           ],
           "answer_text": "1. 圆圆的太阳像火球。 2. 只要认真学习，就能取得好成绩。",
@@ -199,11 +365,43 @@
             ]
           },
           "subs": [
-            {"stem": "短文共有{3}个自然段。", "answer": "3", "lines": 0},
-            {"sub_type": "choice", "stem": "青蛙和小鸟在争论什么？", "options": ["A. 天有多大", "B. 谁飞得高", "C. 水好不好喝"], "answer": "A", "lines": 0},
-            {"sub_type": "judge", "stem": "小鸟认为天无边无际，大得很。", "answer": "√", "lines": 0},
-            {"stem": "青蛙认为天只有{井口那么大}。", "answer": "井口那么大", "lines": 0},
-            {"stem": "读了这个故事，你明白了什么道理？", "answer": "看问题要全面，不能像青蛙那样目光短浅、自以为是。", "lines": 2}
+            {
+              "stem": "短文共有{3}个自然段。",
+              "answer": "3",
+              "lines": 0,
+              "score": 2
+            },
+            {
+              "sub_type": "choice",
+              "stem": "青蛙和小鸟在争论什么？",
+              "options": [
+                "A. 天有多大",
+                "B. 谁飞得高",
+                "C. 水好不好喝"
+              ],
+              "answer": "A",
+              "lines": 0,
+              "score": 3
+            },
+            {
+              "sub_type": "judge",
+              "stem": "小鸟认为天无边无际，大得很。",
+              "answer": "√",
+              "lines": 0,
+              "score": 3
+            },
+            {
+              "stem": "青蛙认为天只有{井口那么大}。",
+              "answer": "井口那么大",
+              "lines": 0,
+              "score": 4
+            },
+            {
+              "stem": "读了这个故事，你明白了什么道理？",
+              "answer": "看问题要全面，不能像青蛙那样目光短浅、自以为是。",
+              "lines": 2,
+              "score": 8
+            }
           ],
           "answer_text": "1. 3 2. A 3. √ 4. 井口那么大 5. 看问题要全面，不能目光短浅、自以为是。",
           "explain": "第 2 小题结合对话内容选择 A；第 3 小题核对小鸟原话为对；第 5 小题为开放性主观题，答出全面看问题、不高傲自大即可。"
