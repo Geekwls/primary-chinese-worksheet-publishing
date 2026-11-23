@@ -18,18 +18,7 @@ export function buildDocHead(doc, ctx) {
 
   const fields = doc.meta_fields?.length ? doc.meta_fields : dp.meta_fields ?? [];
   const meta = fields.length
-    ? `<div class="doc-meta">${fields.map((f) => {
-        if (typeof f === "object" && f !== null) {
-          const [k, v] = Object.entries(f)[0] ?? ["", ""];
-          return `<span class="mf">${esc(k)}：<b>${esc(v)}</b></span>`;
-        }
-        if (typeof f === "string" && (f.includes("：") || f.includes(":"))) {
-          const [k, ...rest] = f.split(/[:：]/);
-          const v = rest.join("：");
-          return `<span class="mf">${esc(k)}：<b>${esc(v)}</b></span>`;
-        }
-        return `<span class="mf">${esc(f)}：<b></b></span>`;
-      }).join("")}</div>`
+    ? `<div class="doc-meta">${fields.map((f) => `<span class="mf">${esc(f)}：<b></b></span>`).join("")}</div>`
     : "";
 
   const body = `<div class="doc-title">${esc(doc.title ?? "")}</div>${subtitleHtml}${subHtml}${meta}<div class="doc-head-rule"></div>`;
