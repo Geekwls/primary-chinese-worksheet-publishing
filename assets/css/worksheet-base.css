@@ -738,6 +738,7 @@ body {
   line-height: 1.75;
   color: var(--ink-2);
   text-align: justify;
+  white-space: pre-line;
 }
 
 /* ---------- 独立选择题 ---------- */
