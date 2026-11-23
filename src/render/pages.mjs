@@ -5,6 +5,7 @@
  * 于是 PDF、清单、截图三者可以互相印证。
  */
 import { fixed } from "../core/format.mjs";
+import { esc } from "../core/text.mjs";
 
 /** 学科标签：未标注 subject 时回退语文（引擎的历史默认学科）。 */
 const SUBJECT_LABELS = { math: "数学", chinese: "语文", english: "英语" };
@@ -25,10 +26,14 @@ export function buildPagesHtml(pages, partsHtml, css, doc, variant) {
       const isExam = doc.doc_type === "examination";
       const showHeader = doc.show_header ?? (isExam ? false : (doc.header ?? true));
       if (showHeader && !isFirstPage && total > 1) {
-        const headerLeft = subtitle ? `${docTitle} · ${subtitle}` : docTitle;
         const gradeTag = doc.grade ? `${doc.grade}年级${subjectLabel}` : `小学${subjectLabel}`;
-        const headerRight = `${gradeTag} · ${isTeacher ? "教师解析卷" : "作答卷"}`;
-        headerHtml = `<div class="run-hdr"><span>${headerLeft}</span><span>${headerRight}</span></div>`;
+        let unitTag = doc.subtitle ?? "";
+        if (!unitTag || unitTag === docTitle) {
+          const m = docTitle.match(/(第[一二三四五六七八九十\d]+单元[^\s·]*)/);
+          unitTag = m ? m[1] : docTitle.split(/[·\s]/)[0];
+        }
+        const trackTag = isTeacher ? "教师解析卷" : "学生作答卷";
+        headerHtml = `<div class="run-hdr"><span class="hdr-l">${esc(gradeTag)}</span><span class="hdr-c">${esc(unitTag)}</span><span class="hdr-r">${esc(trackTag)}</span></div>`;
       }
 
       const inner = blocks

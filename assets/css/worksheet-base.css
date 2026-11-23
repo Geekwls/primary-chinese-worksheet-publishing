@@ -43,12 +43,17 @@ body {
   top: calc(var(--my-top, var(--my)) - 7mm);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: var(--fs-footer);
   color: var(--ink-3);
   line-height: 1.2;
   border-bottom: var(--lw-hair) solid var(--line-2);
   padding-bottom: 1mm;
+  white-space: nowrap;
 }
+.run-hdr .hdr-l { flex: 1; text-align: left; }
+.run-hdr .hdr-c { flex: 2; text-align: center; font-weight: 500; }
+.run-hdr .hdr-r { flex: 1; text-align: right; }
 
 .ftr {
   position: absolute;
