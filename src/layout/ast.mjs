@@ -115,10 +115,11 @@ export const sub_judge = ({ number, children, answer = null }) => ({
 });
 
 /** 独立选择题（无题号小题行）：<div class="choice-sub choice-standalone">。bracket=null 表示题干自带槽。 */
-export const choice_standalone = ({ bracket = null, options = null }) => ({
+export const choice_standalone = ({ bracket = null, options = null, cols = null }) => ({
   kind: "choice_standalone",
   bracket,
   options,
+  cols,
 });
 
 /** 独立判断题（无题号行）：<div class="judge-standalone">。 */
@@ -140,8 +141,8 @@ export const passage = ({ title = "", paragraphs = [], dialogue = null }) => ({
 /** 拼音+田字格行：一组"看拼音写词语"词条（对齐/居中双分支 + 教师卷格心答案）。 */
 export const pinyin_row = (items) => ({ kind: "pinyin_row", items });
 
-/** 形近字组词行：字 + 词语槽（<span class="gc">）。 */
-export const similar_cells = (items) => ({ kind: "similar_cells", items });
+/** 形近字组词行：字 + 词语槽（<span class="gc">）。支持 layout: "braced" 花括号模式 */
+export const similar_cells = (items, options = {}) => ({ kind: "similar_cells", items, ...options });
 
 /** 多音字卡片行：<span class="poly-card">（教师答案用 ans ans-slot 双类，槽内约束）。 */
 export const poly_cells = (items) => ({ kind: "poly_cells", items });

@@ -127,6 +127,20 @@ export function astToHtml(node, ctx) {
       const pinyin = esc(node.pinyin);
       const chars = [...String(node.answer ?? "")];
       const form = node.form ?? "paren";
+      if (form === "tianzi") {
+        const syllables = String(node.pinyin ?? "").trim().split(/\s+/).filter(Boolean);
+        let cols = "";
+        for (let i = 0; i < chars.length; i++) {
+          const ch = chars[i];
+          const py = syllables[i] ?? (chars.length === 1 ? String(node.pinyin ?? "").trim() : "");
+          cols +=
+            `<span class="pinline-tz-unit">` +
+            `<span class="pinline-py">${esc(py)}</span>` +
+            `<span class="tzg">${ctx.isTeacher ? ans(ch) : ""}</span>` +
+            `</span>`;
+        }
+        return `<span class="pinline-tz-group">${cols}</span>`;
+      }
       if (form === "square") {
         let cells = "";
         for (const ch of chars) {
@@ -141,7 +155,7 @@ export function astToHtml(node, ctx) {
     }
 
     case "pinyin_passage":
-      return `<div class="pinyin-passage">${inlineToHtml(node.children, ctx)}</div>`;
+      return `<div class="pinyin-passage">${inlineToHtml(node.children, ctx).replace(/\n/g, "<br>")}</div>`;
 
     case "example":
       return `<span class="eg">${esc(node.value)}</span>`;
@@ -217,7 +231,7 @@ export function astToHtml(node, ctx) {
 
     case "choice_standalone": {
       const bracketHtml = node.bracket ? blankSlotHtml({ kind: "blank_slot", form: "choice", answer: node.bracket.answer }, ctx) : "";
-      const optionsHtml = node.options ? astToHtml({ kind: "choice_options", options: node.options }, ctx) : "";
+      const optionsHtml = node.options ? astToHtml({ kind: "choice_options", options: node.options, cols: node.cols }, ctx) : "";
       return `<div class="choice-sub choice-standalone">${bracketHtml}${optionsHtml}</div>`;
     }
 
@@ -270,6 +284,29 @@ export function astToHtml(node, ctx) {
 
     case "similar_cells": {
       let cells = "";
+      if (node.layout === "braced") {
+        for (const it of node.items ?? []) {
+          const chars = it.chars ?? [];
+          const answers = it.answers ?? [];
+          let pairLines = "";
+          chars.forEach((ch, i) => {
+            const a = i < answers.length ? answers[i] : "";
+            pairLines +=
+              `<div class="brace-pair-line">` +
+              `<span class="ch">${esc(ch)}</span>` +
+              `<span class="brk">（<i class="slot w"></i>）${ctx.isTeacher ? ans(a) : ""}</span>` +
+              `</div>`;
+          });
+          cells +=
+            `<div class="similar-brace-col">` +
+            `<div class="brace-symbol">` +
+            `<svg viewBox="0 0 10 40" class="brace-svg"><path d="M 8 2 Q 2 2 2 10 L 2 17 Q 2 20 0 20 Q 2 20 2 23 L 2 30 Q 2 38 8 38" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>` +
+            `</div>` +
+            `<div class="brace-pair-items">${pairLines}</div>` +
+            `</div>`;
+        }
+        return `<div class="similar-braced-row">${cells}</div>`;
+      }
       for (const it of node.items ?? []) {
         const chars = it.chars ?? [];
         const answers = it.answers ?? [];
@@ -297,7 +334,7 @@ export function astToHtml(node, ctx) {
           `</span>`;
         cells +=
           `<span class="poly-card">` +
-          `<span class="poly-word">${esc(word)}</span>` +
+          `<span class="poly-word">${formatInlineMarkers(word)}</span>` +
           (options.length ? `<span class="poly-options">${esc(optStr)}</span>` : "") +
           slotHtml +
           `</span>`;
@@ -320,7 +357,7 @@ export function astToHtml(node, ctx) {
           )
           .join("");
         cells +=
-          `<span class="poly-card"><span class="poly-word">${esc(word)}</span>` +
+          `<span class="poly-card"><span class="poly-word">${formatInlineMarkers(word)}</span>` +
           `<span class="poly-choices">${readings}</span></span>`;
       }
       return cells;

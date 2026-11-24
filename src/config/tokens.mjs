@@ -127,7 +127,7 @@ export function loadGradeProfile(grade, subject = null) {
 const MERGEABLE_SECTIONS = new Set(["font_pt", "line_height", "geometry", "spacing", "layout"]);
 const IDENTITY_KEYS = new Set(["profile_id", "grade"]);
 
-function mergeProfileOverlay(base, overlay, source) {
+export function mergeProfileOverlay(base, overlay, source) {
   const merged = { ...base };
   for (const [key, value] of Object.entries(overlay)) {
     if (IDENTITY_KEYS.has(key)) {

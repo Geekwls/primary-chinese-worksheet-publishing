@@ -12,11 +12,11 @@ import { buildDocHead, buildExplanationParts, buildSection } from "./components/
 import { resolveComponent } from "./components/registry.mjs";
 import { Ctx } from "./components/context.mjs";
 import { buildCss } from "./config/css.mjs";
-import { geometryOf, loadDocProfile, loadGradeProfile, loadPrinterProfile, loadTokens } from "./config/tokens.mjs";
+import { geometryOf, loadDocProfile, loadGradeProfile, loadPrinterProfile, loadTokens, mergeProfileOverlay } from "./config/tokens.mjs";
 import { AST_VERSION } from "./layout/ast.mjs";
 import { LAYOUT_VERSION } from "./core/version.mjs";
 import { loadDocument } from "./domain/document.mjs";
-import { structureSegments, teacherAnswers, visibleText } from "./domain/texts.mjs";
+import { structureSegments, teacherAnswers, visibleText, visibleTexts } from "./domain/texts.mjs";
 import { measurePartsDetailed } from "./layout/measure.mjs";
 import { manifestOf } from "./layout/manifest.mjs";
 import { paginate } from "./layout/paginate.mjs";
@@ -46,7 +46,8 @@ export function buildParts(doc, ctx) {
     if (sec.title) parts.push(buildSection(sec, ctx, index + 1));
     for (const q of sec.questions ?? []) {
       const { build } = resolveComponent(q.type);
-      parts.push(...build(q, ctx, q.question_id ?? `q${index + 1}`));
+      const qParts = (build(q, ctx, q.question_id ?? `q${index + 1}`) ?? []).filter(Boolean);
+      parts.push(...qParts);
     }
   });
   return parts;
@@ -77,7 +78,9 @@ export function runBuild({
   const { doc, warnings, stats } = loadDocument(document);
   const effectiveGrade = Number(grade ?? doc.grade);
   const tokens = loadTokens();
-  const profile = loadGradeProfile(effectiveGrade, doc.subject);
+  const baseProfile = loadGradeProfile(effectiveGrade, doc.subject);
+  const profilePatch = doc.profile ?? doc.profile_overrides;
+  const profile = profilePatch ? mergeProfileOverlay(baseProfile, profilePatch, "试卷自定义 Profile") : baseProfile;
   const docProfile = loadDocProfile(docType ?? doc.doc_type);
   const printerProfile = loadPrinterProfile(printer);
   const geo = geometryOf(tokens, printerProfile, margins);
@@ -217,7 +220,7 @@ export function runBuild({
     pdfStudent,
     pdfTeacher,
     expected: {
-      student: partsStudent.map((p) => visibleText(p.html)).filter((t) => t.trim().length >= 2),
+      student: partsStudent.flatMap((p) => visibleTexts(p.html)).filter((t) => t.trim().length >= 2),
       // 教师卷题干按作答槽切分核对：槽位处学生卷为空、教师卷内嵌答案，
       // 整段题干在提取流中不连续，只有分段核对才能既不误报也不漏检。
       teacherTexts: [...structureSegments(doc), ...partsExplain.map((p) => visibleText(p.html))],

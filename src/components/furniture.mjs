@@ -7,6 +7,45 @@
 import { Part } from "../domain/part.mjs";
 import { esc } from "../core/text.mjs";
 
+/** 将标题与拼音音节对齐，生成带 <ruby> 的 HTML */
+export function formatTitleWithPinyin(title, pinyinStr) {
+  const syllables = String(pinyinStr ?? "").trim().split(/\s+/).filter(Boolean);
+  if (!syllables.length) return esc(title);
+
+  const chars = [...String(title ?? "")];
+  const isHan = (ch) => /[\u4e00-\u9fa5]/.test(ch);
+  const hanChars = chars.filter(isHan);
+
+  // 判断是否包含序号汉字（如 "一、", "二、"）
+  let skipLeadingHan = 0;
+  if (chars.length > 2 && isHan(chars[0]) && (chars[1] === "、" || chars[1] === ".")) {
+    if (syllables.length === hanChars.length - 1) {
+      skipLeadingHan = 1;
+    }
+  }
+
+  let hanIdx = 0;
+  let pyIdx = 0;
+  let result = "";
+
+  for (const ch of chars) {
+    if (isHan(ch)) {
+      if (hanIdx < skipLeadingHan) {
+        result += esc(ch);
+      } else if (pyIdx < syllables.length) {
+        result += `<ruby>${esc(ch)}<rt>${esc(syllables[pyIdx])}</rt></ruby>`;
+        pyIdx++;
+      } else {
+        result += esc(ch);
+      }
+      hanIdx++;
+    } else {
+      result += esc(ch);
+    }
+  }
+  return result;
+}
+
 /** 卷头：标题 + 副标题/单元 + 时限/满分 + 姓名班级等填写栏 + 分隔粗线。 */
 export function buildDocHead(doc, ctx) {
   const dp = ctx.docProfile;
@@ -33,7 +72,20 @@ export function buildSection(sec, ctx, index) {
   const tagHtml = sec.tag_label ? `<span class="sec-tag">${esc(sec.tag_label)}</span>` : "";
   // 卡片式题头（基础知识回顾卷的卡片化布局）：题头改为圆角色块胶囊
   const cardCls = sec.card_style ? "sec sec-card" : "sec";
-  return new Part(`sec-${index}`, `${tagHtml}<span>${esc(sec.title ?? "")}</span>${scoreHtml}`, {
+
+  // 分部横幅（如：第一部分　积累运用（60 分））
+  const partBannerHtml = sec.part_title ? `<div class="part-banner">${esc(sec.part_title)}</div>` : "";
+
+  let titleHtml = esc(sec.title ?? "");
+  if (sec.title_pinyin) {
+    titleHtml = formatTitleWithPinyin(sec.title ?? "", sec.title_pinyin);
+  } else if (Array.isArray(sec.title_ruby) && sec.title_ruby.length) {
+    titleHtml = sec.title_ruby
+      .map((it) => (it.pinyin ? `<ruby>${esc(it.char)}<rt>${esc(it.pinyin)}</rt></ruby>` : esc(it.char ?? "")))
+      .join("");
+  }
+
+  return new Part(`sec-${index}`, `${partBannerHtml}${tagHtml}<span>${titleHtml}</span>${scoreHtml}`, {
     cls: cardCls,
     group: sec.section_id ?? `s${index}`,
     role: "section",

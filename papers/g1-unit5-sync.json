@@ -1,0 +1,394 @@
+{
+  "document_id": "g1-unit5-sync",
+  "grade": 1,
+  "subject": "chinese",
+  "doc_type": "unit-review",
+  "title": "一年级语文上册第五单元知识巩固",
+  "subtitle": "",
+  "total_score": 100,
+  "time_limit": "60 分钟",
+  "meta_fields": ["班级", "姓名", "得分"],
+  "profile": {
+    "font_pt": {
+      "title": 17,
+      "section": 12,
+      "question": 10.5,
+      "body": 10.5,
+      "pinyin": 9,
+      "pinyin_annotation": 8,
+      "hint": 9,
+      "footer": 8
+    },
+    "line_height": {
+      "question": 1.4,
+      "body": 1.4,
+      "pinyin": 1.2
+    },
+    "geometry": {
+      "tianzi_mm": 9.0,
+      "pinyin_slot_h_mm": 3.8,
+      "pinyin_col_mm": 9.0,
+      "writing_line_gap_mm": 7.0,
+      "writing_line_width_mm": 170,
+      "answer_line_gap_mm": 7.0,
+      "passage_width_mm": 180,
+      "composition_cell_mm": 9.0,
+      "composition_cols": 14
+    },
+    "spacing": {
+      "block_gap_mm": 2.5,
+      "question_gap_mm": 1.8,
+      "row_gap_mm": 1.8,
+      "col_gap_mm": 5
+    },
+    "layout": {
+      "pinyin_items_per_row": 4,
+      "similar_cols": 4
+    }
+  },
+  "sections": [
+    {
+      "section_id": "s1",
+      "part_title": "第一部分　积累运用（60 分）",
+      "title": "一、用“√”画出加点字的正确读音。",
+      "title_pinyin": "yòng huà chū jiā diǎn zì de zhèng què dú yīn",
+      "score": 9,
+      "questions": [
+        {
+          "question_id": "q1",
+          "type": "polyphonic",
+          "mode": "circle",
+          "hide_head": true,
+          "stem": "用“√”画出加点字的正确读音。",
+          "score": 9,
+          "cols": 3,
+          "items": [
+            { "word": "~树~林", "options": ["shù", "sù"], "answer": "shù" },
+            { "word": "~从~来", "options": ["cóng", "chóng"], "answer": "cóng" },
+            { "word": "~青~草", "options": ["qīng", "qīn"], "answer": "qīng" },
+            { "word": "江~南~", "options": ["nán", "lán"], "answer": "nán" },
+            { "word": "采~莲~", "options": ["lián", "nián"], "answer": "lián" },
+            { "word": "大~雁~", "options": ["yàn", "yàng"], "answer": "yàn" },
+            { "word": "~女~生", "options": ["nǚ", "lǚ"], "answer": "nǚ" },
+            { "word": "~四~季", "options": ["sì", "shì"], "answer": "sì" },
+            { "word": "~正~反", "options": ["zhèng", "zhèn"], "answer": "zhèng" }
+          ],
+          "answer_text": "树林(shù) 从来(cóng) 青草(qīng) 江南(nán) 采莲(lián) 大雁(yàn) 女生(nǚ) 四季(sì) 正反(zhèng)",
+          "explain": "注意平翘舌音（shù、cóng、zhèng）与前后鼻音（qīng、yàn）的拼读区别。"
+        }
+      ]
+    },
+    {
+      "section_id": "s2",
+      "title": "二、看拼音写字词，注意把字写规范。",
+      "title_pinyin": "kàn pīn yīn xiě zì cí zhù yì bǎ zì xiě guī fàn",
+      "score": 10,
+      "questions": [
+        {
+          "question_id": "q2",
+          "type": "pinyin_write_word",
+          "hide_head": true,
+          "stem": "看拼音写字词，注意把字写规范。",
+          "score": 10,
+          "form": "tianzi",
+          "passage": "秋天来了，[tiān]{天}气凉了。一片片[yè zi]{叶子}变黄了，随风飘落。\n大人去郊游：看见[zhú]{竹}叶青青，看见小[mǎ]{马}和小[niǎo]{鸟}。\n[dōng]{东}边有果园，[sì]{四}季的景色真美！",
+          "answer_text": "天、叶、子、大、人、竹、马、鸟、东、四",
+          "explain": "写字时字要居中写在田字格内部，注意笔画规范，横平竖直。"
+        }
+      ]
+    },
+    {
+      "section_id": "s3",
+      "title": "三、按要求填一填。",
+      "title_pinyin": "àn yāo qiú tián yi tián",
+      "score": 12,
+      "questions": [
+        {
+          "question_id": "q3_1",
+          "type": "fill_blank",
+          "number": 1,
+          "stem": "“女”字共有{3}画，笔顺是{撇点、撇、横}。",
+          "score": 2,
+          "answer_text": "3画；笔顺：撇点、撇、横",
+          "explain": "女的第一笔是撇点，第二笔是撇，第三笔是横。"
+        },
+        {
+          "question_id": "q3_2",
+          "type": "fill_blank",
+          "number": 2,
+          "stem": "“牙”字的第 2 笔是{竖折}，读作{②}（①piě zhé　②shù zhé）（填序号），组词{牙齿}。",
+          "score": 3,
+          "answer_text": "第2笔是竖折；读作② shù zhé；组词：牙齿/门牙",
+          "explain": "牙字笔顺：横、竖折、竖钩、撇。"
+        },
+        {
+          "question_id": "q3_3",
+          "type": "fill_blank",
+          "number": 3,
+          "stem": "“地”字的偏旁是{土字旁}。在“高兴地说”中，“地”字读作{②}（①dì　②de）（填序号）。",
+          "score": 2,
+          "answer_text": "土字旁；读作② de",
+          "explain": "动词前用轻声de。"
+        },
+        {
+          "question_id": "q3_4",
+          "type": "fill_blank",
+          "number": 4,
+          "stem": "“江”的偏旁是{三点水}，“莲”的偏旁是{草字头}；“江”的字义多和{①}有关（①水　②花草植物）（填序号）。",
+          "score": 3,
+          "answer_text": "三点水；草字头；①水",
+          "explain": "三点水的字多与水有关，草字头的字多与花草植物有关。"
+        },
+        {
+          "question_id": "q3_5",
+          "type": "fill_blank",
+          "number": 5,
+          "stem": "读句子，写出意思相反的词。\n① 南方水乡秀美，北方草原辽阔。反义词：{南}——{北}\n② 这扇门开着，那扇门关着；正面是画，反面是字。反义词：{开}——{关}",
+          "score": 2,
+          "answer_text": "①南—北；②开—关（或 正—反）",
+          "explain": "南北相对，开关相对，正反相对。"
+        }
+      ]
+    },
+    {
+      "section_id": "s4",
+      "title": "四、比一比，再组词。",
+      "title_pinyin": "bǐ yi bǐ zài zǔ cí",
+      "score": 8,
+      "questions": [
+        {
+          "question_id": "q4",
+          "type": "similar_character",
+          "layout": "braced",
+          "hide_head": true,
+          "stem": "比一比，再组词。",
+          "cols": 4,
+          "score": 8,
+          "items": [
+            { "chars": ["了", "子"], "answers": ["好了", "叶子"] },
+            { "chars": ["人", "大"], "answers": ["大人", "大树"] },
+            { "chars": ["四", "西"], "answers": ["四季", "东西"] },
+            { "chars": ["马", "鸟"], "answers": ["小马", "小鸟"] }
+          ],
+          "answer_text": "好了/叶子 大人/大树 四季/东西 小马/小鸟",
+          "explain": "区分形近字偏旁和笔画差异。"
+        }
+      ]
+    },
+    {
+      "section_id": "s5",
+      "title": "五、读一读，连一连。",
+      "title_pinyin": "dú yi dú lián yi lián",
+      "score": 8,
+      "questions": [
+        {
+          "question_id": "q5_1",
+          "type": "pinyin_match",
+          "number": 1,
+          "stem": "《雪地里的小画家》里的小画家画了什么？",
+          "score": 4,
+          "pairs": [
+            { "left": "小鸡", "right": "竹叶" },
+            { "left": "小狗", "right": "梅花" },
+            { "left": "小鸭", "right": "枫叶" },
+            { "left": "小马", "right": "月牙" }
+          ],
+          "answer_text": "小鸡—竹叶 小狗—梅花 小鸭—枫叶 小马—月牙",
+          "explain": "小鸡画竹叶，小狗画梅花，小鸭画枫叶，小马画月牙。"
+        },
+        {
+          "question_id": "q5_2",
+          "type": "pinyin_match",
+          "number": 2,
+          "stem": "《四季》里的景物各是哪个季节？",
+          "score": 4,
+          "pairs": [
+            { "left": "草芽尖尖", "right": "春天" },
+            { "left": "荷叶圆圆", "right": "夏天" },
+            { "left": "谷穗弯弯", "right": "秋天" },
+            { "left": "雪人大肚子一挺", "right": "冬天" }
+          ],
+          "answer_text": "草芽尖尖—春天 荷叶圆圆—夏天 谷穗弯弯—秋天 雪人大肚子一挺—冬天",
+          "explain": "草芽对应春，荷叶对应夏，谷穗对应秋，雪人对应冬。"
+        }
+      ]
+    },
+    {
+      "section_id": "s6",
+      "title": "六、根据所学知识完成练习。",
+      "title_pinyin": "gēn jù suǒ xué zhī shí wán chéng liàn xí",
+      "score": 13,
+      "questions": [
+        {
+          "question_id": "q6_1",
+          "type": "fill_blank",
+          "number": 1,
+          "stem": "背一背，填一填。\n（1）《江南》：江南{可}采莲，莲叶何{田田}。\n（2）《秋天》：天气凉了，树叶黄了，一片片叶子从树上落下来。天那么{蓝}，那么{高}。",
+          "score": 4,
+          "answer": ["可", "田田", "蓝", "高"],
+          "answer_text": "（1）可，田田；（2）蓝，高",
+          "explain": "熟读并背诵课文重点语句。"
+        },
+        {
+          "question_id": "q6_2",
+          "type": "fill_blank",
+          "number": 2,
+          "stem": "《雪地里的小画家》里，青蛙为什么没有来画画？（填序号）（{②}）\n①它不喜欢画画　②它在洞里睡着啦　③它飞到南方去了",
+          "score": 2,
+          "answer": "②",
+          "answer_text": "② 它在洞里睡着啦",
+          "explain": "青蛙冬眠所以在洞里睡着了。"
+        },
+        {
+          "question_id": "q6_3",
+          "type": "fill_blank",
+          "number": 3,
+          "stem": "把名言补充完整。\n一年之计在于（{春}），一日之计在于（{晨}）。\n一寸光阴一寸（{金}），寸（{金}）难买寸光阴。",
+          "score": 4,
+          "answer": ["春", "晨", "金", "金"],
+          "answer_text": "春、晨、金、金",
+          "explain": "珍惜时间的古训教育我们要合理安排作息和学习。"
+        },
+        {
+          "question_id": "q6_4",
+          "type": "choice",
+          "number": 4,
+          "cols": 1,
+          "stem": "下面哪位同学的做法，适合写进黑板报？（填序号）",
+          "score": 3,
+          "options": [
+            "①早上赖床，上学常常迟到",
+            "②先做完作业，再出去玩",
+            "③吃饭时把饭粒撒一地"
+          ],
+          "answer": "②",
+          "answer_text": "②",
+          "explain": "先做完作业再玩是珍惜时间、认真学习的好习惯。"
+        }
+      ]
+    },
+    {
+      "section_id": "s7",
+      "part_title": "第二部分　阅读理解（20 分）",
+      "title": "七、阅读短文，完成练习。",
+      "title_pinyin": "yuè dú duǎn wén wán chéng liàn xí",
+      "score": 20,
+      "questions": [
+        {
+          "question_id": "q7",
+          "type": "reading",
+          "hide_head": true,
+          "stem": "阅读短文，完成练习。",
+          "score": 20,
+          "passage": {
+            "title": "秋天的信",
+            "paragraphs": [
+              "秋风吹，树叶飞，黄叶飘飘像信件。",
+              "一片寄给小蚂蚁，当作小船游清泉。",
+              "（一）片寄给小燕子，催它快快飞南方。（一）群大雁往南飞，一会儿排成个“人”字，一会儿排成个“（一）”字。",
+              "一片寄给小松鼠，快准备好过冬粮！"
+            ]
+          },
+          "subs": [
+            {
+              "type": "fill_blank",
+              "stem": "1. 短文共有{4}个自然段，第{1}自然段写了“黄叶飘飘像信件”。（2 分）",
+              "score": 2,
+              "lines": 0
+            },
+            {
+              "type": "fill_blank",
+              "stem": "2. 给短文中加点的“一”字注音，写在括号里：一（{yí}）片，一（{yì}）群，“一（{yī}）”字。（3 分）",
+              "score": 3,
+              "lines": 0
+            },
+            {
+              "type": "fill_blank",
+              "stem": "3. 秋天的“信”指的是飘落的{黄叶}。（2 分）",
+              "score": 2,
+              "lines": 0
+            },
+            {
+              "type": "fill_blank",
+              "stem": "4. 读一读，连一连（填序号）。（6 分）\n树叶寄给小蚂蚁（{②}）　树叶寄给小燕子（{①}）　树叶寄给小松鼠（{③}）\n①催它快快飞回南方过冬　②当成小船在清泉里游玩　③提醒它快快准备好过冬粮",
+              "score": 6,
+              "lines": 0
+            },
+            {
+              "type": "fill_blank",
+              "stem": "5. 照样子，写句子。（3 分）\n例：一群大雁往南飞，一会儿排成个“人”字，一会儿排成个“一”字。\n天上的白云，一会儿像{小绵羊}，一会儿像{棉花糖}。",
+              "score": 3,
+              "lines": 0
+            },
+            {
+              "type": "fill_blank",
+              "stem": "6. 想一想，写一写。（没学过的字写拼音）（4 分）\n（1）我最喜欢{秋}天，因为{秋天有红红的苹果，天气很凉爽}。（2 分）\n（2）我还想把秋天的信寄给{小青蛙}，因为{要提醒它快快挖好洞，准备冬眠}。（2 分）",
+              "score": 4,
+              "lines": 0
+            }
+          ],
+          "answer_text": "1. 4个自然段，第1自然段；2. yí, yì, yī；3. 黄叶；4. ②, ①, ③；5. 小绵羊/棉花糖；6. 略",
+          "explain": "培养从儿歌短文中提取信息、体会比喻和根据生活展开想象的能力。"
+        }
+      ]
+    },
+    {
+      "section_id": "s8",
+      "part_title": "第三部分　表达交流（20 分）",
+      "title": "八、口语交际。",
+      "title_pinyin": "kǒu yǔ jiāo jì",
+      "score": 4,
+      "questions": [
+        {
+          "question_id": "q8_1",
+          "type": "choice",
+          "number": 1,
+          "cols": 1,
+          "stem": "班里来了新同学豆豆，乐乐想和他交朋友。下面做法恰当的一项是（填序号）",
+          "score": 2,
+          "options": [
+            "①低着头，不看他，小声说“你好”",
+            "②主动走过去，大声说：“你好！我叫乐乐，我们一起玩吧！”",
+            "③一把拿过他的橡皮，等他来找自己要"
+          ],
+          "answer": "②",
+          "answer_text": "②",
+          "explain": "主动、大方、礼貌地打招呼是交朋友的好方法。"
+        },
+        {
+          "question_id": "q8_2",
+          "type": "fill_blank",
+          "number": 2,
+          "stem": "和同学说话的时候，要看着对方的{眼睛}。（不会写的字写拼音）",
+          "score": 2,
+          "answer_text": "眼睛（写拼音 yǎn jing 亦可）",
+          "explain": "看着对方眼睛说话表示尊重和专注。"
+        }
+      ]
+    },
+    {
+      "section_id": "s9",
+      "title": "九、看图写话。",
+      "title_pinyin": "kàn tú xiě huà",
+      "score": 16,
+      "questions": [
+        {
+          "question_id": "q9",
+          "type": "composition",
+          "hide_head": true,
+          "stem": "看图写话。",
+          "score": 16,
+          "image": {
+            "src": "assets/images/g1-u5-autumn.svg",
+            "height_mm": 36,
+            "caption": ""
+          },
+          "prompt": "1. 图上画的是什么季节，地点是哪里？（4 分）\n2. 小朋友在干什么？他们心里怎么样？（4 分）\n3. 我能连起来写一写：（8 分）",
+          "rows": 4,
+          "answer_text": "参考范文：秋天到了，果园里的苹果红了。妈妈带着我们来到苹果树下，哥哥踮起脚摘下又大又红的苹果，妹妹抱着满满一篮子。地上落满了黄叶，大家心里真高兴！",
+          "explain": "写清时间、地点、人物和在干什么，语句通顺，标点正确。"
+        }
+      ]
+    }
+  ]
+}

@@ -182,10 +182,11 @@ export function validate(doc) {
       }
 
       if (q.type === "fill_blank" || q.type === "blank") {
-        // items 矩阵模式：答案内嵌在条目 {} 中，不要求 q.answer；stem 模式必须有按序 answer。
+        // items 矩阵模式：答案内嵌在条目 {} 中，不要求 q.answer；stem 模式必须有按序 answer 或 stem 内嵌 {}。
         const hasItems = Array.isArray(q.items) && q.items.length > 0;
         const hasAnswer = Boolean(q.answer) && (Array.isArray(q.answer) ? q.answer.some(Boolean) : true);
-        if (!hasItems && !hasAnswer) {
+        const hasStemBraces = /\{[^{}]+\}/.test(String(q.stem ?? ""));
+        if (!hasItems && !hasAnswer && !hasStemBraces) {
           throw new ContractError(`题目 ${q.question_id} 是填空题，但缺少 answer（单个答案或按括号顺序的数组）或 items（{} 内含答案）。`);
         }
         if (hasItems) {

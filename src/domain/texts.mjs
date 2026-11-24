@@ -21,9 +21,31 @@ export function plain(text) {
   ).trim();
 }
 
-/** 组件 HTML 中"学生可见"的文本（剔除教师答案覆盖层）。 */
+/** 组件 HTML 中"学生可见"的文本（剔除教师答案覆盖层与拼音上标 rt）。 */
 export function visibleText(html) {
-  return unescapeHtml(stripTags(String(html ?? "").replace(ANS_RE, "")));
+  return unescapeHtml(
+    stripTags(
+      String(html ?? "")
+        .replace(/<rt>[\s\S]*?<\/rt>/g, "")
+        .replace(ANS_RE, ""),
+    ),
+  );
+}
+
+/**
+ * 将组件 HTML 拆解为独立的文本片段（按块级标签或换行切开），
+ * 避免栅格列排版或复合组件因 DOM 序与 PDF 扫描序不一致造成伪缺失。
+ */
+export function visibleTexts(html) {
+  const stripped = String(html ?? "")
+    .replace(/<rt>[\s\S]*?<\/rt>/g, "")
+    .replace(ANS_RE, "")
+    .replace(/<\/?(div|p|tr|li|span)[^>]*>/gi, "\n")
+    .replace(/<br\s*\/?>/gi, "\n");
+  return unescapeHtml(stripTags(stripped))
+    .split("\n")
+    .map((s) => s.trim())
+    .filter((s) => s.length >= 2);
 }
 
 /**
@@ -38,6 +60,7 @@ export function structureSegments(doc) {
   const pushSegments = (text) => {
     String(text ?? "")
       .split(/（[^（）]*）|\([^()]*\)|\{[^{}]*\}|\[[^\]]+\]\{[^{}]+\}/g)
+      .flatMap((seg) => seg.split(/[\n，。！？；、]/))
       .forEach((seg) => out.push(plain(seg)));
   };
   out.push(plain(doc.title ?? ""));

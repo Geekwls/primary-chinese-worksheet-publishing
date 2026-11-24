@@ -13,13 +13,15 @@ import * as ast from "../layout/ast.mjs";
 import { answerLines, chunks, parseInline } from "./atoms.mjs";
 import { astPart } from "./ast-part.mjs";
 
-/** 题干 Part：编号由上下文自增，题干与分值进 q_head 节点（渲染在解释器）。 */
+/** 题干 Part：编号由上下文自增（或显式 q.number 指定），题干与分值进 q_head 节点（渲染在解释器）。 */
 const head = (pid, q, ctx) => {
+  if (q.hide_head === true) return null;
   const tags = q.tags ?? (q.tag ? [q.tag] : null);
   const children = q.stem ? parseInline(q.stem, "line") : [ast.text("")];
+  const number = q.number !== undefined ? q.number : ctx.nextNo();
   return astPart(
     `${pid}-h`,
-    ast.q_head({ number: ctx.nextNo(), children, score: q.score, tags }),
+    ast.q_head({ number, children, score: q.score, tags }),
     { cls: "stem", group: pid, role: "q_head", keepNext: true },
     ctx,
   );
@@ -94,14 +96,16 @@ export function compPinyinWriteWord(q, ctx, pid) {
   return parts;
 }
 
-/** 形近字组词：字 + 词语槽，按年级栏数切行。 */
+/** 形近字组词：字 + 词语槽，按年级栏数切行。支持 layout: "braced" 花括号字对模式。 */
 export function compSimilarCharacter(q, ctx, pid) {
   const parts = [head(pid, q, ctx)];
-  const cols = Math.max(1, Math.trunc(ctx.profile.layout.similar_cols ?? 2));
+  const isBraced = q.layout === "braced";
+  const defaultCols = isBraced ? 4 : (ctx.profile.layout.similar_cols ?? 2);
+  const cols = Math.max(1, Math.trunc(q.cols ?? defaultCols));
   chunks(q.items ?? [], cols).forEach((group, r) => {
     parts.push(
-      astPart(`${pid}-r${r}`, ast.similar_cells(group), {
-        cls: cols === 1 ? "wrow" : `cols cols${cols}`,
+      astPart(`${pid}-r${r}`, ast.similar_cells(group, isBraced ? { layout: "braced" } : {}), {
+        cls: isBraced ? "braced-row" : (cols === 1 ? "wrow" : `cols cols${cols}`),
         group: pid,
         splittable: true,
         label: `row${r}`,
@@ -116,7 +120,7 @@ export function compSimilarCharacter(q, ctx, pid) {
  *  mode: "circle"（v1.3）——读音并列圈选式，降低书写负担，考查重点落在语境辨析。 */
 export function compPolyphonic(q, ctx, pid) {
   const parts = [head(pid, q, ctx)];
-  const cols = Math.max(1, Math.trunc(ctx.profile.layout.similar_cols ?? 2));
+  const cols = Math.max(1, Math.trunc(q.cols ?? (ctx.profile.layout.similar_cols ?? 2)));
   const node = q.mode === "circle" ? ast.poly_circle_cells : ast.poly_cells;
   chunks(q.items ?? [], cols).forEach((group, r) => {
     parts.push(
@@ -380,14 +384,17 @@ export function compComposition(q, ctx, pid) {
   const cols = Math.trunc(ctx.profile.geometry.composition_cols ?? 16);
 
   const tags = q.tags ?? (q.tag ? [q.tag] : null);
-  const headNodes = [
-    ast.q_head({
-      number: ctx.nextNo(),
-      children: q.stem ? parseInline(q.stem, "line") : [ast.text("")],
-      score: q.score,
-      tags,
-    }),
-  ];
+  const headNodes = [];
+  if (q.hide_head !== true) {
+    headNodes.push(
+      ast.q_head({
+        number: q.number !== undefined ? q.number : ctx.nextNo(),
+        children: q.stem ? parseInline(q.stem, "line") : [ast.text("")],
+        score: q.score,
+        tags,
+      }),
+    );
+  }
   if (q.prompt) headNodes.push(ast.prompt(q.prompt));
   if (q.frames?.length) headNodes.push(ast.frame_sequence(q.frames));
   if (q.image) {
@@ -397,11 +404,13 @@ export function compComposition(q, ctx, pid) {
     headNodes.push(ast.image({ src, height_mm, caption }));
   }
 
-  return [
-    astPart(`${pid}-h`, headNodes, { cls: "stem", group: pid, role: "q_head", keepNext: true }, ctx),
-    astPart(`${pid}-g`, ast.composition_grid({ rows, cols }), { cls: "zw-wrap", group: pid }, ctx),
-    tail(pid),
-  ];
+  const parts = [];
+  if (headNodes.length > 0) {
+    parts.push(astPart(`${pid}-h`, headNodes, { cls: "stem", group: pid, role: "q_head", keepNext: true }, ctx));
+  }
+  parts.push(astPart(`${pid}-g`, ast.composition_grid({ rows, cols }), { cls: "zw-wrap", group: pid }, ctx));
+  parts.push(tail(pid));
+  return parts;
 }
 
 /** 通用作答题：题干 + N 行书写线。语义题型不得用它顶替。 */
@@ -443,7 +452,11 @@ export function compChoice(q, ctx, pid) {
     parts.push(
       astPart(
         `${pid}-opt`,
-        ast.choice_standalone({ bracket: q.stem?.includes("{") ? null : { answer: q.answer }, options: q.options ?? null }),
+        ast.choice_standalone({
+          bracket: q.stem?.includes("{") ? null : { answer: q.answer },
+          options: q.options ?? null,
+          cols: q.cols ?? null,
+        }),
         { group: pid, splittable: false },
         ctx,
       ),
@@ -573,7 +586,7 @@ export function compCalculation(q, ctx, pid) {
     astPart(
       `${pid}-h`,
       ast.q_head({
-        number: ctx.nextNo(),
+        number: q.number !== undefined ? q.number : ctx.nextNo(),
         children: [ast.text(stem), ast.text(" "), ast.blank_slot("oral", String(q.answer ?? ""))],
         score: q.score,
       }),
@@ -594,9 +607,9 @@ export function compFillBlank(q, ctx, pid) {
   let numbered = q.numbered === true;
   let cols = q.cols;
 
-  // 自动解构：若未提供 items，但 stem 内嵌了圈号小题（如 "指导语...①小题...②小题..."）
-  // 则自动将指导语与小题分离，避免题干与各小题作答句挤在同一行
-  if ((!Array.isArray(items) || !items.length) && /[①-⑳]/.test(rawStem)) {
+  // 自动解构：若未提供 items，但 stem 内嵌了换行小题（如 "指导语...\n①小题...\n②小题..."）
+  // 注意：单行内包含括号选项（如 “（①piě zhé ②shù zhé）”）绝不得解构成独立小题！
+  if ((!Array.isArray(items) || !items.length) && /(?:\r?\n|^)\s*[①-⑳]/.test(rawStem)) {
     const m = rawStem.match(/^([^①-⑳]+)([①-⑳].*)$/s);
     if (m) {
       stem = m[1].trim();
@@ -612,14 +625,13 @@ export function compFillBlank(q, ctx, pid) {
 
   // 矩阵模式 / 条目模式：条目级 {} 答案，按 cols 装箱成行
   if (Array.isArray(items) && items.length) {
-    const parts = [
-      astPart(
-        `${pid}-h`,
-        ast.q_head({ number: ctx.nextNo(), children: [ast.text(stem)], score: q.score }),
-        { cls: "stem", group: pid, role: "q_head", keepNext: true },
-        ctx,
-      ),
-    ];
+    const headPart = q.hide_head === true ? null : astPart(
+      `${pid}-h`,
+      ast.q_head({ number: q.number !== undefined ? q.number : ctx.nextNo(), children: [ast.text(stem)], score: q.score }),
+      { cls: "stem", group: pid, role: "q_head", keepNext: true },
+      ctx,
+    );
+    const parts = [headPart].filter(Boolean);
     const finalCols = Math.max(1, Math.trunc(Number(cols ?? 2)));
     const defaultForm = /横线/.test(stem) ? "line" : (finalCols === 1 && !/（|括号/.test(stem) ? "line" : "paren");
     const form = q.form ?? (cols !== undefined && finalCols === 1 && !q.form ? defaultForm : (q.form ?? "paren"));
@@ -656,15 +668,13 @@ export function compFillBlank(q, ctx, pid) {
     children = [ast.text(rawStem)];
   }
 
-  return [
-    astPart(
-      `${pid}-h`,
-      ast.q_head({ number: ctx.nextNo(), children, score: q.score }),
-      { cls: "stem", group: pid, role: "q_head" },
-      ctx,
-    ),
-    tail(pid),
-  ];
+  const headPart = q.hide_head === true ? null : astPart(
+    `${pid}-h`,
+    ast.q_head({ number: q.number !== undefined ? q.number : ctx.nextNo(), children, score: q.score }),
+    { cls: "stem", group: pid, role: "q_head" },
+    ctx,
+  );
+  return [headPart, tail(pid)].filter(Boolean);
 }
 
 /** 连词成句：乱序词语 + 书写线，学生排序成句并加标点。 */
